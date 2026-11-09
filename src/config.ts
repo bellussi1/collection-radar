@@ -1,6 +1,7 @@
 import { readFileSync } from "node:fs";
 import { resolve } from "node:path";
 import { parse } from "yaml";
+import { normalizeText } from "./normalize.js";
 import type { QueryConfig, Settings, Work } from "./types.js";
 
 const DEFAULT_SETTINGS: Settings = {
@@ -90,6 +91,30 @@ function toWork(item: unknown): Work {
   } satisfies Work;
 }
 
+interface BlockEntry {
+  key?: string;
+  title?: string;
+  reason?: string;
+}
+
+function loadBlocklist(): { keys: Set<string>; titles: Set<string> } {
+  try {
+    const data = readYaml("config/blocklist.yaml") as { works?: BlockEntry[] } | null;
+    const works = Array.isArray(data?.works) ? data.works : [];
+    return {
+      keys: new Set(works.map((entry) => entry.key).filter((key): key is string => Boolean(key))),
+      titles: new Set(
+        works
+          .map((entry) => entry.title)
+          .filter((title): title is string => Boolean(title))
+          .map((title) => normalizeText(title))
+      )
+    };
+  } catch {
+    return { keys: new Set(), titles: new Set() };
+  }
+}
+
 function loadKeepaWishlist(): { overrides: Record<string, KeepaOverride>; works: Work[] } {
   try {
     const data = readYaml("config/keepa-wishlist.yaml") as {
@@ -129,7 +154,18 @@ export function loadWorks(): Work[] {
     }
   }
   const isbn = loadIsbnOverrides();
-  return merged.map((work) => ({ ...work, isbn13: isbn[work.key] ?? work.isbn13 }));
+  const blocked = loadBlocklist();
+  return merged.map((work) => {
+    const withIsbn = { ...work, isbn13: isbn[work.key] ?? work.isbn13 };
+    const isBlocked =
+      blocked.keys.has(work.key) || blocked.titles.has(normalizeText(work.title));
+    if (!isBlocked) return withIsbn;
+    return {
+      ...withIsbn,
+      enabled: false,
+      notes: withIsbn.notes ? `${withIsbn.notes} | blocklist` : "blocklist"
+    };
+  });
 }
 
 function loadKeepaQueries(): QueryConfig[] {

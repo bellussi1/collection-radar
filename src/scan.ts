@@ -159,7 +159,7 @@ export async function runScan(options: ScanOptions = {}): Promise<ScanStats> {
   const digestItems: DigestItem[] = [];
   for (const row of recent) {
     const work = workMap.get(row.workKey);
-    if (!work) continue;
+    if (!work || !work.enabled) continue;
     if (db.wasAlerted(row.listing.id, row.workKey, "email")) continue;
     const total = row.listing.price === null ? null : row.listing.price + (row.listing.shipping ?? 0);
     digestItems.push({

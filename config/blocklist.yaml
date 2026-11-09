@@ -1,0 +1,6 @@
+# Obras que o radar nunca deve mostrar, mesmo que apareçam no Calibre ou no Keepa.
+# A blocklist vale por key ou por título normalizado.
+works:
+  - key: "daisy-jones-the-six--taylor-jenkins-reid"
+    title: "Daisy Jones & The Six"
+    reason: "Fora do escopo: ficção literária, não é fantasia/FC."

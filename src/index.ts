@@ -124,7 +124,7 @@ async function runDigest(options: CliOptions): Promise<void> {
   const items: DigestItem[] = [];
   for (const row of rows) {
     const work = workMap.get(row.workKey);
-    if (!work) continue;
+    if (!work || !work.enabled) continue;
     const total = row.listing.price === null ? null : row.listing.price + (row.listing.shipping ?? 0);
     items.push({
       listing: row.listing,
