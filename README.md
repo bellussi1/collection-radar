@@ -139,6 +139,25 @@ O gerador `python scripts/build-watchlist.py` sobrescreve `watchlist.yaml` e
 `queries.yaml`. Se você editou à mão, faça backup antes; ele foi pensado para
 rodar quando a biblioteca do Calibre muda.
 
+## Keepa
+
+O CSV de Tracking Overview do Keepa entra como uma camada separada, sem
+sobrescrever a watchlist do Calibre:
+
+```powershell
+python scripts/import-keepa.py "C:\Users\Bellussi\Downloads\KeepaExport-2026-11-09-TrackingOverview.csv"
+```
+
+Ele gera:
+
+- `config/keepa-wishlist.yaml` — overrides de `max_price`/formato para obras
+  existentes e obras novas (inclusive sets e edições illustrated/deluxe).
+- `config/keepa-queries.yaml` — consultas de autor para as obras novas.
+
+O `max_price` vem do **Preço desejado** do Keepa. Sets e edições específicas
+viram obras próprias, para não aplicar o preço de um box ao volume 1. O radar
+mescla os dois arquivos em `loadWorks`/`loadQueries`.
+
 ## Limites conhecidos
 
 - **OLX e Mercado Livre** usam Cloudflare. Headless é bloqueado; o modo headed

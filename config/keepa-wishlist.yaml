@@ -1,0 +1,2034 @@
+# Gerado por scripts/import-keepa.py. Revise antes de confiar.
+# Fonte: KeepaExport-2026-11-09-TrackingOverview.csv em 2026-11-09
+overrides:
+  a-time-of-blood--john-gwynne:
+    max_price: 80.0
+    preferred_formats:
+    - paperback
+    priority: 1
+    enabled: true
+    notes: Keepa wishlist
+  a-time-of-dread--john-gwynne:
+    max_price: 80.0
+    preferred_formats:
+    - paperback
+    priority: 1
+    enabled: true
+    notes: Keepa wishlist
+  project-hail-mary--andy-weir:
+    max_price: 87.27
+    preferred_formats:
+    - paperback
+    priority: 1
+    enabled: true
+    notes: Keepa wishlist
+  shadows-upon-time--christopher-ruocchio:
+    max_price: 125.0
+    preferred_formats:
+    - hardcover
+    priority: 1
+    enabled: true
+    notes: Keepa wishlist
+  malice--john-gwynne:
+    max_price: 76.0
+    preferred_formats:
+    - paperback
+    priority: 1
+    enabled: true
+    notes: Keepa wishlist
+  the-road--cormac-mccarthy:
+    max_price: 65.0
+    preferred_formats:
+    - paperback
+    priority: 1
+    enabled: true
+    notes: Keepa wishlist
+  gardens-of-the-moon--steven-erikson:
+    max_price: 75.0
+    preferred_formats:
+    - paperback
+    priority: 1
+    enabled: true
+    notes: Keepa wishlist
+  disquiet-gods--christopher-ruocchio:
+    max_price: 135.0
+    preferred_formats:
+    - hardcover
+    priority: 1
+    enabled: true
+    notes: Keepa wishlist
+  blood-meridian--cormac-mccarthy:
+    max_price: 65.0
+    preferred_formats:
+    - paperback
+    priority: 1
+    enabled: true
+    notes: Keepa wishlist
+  a-game-of-thrones--george-r-r-martin:
+    max_price: 115.0
+    preferred_formats:
+    - paperback
+    priority: 1
+    enabled: true
+    notes: Keepa wishlist
+  the-well-of-ascension--brandon-sanderson:
+    max_price: 131.09
+    preferred_formats:
+    - paperback
+    priority: 1
+    enabled: true
+    notes: Keepa wishlist
+  assassin-s-apprentice--robin-hobb:
+    max_price: 70.0
+    preferred_formats:
+    - paperback
+    priority: 1
+    enabled: true
+    notes: Keepa wishlist
+  hyperion--dan-simmons:
+    max_price: 65.13
+    preferred_formats:
+    - paperback
+    priority: 1
+    enabled: true
+    notes: Keepa wishlist
+  no-country-for-old-men--cormac-mccarthy:
+    max_price: 65.0
+    preferred_formats:
+    - paperback
+    priority: 1
+    enabled: true
+    notes: Keepa wishlist
+  suttree--cormac-mccarthy:
+    max_price: 66.0
+    preferred_formats:
+    - paperback
+    priority: 1
+    enabled: true
+    notes: Keepa wishlist
+  royal-assassin--robin-hobb:
+    max_price: 80.0
+    preferred_formats:
+    - paperback
+    priority: 1
+    enabled: true
+    notes: Keepa wishlist
+  before-they-are-hanged--joe-abercrombie:
+    max_price: 120.0
+    preferred_formats:
+    - hardcover
+    priority: 1
+    enabled: true
+    notes: Keepa wishlist
+  dune--frank-herbert:
+    max_price: 200.0
+    preferred_formats:
+    - paperback
+    priority: 1
+    enabled: true
+    notes: Keepa wishlist
+  the-dark-forest--cixin-liu:
+    max_price: 96.0
+    preferred_formats:
+    - paperback
+    priority: 1
+    enabled: true
+    notes: Keepa wishlist
+  death-s-end--cixin-liu:
+    max_price: 96.0
+    preferred_formats:
+    - paperback
+    priority: 1
+    enabled: true
+    notes: Keepa wishlist
+  the-hero-of-ages--brandon-sanderson:
+    max_price: 129.11
+    preferred_formats:
+    - paperback
+    priority: 1
+    enabled: true
+    notes: Keepa wishlist
+  the-sword-of-kaigen-a-theonite-war-story--m-l-wang:
+    max_price: 90.0
+    preferred_formats:
+    - paperback
+    priority: 1
+    enabled: true
+    notes: Keepa wishlist
+  the-final-empire--brandon-sanderson:
+    max_price: 135.15
+    preferred_formats:
+    - paperback
+    priority: 1
+    enabled: true
+    notes: Keepa wishlist
+  fool-s-errand--robin-hobb:
+    max_price: 80.0
+    preferred_formats:
+    - paperback
+    priority: 1
+    enabled: true
+    notes: Keepa wishlist
+  blood-over-bright-haven--m-l-wang:
+    max_price: 105.0
+    preferred_formats:
+    - hardcover
+    priority: 1
+    enabled: true
+    notes: Keepa wishlist
+  a-feast-for-crows--george-r-r-martin:
+    max_price: 95.0
+    preferred_formats:
+    - paperback
+    priority: 1
+    enabled: true
+    notes: Keepa wishlist
+  ship-of-magic--robin-hobb:
+    max_price: 80.0
+    preferred_formats:
+    - paperback
+    priority: 1
+    enabled: true
+    notes: Keepa wishlist
+  the-hobbit--j-r-r-tolkien:
+    max_price: 114.72
+    preferred_formats:
+    - paperback
+    priority: 1
+    enabled: true
+    notes: Keepa wishlist
+  the-mad-ship--robin-hobb:
+    max_price: 80.0
+    preferred_formats:
+    - paperback
+    priority: 1
+    enabled: true
+    notes: Keepa wishlist
+  ashes-of-man--christopher-ruocchio:
+    max_price: 115.2
+    preferred_formats:
+    - hardcover
+    priority: 1
+    enabled: true
+    notes: Keepa wishlist
+  a-psalm-for-the-wild-built--becky-chambers:
+    max_price: 70.0
+    preferred_formats:
+    - paperback
+    priority: 1
+    enabled: true
+    notes: Keepa wishlist
+  the-golden-fool--robin-hobb:
+    max_price: 80.0
+    preferred_formats:
+    - paperback
+    priority: 1
+    enabled: true
+    notes: Keepa wishlist
+  assassin-s-fate--robin-hobb:
+    max_price: 80.0
+    preferred_formats:
+    - paperback
+    priority: 1
+    enabled: true
+    notes: Keepa wishlist
+  a-clash-of-kings--george-r-r-martin:
+    max_price: 105.0
+    preferred_formats:
+    - paperback
+    priority: 1
+    enabled: true
+    notes: Keepa wishlist
+  the-trouble-with-peace--joe-abercrombie:
+    max_price: 90.0
+    preferred_formats:
+    - hardcover
+    priority: 1
+    enabled: true
+    notes: Keepa wishlist
+  the-fall-of-hyperion--dan-simmons:
+    max_price: 65.13
+    preferred_formats:
+    - paperback
+    priority: 1
+    enabled: true
+    notes: Keepa wishlist
+  a-little-hatred--joe-abercrombie:
+    max_price: 90.0
+    preferred_formats:
+    - hardcover
+    priority: 1
+    enabled: true
+    notes: Keepa wishlist
+  assassin-s-quest--robin-hobb:
+    max_price: 80.0
+    preferred_formats:
+    - paperback
+    priority: 1
+    enabled: true
+    notes: Keepa wishlist
+  fool-s-fate--robin-hobb:
+    max_price: 80.0
+    preferred_formats:
+    - paperback
+    priority: 1
+    enabled: true
+    notes: Keepa wishlist
+  the-eye-of-the-bedlam-bride--matt-dinniman:
+    max_price: 120.0
+    preferred_formats:
+    - hardcover
+    priority: 1
+    enabled: true
+    notes: Keepa wishlist
+  howling-dark--christopher-ruocchio:
+    max_price: 123.64
+    preferred_formats:
+    - hardcover
+    priority: 1
+    enabled: true
+    notes: Keepa wishlist
+  recursion--blake-crouch:
+    max_price: 90.0
+    preferred_formats:
+    - paperback
+    priority: 1
+    enabled: true
+    notes: Keepa wishlist
+  lonesome-dove--larry-mcmurtry:
+    max_price: 80.0
+    preferred_formats:
+    - paperback
+    priority: 1
+    enabled: true
+    notes: Keepa wishlist
+  last-argument-of-kings--joe-abercrombie:
+    max_price: 120.0
+    preferred_formats:
+    - hardcover
+    priority: 1
+    enabled: true
+    notes: Keepa wishlist
+  empire-of-the-damned--jay-kristoff:
+    max_price: 110.0
+    preferred_formats:
+    - hardcover
+    priority: 1
+    enabled: true
+    notes: Keepa wishlist
+  ruin--john-gwynne:
+    max_price: 80.0
+    preferred_formats:
+    - paperback
+    priority: 1
+    enabled: true
+    notes: Keepa wishlist
+  kingdoms-of-death--christopher-ruocchio:
+    max_price: 131.15
+    preferred_formats:
+    - hardcover
+    priority: 1
+    enabled: true
+    notes: Keepa wishlist
+  demon-in-white--christopher-ruocchio:
+    max_price: 132.85
+    preferred_formats:
+    - hardcover
+    priority: 1
+    enabled: true
+    notes: Keepa wishlist
+  deadhouse-gates--steven-erikson:
+    max_price: 75.0
+    preferred_formats:
+    - paperback
+    priority: 1
+    enabled: true
+    notes: Keepa wishlist
+  fool-s-quest--robin-hobb:
+    max_price: 80.0
+    preferred_formats:
+    - paperback
+    priority: 1
+    enabled: true
+    notes: Keepa wishlist
+  dark-matter--blake-crouch:
+    max_price: 90.0
+    preferred_formats:
+    - paperback
+    priority: 1
+    enabled: true
+    notes: Keepa wishlist
+  ship-of-destiny--robin-hobb:
+    max_price: 80.0
+    preferred_formats:
+    - paperback
+    priority: 1
+    enabled: true
+    notes: Keepa wishlist
+  wrath--john-gwynne:
+    max_price: 80.0
+    preferred_formats:
+    - paperback
+    priority: 1
+    enabled: true
+    notes: Keepa wishlist
+  a-memory-called-empire--arkady-martine:
+    max_price: 89.02
+    preferred_formats:
+    - paperback
+    priority: 1
+    enabled: true
+    notes: Keepa wishlist
+  fool-s-assassin--robin-hobb:
+    max_price: 80.0
+    preferred_formats:
+    - paperback
+    priority: 1
+    enabled: true
+    notes: Keepa wishlist
+  the-blade-itself--joe-abercrombie:
+    max_price: 120.0
+    preferred_formats:
+    - hardcover
+    priority: 1
+    enabled: true
+    notes: Keepa wishlist
+  this-inevitable-ruin--matt-dinniman:
+    max_price: 100.0
+    preferred_formats:
+    - hardcover
+    priority: 1
+    enabled: true
+    notes: Keepa wishlist
+  11-22-63--stephen-king:
+    max_price: 103.96
+    preferred_formats:
+    - paperback
+    priority: 1
+    enabled: true
+    notes: Keepa wishlist
+  red-seas-under-red-skies--scott-lynch:
+    max_price: 100.0
+    preferred_formats:
+    - hardcover
+    priority: 1
+    enabled: true
+    notes: Keepa wishlist
+  the-wisdom-of-crowds--joe-abercrombie:
+    max_price: 90.0
+    preferred_formats:
+    - hardcover
+    priority: 1
+    enabled: true
+    notes: Keepa wishlist
+  a-dance-with-dragons--george-r-r-martin:
+    max_price: 99.53
+    preferred_formats:
+    - paperback
+    priority: 1
+    enabled: true
+    notes: Keepa wishlist
+  empire-of-the-dawn--jay-kristoff:
+    max_price: 115.0
+    preferred_formats:
+    - hardcover
+    priority: 1
+    enabled: true
+    notes: Keepa wishlist
+  the-wise-man-s-fear--patrick-rothfuss:
+    max_price: 110.0
+    preferred_formats:
+    - hardcover
+    priority: 1
+    enabled: true
+    notes: Keepa wishlist
+  the-republic-of-thieves--scott-lynch:
+    max_price: 68.89
+    preferred_formats:
+    - hardcover
+    priority: 1
+    enabled: true
+    notes: Keepa wishlist
+  piranesi--susanna-clarke:
+    max_price: 80.0
+    preferred_formats:
+    - paperback
+    priority: 1
+    enabled: true
+    notes: Keepa wishlist
+  a-storm-of-swords--george-r-r-martin:
+    max_price: 115.0
+    preferred_formats:
+    - paperback
+    priority: 1
+    enabled: true
+    notes: Keepa wishlist
+  a-desolation-called-peace--arkady-martine:
+    max_price: 89.02
+    preferred_formats:
+    - paperback
+    priority: 1
+    enabled: true
+    notes: Keepa wishlist
+  memories-of-ice--steven-erikson:
+    max_price: 75.0
+    preferred_formats:
+    - paperback
+    priority: 1
+    enabled: true
+    notes: Keepa wishlist
+  the-tainted-cup--robert-jackson-bennett:
+    max_price: 90.0
+    preferred_formats:
+    - hardcover
+    priority: 1
+    enabled: true
+    notes: Keepa wishlist
+works:
+- key: the-rage-of-dragons--evan-winter
+  title: The Rage of Dragons
+  author: Evan Winter
+  series: The Burning
+  volume: 1
+  status: Want to Buy
+  language: en
+  priority: 1
+  enabled: true
+  aliases:
+  - 'The Rage of Dragons: 1'
+  preferred_publishers: []
+  preferred_formats:
+  - hardcover
+  isbn13: ''
+  max_price: 90.0
+  notes: Keepa wishlist
+- key: the-bloodsworn-saga-boxed-set--john-gwynne
+  title: The Bloodsworn Saga Boxed Set
+  author: John Gwynne
+  series: The Bloodsworn Trilogy
+  volume: 1
+  status: Want to Buy
+  language: en
+  priority: 1
+  enabled: true
+  aliases:
+  - 'The Bloodsworn Saga Boxed Set: The Shadow of the Gods, the Hunger of the Gods,
+    the Fury of the Gods: 1-3'
+  preferred_publishers: []
+  preferred_formats:
+  - paperback
+  isbn13: ''
+  max_price: 210.0
+  notes: Keepa set
+- key: monk-and-robot--becky-chambers
+  title: Monk and Robot
+  author: Becky Chambers
+  series: Monk & Robot
+  volume: 1
+  status: Want to Buy
+  language: en
+  priority: 1
+  enabled: true
+  aliases:
+  - 'Monk and Robot: A Psalm for the Wild-Built and a Prayer for the Crown-Shy: 1-2'
+  preferred_publishers: []
+  preferred_formats:
+  - paperback
+  isbn13: ''
+  max_price: 75.0
+  notes: Keepa set
+- key: valor--john-gwynne
+  title: Valor
+  author: John Gwynne
+  series: The Faithful and the Fallen
+  volume: 2
+  status: Want to Buy
+  language: en
+  priority: 1
+  enabled: true
+  aliases:
+  - 'Valor: 2'
+  preferred_publishers: []
+  preferred_formats:
+  - paperback
+  isbn13: ''
+  max_price: 80.0
+  notes: Keepa wishlist
+- key: among-the-burning-flowers--samantha-shannon
+  title: Among the Burning Flowers
+  author: Samantha Shannon
+  series: The Roots of Chaos
+  volume: 0
+  status: Want to Buy
+  language: en
+  priority: 1
+  enabled: true
+  aliases:
+  - 'Among the Burning Flowers: A Novel'
+  preferred_publishers: []
+  preferred_formats:
+  - hardcover
+  isbn13: ''
+  max_price: 100.0
+  notes: Keepa wishlist
+- key: jonathan-strange-and-mr-norrell--susanna-clarke
+  title: Jonathan Strange and MR Norrell
+  author: Susanna Clarke
+  series: ''
+  volume: 1
+  status: Want to Buy
+  language: en
+  priority: 1
+  enabled: true
+  aliases:
+  - 'Jonathan Strange and MR Norrell: A Novel'
+  preferred_publishers: []
+  preferred_formats:
+  - hardcover
+  isbn13: ''
+  max_price: 125.0
+  notes: Keepa wishlist
+- key: sword-citadel--gene-wolfe
+  title: Sword & Citadel
+  author: Gene Wolfe
+  series: The Book of the New Sun
+  volume: 1
+  status: Want to Buy
+  language: en
+  priority: 1
+  enabled: true
+  aliases:
+  - 'Sword & Citadel: The Second Half of the Book of the New Sun: 2'
+  preferred_publishers: []
+  preferred_formats:
+  - paperback
+  isbn13: ''
+  max_price: 70.37
+  notes: Keepa wishlist
+- key: the-poppy-war-collector-s-edition-a-deluxe-illustrated-epic-fantasy-of-war-magic-and-mythology-in-a-high-conflict-world-from-bestselling-author-r-deluxe-illustrated-edition-with-sprayed-edges--r-f-kuang
+  title: 'The Poppy War Collector''s Edition: A Deluxe Illustrated Epic Fantasy of
+    War, Magic, and Mythology in a High-Conflict World from Bestselling Author R.
+    ... Deluxe Illustrated Edition with Sprayed Edges'
+  author: R. F. Kuang
+  series: The Poppy War
+  volume: 1
+  status: Want to Buy
+  language: en
+  priority: 1
+  enabled: true
+  aliases: []
+  preferred_publishers: []
+  preferred_formats:
+  - hardcover
+  isbn13: ''
+  max_price: 140.0
+  notes: Keepa edição específica
+- key: a-parade-of-horribles--matt-dinniman
+  title: A Parade of Horribles
+  author: Matt Dinniman
+  series: Dungeon Crawler Carl
+  volume: 8
+  status: Want to Buy
+  language: en
+  priority: 1
+  enabled: true
+  aliases:
+  - 'A Parade of Horribles: 8'
+  preferred_publishers: []
+  preferred_formats:
+  - hardcover
+  isbn13: ''
+  max_price: 116.0
+  notes: Keepa wishlist
+- key: wind-and-truth--brandon-sanderson
+  title: Wind and Truth
+  author: Brandon Sanderson
+  series: The Stormlight Archive
+  volume: 5
+  status: Want to Buy
+  language: en
+  priority: 1
+  enabled: true
+  aliases:
+  - 'Wind and Truth: Book Five of the Stormlight Archive: 5'
+  preferred_publishers: []
+  preferred_formats:
+  - hardcover
+  isbn13: ''
+  max_price: 130.0
+  notes: Keepa wishlist
+- key: john-gwynne-of-blood-and-bone-series-3-books-collection-set--john-gwynne
+  title: John Gwynne Of Blood and Bone Series 3 Books Collection Set
+  author: John Gwynne
+  series: Of Blood and Bone
+  volume: 1
+  status: Want to Buy
+  language: en
+  priority: 1
+  enabled: true
+  aliases:
+  - John Gwynne Of Blood and Bone Series 3 Books Collection Set (A Time of Dread,
+    A Time of Blood, [Hardcover] A Time of Courage)
+  preferred_publishers: []
+  preferred_formats:
+  - hardcover
+  isbn13: ''
+  max_price: 190.0
+  notes: Keepa set
+- key: the-lions-of-al-rassan--guy-gavriel-kay
+  title: The Lions of Al-Rassan
+  author: Guy Gavriel Kay
+  series: ''
+  volume: 1
+  status: Want to Buy
+  language: en
+  priority: 1
+  enabled: true
+  aliases: []
+  preferred_publishers: []
+  preferred_formats:
+  - paperback
+  isbn13: ''
+  max_price: 59.93
+  notes: Keepa wishlist
+- key: brandon-sanderson-3-books-collection-set--brandon-sanderson
+  title: Brandon Sanderson 3 Books Collection Set
+  author: Brandon Sanderson
+  series: ''
+  volume: 1
+  status: Want to Buy
+  language: en
+  priority: 1
+  enabled: true
+  aliases:
+  - Brandon Sanderson 3 Books Collection Set (Arcanum Unbounded, Elantris, Warbreaker)
+  preferred_publishers: []
+  preferred_formats:
+  - paperback
+  isbn13: ''
+  max_price: 240.0
+  notes: Keepa set
+- key: the-priory-of-the-orange-tree--samantha-shannon
+  title: The Priory of the Orange Tree
+  author: Samantha Shannon
+  series: The Roots of Chaos
+  volume: 1
+  status: Want to Buy
+  language: en
+  priority: 1
+  enabled: true
+  aliases: []
+  preferred_publishers: []
+  preferred_formats:
+  - hardcover
+  isbn13: ''
+  max_price: 100.0
+  notes: Keepa wishlist
+- key: crossroads-of-twilight--robert-jordan
+  title: Crossroads of Twilight
+  author: Robert Jordan
+  series: The Wheel of Time
+  volume: 10
+  status: Want to Buy
+  language: en
+  priority: 1
+  enabled: true
+  aliases:
+  - 'Crossroads of Twilight: Book Ten of ''The Wheel of Time'': 10'
+  preferred_publishers: []
+  preferred_formats:
+  - paperback
+  isbn13: ''
+  max_price: 112.6
+  notes: Keepa wishlist
+- key: a-knight-of-the-seven-kingdoms--george-r-r-martin
+  title: A Knight of the Seven Kingdoms
+  author: George R. R. Martin
+  series: A Song of Ice and Fire
+  volume: 1
+  status: Want to Buy
+  language: en
+  priority: 1
+  enabled: true
+  aliases:
+  - 'A Knight of the Seven Kingdoms: Songs of Ice and Fire'
+  preferred_publishers: []
+  preferred_formats:
+  - paperback
+  isbn13: ''
+  max_price: 100.26
+  notes: Keepa wishlist
+- key: shadow-claw--gene-wolfe
+  title: Shadow & Claw
+  author: Gene Wolfe
+  series: The Book of the New Sun
+  volume: 1
+  status: Want to Buy
+  language: en
+  priority: 1
+  enabled: true
+  aliases:
+  - 'Shadow & Claw: The First Half of the Book of the New Sun: 1'
+  preferred_publishers: []
+  preferred_formats:
+  - paperback
+  isbn13: ''
+  max_price: 70.37
+  notes: Keepa wishlist
+- key: the-three-body-problem-1-deluxe-limited-edition--cixin-liu
+  title: 'The Three-Body Problem: 1: Deluxe Limited Edition'
+  author: Cixin Liu
+  series: Remembrance of Earth's Past
+  volume: 1
+  status: Want to Buy
+  language: en
+  priority: 1
+  enabled: true
+  aliases: []
+  preferred_publishers: []
+  preferred_formats:
+  - hardcover
+  isbn13: ''
+  max_price: 96.0
+  notes: Keepa edição específica
+- key: a-trade-of-blood--robert-jackson-bennett
+  title: A Trade of Blood
+  author: Robert Jackson Bennett
+  series: Ana and Din
+  volume: 3
+  status: Want to Buy
+  language: en
+  priority: 1
+  enabled: true
+  aliases:
+  - 'A Trade of Blood: An Ana and Din Mystery: 3'
+  preferred_publishers: []
+  preferred_formats:
+  - hardcover
+  isbn13: ''
+  max_price: 120.0
+  notes: Keepa wishlist
+- key: knife-of-dreams--robert-jordan
+  title: Knife of Dreams
+  author: Robert Jordan
+  series: The Wheel of Time
+  volume: 11
+  status: Want to Buy
+  language: en
+  priority: 1
+  enabled: true
+  aliases:
+  - 'Knife of Dreams: Book Eleven of ''The Wheel of Time'': 11'
+  preferred_publishers: []
+  preferred_formats:
+  - paperback
+  isbn13: ''
+  max_price: 104.89
+  notes: Keepa wishlist
+- key: neuromancer-deluxe-edition--william-gibson
+  title: 'Neuromancer: Deluxe Edition'
+  author: William Gibson
+  series: ''
+  volume: 1
+  status: Want to Buy
+  language: en
+  priority: 1
+  enabled: true
+  aliases: []
+  preferred_publishers: []
+  preferred_formats:
+  - hardcover
+  isbn13: ''
+  max_price: 90.0
+  notes: Keepa edição específica
+- key: lord-of-chaos--robert-jordan
+  title: Lord of Chaos
+  author: Robert Jordan
+  series: The Wheel of Time
+  volume: 6
+  status: Want to Buy
+  language: en
+  priority: 1
+  enabled: true
+  aliases:
+  - 'Lord of Chaos: Book Six of ''The Wheel of Time'': 6'
+  preferred_publishers: []
+  preferred_formats:
+  - paperback
+  isbn13: ''
+  max_price: 106.91
+  notes: Keepa wishlist
+- key: the-great-hunt--robert-jordan
+  title: The Great Hunt
+  author: Robert Jordan
+  series: The Wheel of Time
+  volume: 2
+  status: Want to Buy
+  language: en
+  priority: 1
+  enabled: true
+  aliases:
+  - 'The Great Hunt: Book Two of ''The Wheel of Time'': 2'
+  preferred_publishers: []
+  preferred_formats:
+  - paperback
+  isbn13: ''
+  max_price: 118.44
+  notes: Keepa wishlist
+- key: the-eye-of-the-world--robert-jordan
+  title: The Eye of the World
+  author: Robert Jordan
+  series: The Wheel of Time
+  volume: 1
+  status: Want to Buy
+  language: en
+  priority: 1
+  enabled: true
+  aliases:
+  - 'The Eye of the World: Book One of The Wheel of Time: 1'
+  preferred_publishers: []
+  preferred_formats:
+  - paperback
+  isbn13: ''
+  max_price: 128.87
+  notes: Keepa wishlist
+- key: the-fires-of-heaven--robert-jordan
+  title: The Fires of Heaven
+  author: Robert Jordan
+  series: The Wheel of Time
+  volume: 5
+  status: Want to Buy
+  language: en
+  priority: 1
+  enabled: true
+  aliases:
+  - 'The Fires of Heaven: Book Five of ''The Wheel of Time'': 5'
+  preferred_publishers: []
+  preferred_formats:
+  - paperback
+  isbn13: ''
+  max_price: 112.44
+  notes: Keepa wishlist
+- key: the-silmarillion-collector-s-edition-illustrated-by-j-r-r-tolkien-7--j-r-r-tolkien
+  title: 'The Silmarillion Collector''s Edition: Illustrated by J.R.R. Tolkien: 7'
+  author: J.R.R. Tolkien
+  series: ''
+  volume: 1
+  status: Want to Buy
+  language: en
+  priority: 1
+  enabled: true
+  aliases: []
+  preferred_publishers: []
+  preferred_formats:
+  - hardcover
+  isbn13: ''
+  max_price: 99.83
+  notes: Keepa edição específica
+- key: abaddon-s-gate--james-s-a-corey
+  title: Abaddon's Gate
+  author: James S. A. Corey
+  series: The Expanse
+  volume: 3
+  status: Want to Buy
+  language: en
+  priority: 1
+  enabled: true
+  aliases:
+  - 'Abaddon''s Gate: 3'
+  preferred_publishers: []
+  preferred_formats:
+  - hardcover
+  isbn13: ''
+  max_price: 112.95
+  notes: Keepa wishlist
+- key: the-shadow-rising--robert-jordan
+  title: The Shadow Rising
+  author: Robert Jordan
+  series: The Wheel of Time
+  volume: 4
+  status: Want to Buy
+  language: en
+  priority: 1
+  enabled: true
+  aliases:
+  - 'The Shadow Rising: Book Four of ''The Wheel of Time'': 4'
+  preferred_publishers: []
+  preferred_formats:
+  - paperback
+  isbn13: ''
+  max_price: 104.0
+  notes: Keepa wishlist
+- key: fire-blood--george-r-r-martin
+  title: Fire & Blood
+  author: George R. R. Martin
+  series: A Song of Ice and Fire
+  volume: 1
+  status: Want to Buy
+  language: en
+  priority: 1
+  enabled: true
+  aliases:
+  - 'Fire & Blood: 300 Years Before a Game of Thrones'
+  preferred_publishers: []
+  preferred_formats:
+  - hardcover
+  isbn13: ''
+  max_price: 93.19
+  notes: Keepa wishlist
+- key: the-thousandfold-thought--r-scott-bakker
+  title: The Thousandfold Thought
+  author: R. Scott Bakker
+  series: The Prince of Nothing
+  volume: 3
+  status: Want to Buy
+  language: en
+  priority: 1
+  enabled: true
+  aliases:
+  - 'The Thousandfold Thought: The Prince of Nothing, Book Three: 03'
+  preferred_publishers: []
+  preferred_formats:
+  - paperback
+  isbn13: ''
+  max_price: 60.0
+  notes: Keepa wishlist
+- key: the-buffalo-hunter-hunter--stephen-graham-jones
+  title: The Buffalo Hunter Hunter
+  author: Stephen Graham Jones
+  series: ''
+  volume: 1
+  status: Want to Buy
+  language: en
+  priority: 1
+  enabled: true
+  aliases: []
+  preferred_publishers: []
+  preferred_formats:
+  - hardcover
+  isbn13: ''
+  max_price: 100.0
+  notes: Keepa wishlist
+- key: a-drop-of-corruption--robert-jackson-bennett
+  title: A Drop of Corruption
+  author: Robert Jackson Bennett
+  series: Ana and Din
+  volume: 2
+  status: Want to Buy
+  language: en
+  priority: 1
+  enabled: true
+  aliases:
+  - 'A Drop of Corruption: An Ana and Din Mystery: 2'
+  preferred_publishers: []
+  preferred_formats:
+  - hardcover
+  isbn13: ''
+  max_price: 120.0
+  notes: Keepa wishlist
+- key: towers-of-midnight--robert-jordan
+  title: Towers of Midnight
+  author: Robert Jordan
+  series: The Wheel of Time
+  volume: 13
+  status: Want to Buy
+  language: en
+  priority: 1
+  enabled: true
+  aliases:
+  - 'Towers of Midnight: Book Thirteen of the Wheel of Time: 13'
+  preferred_publishers: []
+  preferred_formats:
+  - paperback
+  isbn13: ''
+  max_price: 113.88
+  notes: Keepa wishlist
+- key: leviathan-wakes-10th-anniversary-edition-1--james-s-a-corey
+  title: 'Leviathan Wakes (10th Anniversary Edition): 1'
+  author: James S. A. Corey
+  series: The Expanse
+  volume: 1
+  status: Want to Buy
+  language: en
+  priority: 1
+  enabled: true
+  aliases: []
+  preferred_publishers: []
+  preferred_formats:
+  - hardcover
+  isbn13: ''
+  max_price: 114.25
+  notes: Keepa edição específica
+- key: musashi-new-edition--eiji-yoshikawa
+  title: Musashi (New Edition)
+  author: Eiji Yoshikawa
+  series: ''
+  volume: 1
+  status: Want to Buy
+  language: en
+  priority: 1
+  enabled: true
+  aliases:
+  - 'Musashi (New Edition): A Novel'
+  preferred_publishers: []
+  preferred_formats:
+  - paperback
+  isbn13: ''
+  max_price: 145.0
+  notes: Keepa wishlist
+- key: the-name-of-the-wind-10th-anniversary-deluxe-edition-1--patrick-rothfuss
+  title: 'The Name of the Wind: 10th Anniversary Deluxe Edition: 1'
+  author: Patrick Rothfuss
+  series: The Kingkiller Chronicle
+  volume: 1
+  status: Want to Buy
+  language: en
+  priority: 1
+  enabled: true
+  aliases: []
+  preferred_publishers: []
+  preferred_formats:
+  - hardcover
+  isbn13: ''
+  max_price: 110.0
+  notes: Keepa edição específica
+- key: the-darkness-that-comes-before--r-scott-bakker
+  title: The Darkness That Comes Before
+  author: R. Scott Bakker
+  series: The Prince of Nothing
+  volume: 1
+  status: Want to Buy
+  language: en
+  priority: 1
+  enabled: true
+  aliases:
+  - 'The Darkness That Comes Before: The Prince of Nothing, Book One: 01'
+  preferred_publishers: []
+  preferred_formats:
+  - paperback
+  isbn13: ''
+  max_price: 60.0
+  notes: Keepa wishlist
+- key: a-day-of-fallen-night--samantha-shannon
+  title: A Day of Fallen Night
+  author: Samantha Shannon
+  series: The Roots of Chaos
+  volume: 0
+  status: Want to Buy
+  language: en
+  priority: 1
+  enabled: true
+  aliases:
+  - 'A Day of Fallen Night: A Roots of Chaos Novel'
+  preferred_publishers: []
+  preferred_formats:
+  - hardcover
+  isbn13: ''
+  max_price: 100.0
+  notes: Keepa wishlist
+- key: the-stormlight-archive-boxed-set-part-one--brandon-sanderson
+  title: The Stormlight Archive Boxed Set Part One
+  author: Brandon Sanderson
+  series: The Stormlight Archive
+  volume: 1
+  status: Want to Buy
+  language: en
+  priority: 1
+  enabled: true
+  aliases:
+  - 'The Stormlight Archive Boxed Set Part One: 1-3'
+  preferred_publishers: []
+  preferred_formats:
+  - paperback
+  isbn13: ''
+  max_price: 220.0
+  notes: Keepa set
+- key: the-warrior-prophet--r-scott-bakker
+  title: The Warrior Prophet
+  author: R. Scott Bakker
+  series: The Prince of Nothing
+  volume: 2
+  status: Want to Buy
+  language: en
+  priority: 1
+  enabled: true
+  aliases:
+  - 'The Warrior Prophet: The Prince of Nothing, Book Two: 02'
+  preferred_publishers: []
+  preferred_formats:
+  - paperback
+  isbn13: ''
+  max_price: 60.0
+  notes: Keepa wishlist
+- key: the-rise-of-endymion--dan-simmons
+  title: The Rise of Endymion
+  author: Dan Simmons
+  series: Hyperion Cantos
+  volume: 4
+  status: Want to Buy
+  language: en
+  priority: 1
+  enabled: true
+  aliases:
+  - 'The Rise of Endymion: 4'
+  preferred_publishers: []
+  preferred_formats:
+  - paperback
+  isbn13: ''
+  max_price: 65.13
+  notes: Keepa wishlist
+- key: endymion--dan-simmons
+  title: Endymion
+  author: Dan Simmons
+  series: Hyperion Cantos
+  volume: 3
+  status: Want to Buy
+  language: en
+  priority: 1
+  enabled: true
+  aliases:
+  - 'Endymion: 3'
+  preferred_publishers: []
+  preferred_formats:
+  - paperback
+  isbn13: ''
+  max_price: 65.13
+  notes: Keepa wishlist
+- key: mistborn-trilogy-boxed-set--brandon-sanderson
+  title: Mistborn Trilogy Boxed Set
+  author: Brandon Sanderson
+  series: Mistborn
+  volume: 1
+  status: Want to Buy
+  language: en
+  priority: 1
+  enabled: true
+  aliases:
+  - 'Mistborn Trilogy Boxed Set: Mistborn, The Well of Ascension, The Hero of Ages:
+    1-3'
+  preferred_publishers: []
+  preferred_formats:
+  - paperback
+  isbn13: ''
+  max_price: 251.18
+  notes: Keepa set
+- key: blake-crouch-collection-3-books-set-upgrade-recursion-dark-matter--blake-crouch
+  title: Blake Crouch Collection 3 Books Set (Upgrade, Recursion, Dark Matter)
+  author: Blake Crouch
+  series: ''
+  volume: 1
+  status: Want to Buy
+  language: en
+  priority: 1
+  enabled: true
+  aliases: []
+  preferred_publishers: []
+  preferred_formats:
+  - paperback
+  isbn13: ''
+  max_price: 180.0
+  notes: Keepa wishlist
+- key: the-age-of-madness-trilogy--joe-abercrombie
+  title: The Age of Madness Trilogy
+  author: Joe Abercrombie
+  series: The Age of Madness
+  volume: 1
+  status: Want to Buy
+  language: en
+  priority: 1
+  enabled: true
+  aliases: []
+  preferred_publishers: []
+  preferred_formats:
+  - paperback
+  isbn13: ''
+  max_price: 150.0
+  notes: Keepa set
+- key: caliban-s-war--james-s-a-corey
+  title: Caliban's War
+  author: James S. A. Corey
+  series: The Expanse
+  volume: 2
+  status: Want to Buy
+  language: en
+  priority: 1
+  enabled: true
+  aliases:
+  - 'Caliban''s War: 2'
+  preferred_publishers: []
+  preferred_formats:
+  - hardcover
+  isbn13: ''
+  max_price: 113.52
+  notes: Keepa wishlist
+- key: a-crown-of-swords--robert-jordan
+  title: A Crown of Swords
+  author: Robert Jordan
+  series: The Wheel of Time
+  volume: 7
+  status: Want to Buy
+  language: en
+  priority: 1
+  enabled: true
+  aliases:
+  - 'A Crown of Swords: Book Seven of ''The Wheel of Time'': 7'
+  preferred_publishers: []
+  preferred_formats:
+  - paperback
+  isbn13: ''
+  max_price: 119.81
+  notes: Keepa wishlist
+- key: the-fires-of-vengeance--evan-winter
+  title: The Fires of Vengeance
+  author: Evan Winter
+  series: The Burning
+  volume: 2
+  status: Want to Buy
+  language: en
+  priority: 1
+  enabled: true
+  aliases:
+  - 'The Fires of Vengeance: 2'
+  preferred_publishers: []
+  preferred_formats:
+  - hardcover
+  isbn13: ''
+  max_price: 90.0
+  notes: Keepa wishlist
+- key: dune-deluxe-edition-1--frank-herbert
+  title: 'Dune: Deluxe Edition: 1'
+  author: Frank Herbert
+  series: Dune
+  volume: 1
+  status: Want to Buy
+  language: en
+  priority: 1
+  enabled: true
+  aliases: []
+  preferred_publishers: []
+  preferred_formats:
+  - hardcover
+  isbn13: ''
+  max_price: 110.0
+  notes: Keepa edição específica
+- key: assassin-s-quest-the-illustrated-edition-the-illustrated-edition-3--robin-hobb
+  title: 'Assassin''s Quest (the Illustrated Edition): The Illustrated Edition: 3'
+  author: Robin Hobb
+  series: The Farseer Trilogy
+  volume: 3
+  status: Want to Buy
+  language: en
+  priority: 1
+  enabled: true
+  aliases: []
+  preferred_publishers: []
+  preferred_formats:
+  - hardcover
+  isbn13: ''
+  max_price: 125.0
+  notes: Keepa edição específica
+- key: the-rain-wild-chronicles-4-books-collection-set-by-robin-hobb--robin-hobb
+  title: The Rain Wild Chronicles 4 Books Collection Set By Robin Hobb
+  author: Robin Hobb
+  series: The Rain Wild Chronicles
+  volume: 1
+  status: Want to Buy
+  language: en
+  priority: 1
+  enabled: true
+  aliases:
+  - The Rain Wild Chronicles 4 Books Collection Set By Robin Hobb (Dragon Keeper,
+    Dragon Haven, City of Dragons & Blood of Dragons)
+  preferred_publishers: []
+  preferred_formats:
+  - paperback
+  isbn13: ''
+  max_price: 250.0
+  notes: Keepa set
+- key: the-dragon-republic-deluxe-collector-s-edition-a-special-edition-of-the-modern-fantasy-classic-2--r-f-kuang
+  title: 'The Dragon Republic Deluxe Collector''s Edition: A Special Edition of the
+    Modern Fantasy Classic: 2'
+  author: R. F. Kuang
+  series: The Poppy War
+  volume: 2
+  status: Want to Buy
+  language: en
+  priority: 1
+  enabled: true
+  aliases: []
+  preferred_publishers: []
+  preferred_formats:
+  - hardcover
+  isbn13: ''
+  max_price: 120.0
+  notes: Keepa edição específica
+- key: box-jurassic-park-edicao-capa-dura--michael-crichton
+  title: Box Jurassic Park - Edição capa dura
+  author: Michael Crichton
+  series: Jurassic Park
+  volume: 1
+  status: Want to Buy
+  language: en
+  priority: 1
+  enabled: true
+  aliases: []
+  preferred_publishers: []
+  preferred_formats:
+  - hardcover
+  isbn13: ''
+  max_price: 80.0
+  notes: Keepa wishlist
+- key: royal-assassin-the-illustrated-edition-2--robin-hobb
+  title: 'Royal Assassin (the Illustrated Edition): 2'
+  author: Robin Hobb
+  series: The Farseer Trilogy
+  volume: 2
+  status: Want to Buy
+  language: en
+  priority: 1
+  enabled: true
+  aliases: []
+  preferred_publishers: []
+  preferred_formats:
+  - hardcover
+  isbn13: ''
+  max_price: 125.0
+  notes: Keepa edição específica
+- key: george-r-r-martin-s-a-game-of-thrones-5-book-boxed-set--george-r-r-martin
+  title: George R. R. Martin's a Game of Thrones 5-Book Boxed Set
+  author: George R. R. Martin
+  series: A Song of Ice and Fire
+  volume: 1
+  status: Want to Buy
+  language: en
+  priority: 1
+  enabled: true
+  aliases:
+  - 'George R. R. Martin''s a Game of Thrones 5-Book Boxed Set (Song of Ice and Fire
+    Series): A Game of Thrones, a Clash of Kings, a Storm of Swords, a ... ... for
+    Crows, and a Dance with Dragons: 1-5'
+  preferred_publishers: []
+  preferred_formats:
+  - paperback
+  isbn13: ''
+  max_price: 220.0
+  notes: Keepa set
+- key: dune-messiah-deluxe-edition-2--frank-herbert
+  title: 'Dune Messiah: Deluxe Edition: 2'
+  author: Frank Herbert
+  series: Dune
+  volume: 2
+  status: Want to Buy
+  language: en
+  priority: 1
+  enabled: true
+  aliases: []
+  preferred_publishers: []
+  preferred_formats:
+  - hardcover
+  isbn13: ''
+  max_price: 75.0
+  notes: Keepa edição específica
+- key: the-lord-of-the-rings-collector-s-edition-box-set--j-r-r-tolkien
+  title: The Lord of the Rings Collector's Edition Box Set
+  author: J.R.R. Tolkien
+  series: The Lord of the Rings
+  volume: 1
+  status: Want to Buy
+  language: en
+  priority: 1
+  enabled: true
+  aliases:
+  - 'The Lord of the Rings Collector''s Edition Box Set: Includes the Fellowship of
+    the Ring, the Two Towers, and the Return of the King'
+  preferred_publishers: []
+  preferred_formats:
+  - hardcover
+  isbn13: ''
+  max_price: 300.0
+  notes: Keepa set
+- key: katabasis-deluxe-limited-edition-a-fantastical-descent-into-hell-rivalry-and-redemption-in-the-pursuit-of-academic-glory-from-author-of-yellowfacer-f-kuang-a-novel--r-f-kuang
+  title: 'Katabasis (Deluxe Limited Edition): A Fantastical Descent into Hell, Rivalry,
+    and Redemption in the Pursuit of Academic Glory from Author of Yellowface―R. F.
+    Kuang: A Novel'
+  author: R. F. Kuang
+  series: ''
+  volume: 1
+  status: Want to Buy
+  language: en
+  priority: 1
+  enabled: true
+  aliases: []
+  preferred_publishers: []
+  preferred_formats:
+  - hardcover
+  isbn13: ''
+  max_price: 90.0
+  notes: Keepa edição específica
+- key: assassin-s-apprentice-the-illustrated-edition-the-farseer-trilogy-book-1--robin-hobb
+  title: 'Assassin''s Apprentice (the Illustrated Edition): The Farseer Trilogy Book
+    1'
+  author: Robin Hobb
+  series: The Farseer Trilogy
+  volume: 1
+  status: Want to Buy
+  language: en
+  priority: 1
+  enabled: true
+  aliases: []
+  preferred_publishers: []
+  preferred_formats:
+  - hardcover
+  isbn13: ''
+  max_price: 125.0
+  notes: Keepa edição específica
+- key: the-lord-of-the-rings-boxed-set--j-r-r-tolkien
+  title: The Lord of the Rings Boxed Set
+  author: J.R.R. Tolkien
+  series: The Lord of the Rings
+  volume: 1
+  status: Want to Buy
+  language: en
+  priority: 1
+  enabled: true
+  aliases:
+  - 'The Lord of the Rings Boxed Set: The Classic Bestselling Fantasy Novel'
+  preferred_publishers: []
+  preferred_formats:
+  - hardcover
+  isbn13: ''
+  max_price: 400.0
+  notes: Keepa set
+- key: the-name-of-the-wind-10th-anniversary-deluxe-illustrated-edition-1--patrick-rothfuss
+  title: 'The Name of the Wind: 10th Anniversary Deluxe Illustrated Edition: 1'
+  author: Patrick Rothfuss
+  series: The Kingkiller Chronicle
+  volume: 1
+  status: Want to Buy
+  language: en
+  priority: 1
+  enabled: true
+  aliases: []
+  preferred_publishers: []
+  preferred_formats:
+  - hardcover
+  isbn13: ''
+  max_price: 120.0
+  notes: Keepa edição específica
+- key: the-tolkien-treasury--j-r-r-tolkien
+  title: The Tolkien Treasury
+  author: J.R.R. Tolkien
+  series: ''
+  volume: 1
+  status: Want to Buy
+  language: en
+  priority: 1
+  enabled: true
+  aliases:
+  - 'The Tolkien Treasury: Roverandom, Farmer Giles of Ham, the Adventures of Tom
+    Bombadil, Smith of Wootton Major'
+  preferred_publishers: []
+  preferred_formats:
+  - hardcover
+  isbn13: ''
+  max_price: 190.0
+  notes: Keepa set
+- key: the-first-law-trilogy--joe-abercrombie
+  title: The First Law Trilogy
+  author: Joe Abercrombie
+  series: The First Law
+  volume: 1
+  status: Want to Buy
+  language: en
+  priority: 1
+  enabled: true
+  aliases: []
+  preferred_publishers: []
+  preferred_formats:
+  - paperback
+  isbn13: ''
+  max_price: 180.0
+  notes: Keepa set
+- key: the-silo-series-boxed-set--hugh-howey
+  title: The Silo Series Boxed Set
+  author: Hugh Howey
+  series: Silo
+  volume: 1
+  status: Want to Buy
+  language: en
+  priority: 1
+  enabled: true
+  aliases:
+  - 'The Silo Series Boxed Set: Wool, Shift, Dust, and Silo Stories: 1-3'
+  preferred_publishers: []
+  preferred_formats:
+  - paperback
+  isbn13: ''
+  max_price: 110.0
+  notes: Keepa set
+- key: by-brandon-sanderson--brandon-sanderson
+  title: By Brandon Sanderson
+  author: Brandon Sanderson
+  series: Mistborn
+  volume: 1
+  status: Want to Buy
+  language: en
+  priority: 1
+  enabled: true
+  aliases:
+  - 'By Brandon Sanderson (The Mistborn) 7 Books Collection set: The Final Empire,
+    The Well Of Ascension, The Hero Of Ages, Alloy Of Law, SHADOWS OF SELF, The Bands
+    Of Mourning & The Lost Metal'
+  preferred_publishers: []
+  preferred_formats:
+  - paperback
+  isbn13: ''
+  max_price: 350.0
+  notes: Keepa set
+- key: mistborn-wax-wayne-the-complete-series--brandon-sanderson
+  title: Mistborn Wax & Wayne The Complete Series
+  author: Brandon Sanderson
+  series: Mistborn
+  volume: 1
+  status: Want to Buy
+  language: en
+  priority: 1
+  enabled: true
+  aliases:
+  - 'Mistborn Wax & Wayne The Complete Series: The Alloy of Law, Shadows of Self,
+    The Bands of Mourning, The Lost Metal: 1-4'
+  preferred_publishers: []
+  preferred_formats:
+  - paperback
+  isbn13: ''
+  max_price: 220.0
+  notes: Keepa set
+- key: the-dandelion-dynasty-4-books-collection-set-by-ken-liu--ken-liu
+  title: The Dandelion Dynasty 4 Books Collection Set By Ken Liu
+  author: Ken Liu
+  series: The Dandelion Dynasty
+  volume: 1
+  status: Want to Buy
+  language: en
+  priority: 1
+  enabled: true
+  aliases:
+  - The Dandelion Dynasty 4 Books Collection Set By Ken Liu (The Grace of Kings, The
+    Wall of Storms, The Veiled Throne & Speaking Bones)
+  preferred_publishers: []
+  preferred_formats:
+  - paperback
+  isbn13: ''
+  max_price: 260.0
+  notes: Keepa set
+- key: the-lies-of-locke-lamora-collector-s-tenth-anniversary-edition--scott-lynch
+  title: 'The Lies of Locke Lamora: Collector''s Tenth Anniversary Edition'
+  author: Scott Lynch
+  series: Gentleman Bastard
+  volume: 1
+  status: Want to Buy
+  language: en
+  priority: 1
+  enabled: true
+  aliases: []
+  preferred_publishers: []
+  preferred_formats:
+  - hardcover
+  isbn13: ''
+  max_price: 119.34
+  notes: Keepa edição específica
+- key: three-body-problem-boxed-set--cixin-liu
+  title: Three-Body Problem Boxed Set
+  author: Cixin Liu
+  series: Remembrance of Earth's Past
+  volume: 1
+  status: Want to Buy
+  language: en
+  priority: 1
+  enabled: true
+  aliases:
+  - 'Three-Body Problem Boxed Set: (The Three-Body Problem, the Dark Forest, Death''s
+    End)'
+  preferred_publishers: []
+  preferred_formats:
+  - paperback
+  isbn13: ''
+  max_price: 100.0
+  notes: Keepa set
+- key: the-gathering-storm--robert-jordan
+  title: The Gathering Storm
+  author: Robert Jordan
+  series: The Wheel of Time
+  volume: 12
+  status: Want to Buy
+  language: en
+  priority: 1
+  enabled: true
+  aliases:
+  - 'The Gathering Storm: Book Twelve of the Wheel of Time: 12'
+  preferred_publishers: []
+  preferred_formats:
+  - paperback
+  isbn13: ''
+  max_price: 110.0
+  notes: Keepa wishlist
+- key: the-path-of-daggers--robert-jordan
+  title: The Path of Daggers
+  author: Robert Jordan
+  series: The Wheel of Time
+  volume: 8
+  status: Want to Buy
+  language: en
+  priority: 1
+  enabled: true
+  aliases:
+  - 'The Path of Daggers: Book Eight of ''The Wheel of Time'': 8'
+  preferred_publishers: []
+  preferred_formats:
+  - paperback
+  isbn13: ''
+  max_price: 121.95
+  notes: Keepa wishlist
+- key: a-memory-of-light--robert-jordan
+  title: A Memory of Light
+  author: Robert Jordan
+  series: The Wheel of Time
+  volume: 14
+  status: Want to Buy
+  language: en
+  priority: 1
+  enabled: true
+  aliases:
+  - 'A Memory of Light: Book Fourteen of the Wheel of Time: 14'
+  preferred_publishers: []
+  preferred_formats:
+  - paperback
+  isbn13: ''
+  max_price: 104.0
+  notes: Keepa wishlist
+- key: best-served-cold--joe-abercrombie
+  title: Best Served Cold
+  author: Joe Abercrombie
+  series: The First Law
+  volume: 1
+  status: Want to Buy
+  language: en
+  priority: 1
+  enabled: true
+  aliases: []
+  preferred_publishers: []
+  preferred_formats:
+  - hardcover
+  isbn13: ''
+  max_price: 100.0
+  notes: Keepa wishlist
+- key: the-heroes--joe-abercrombie
+  title: The Heroes
+  author: Joe Abercrombie
+  series: The First Law
+  volume: 1
+  status: Want to Buy
+  language: en
+  priority: 1
+  enabled: true
+  aliases: []
+  preferred_publishers: []
+  preferred_formats:
+  - hardcover
+  isbn13: ''
+  max_price: 100.0
+  notes: Keepa wishlist
+- key: john-gwynne-faithful-and-the-fallen-collection-4-books-set-paperback-john-gwynne--john-gwynne
+  title: John Gwynne Faithful and the Fallen Collection 4 Books Set [Paperback] John
+    Gwynne
+  author: John Gwynne
+  series: The Faithful and the Fallen
+  volume: 1
+  status: Want to Buy
+  language: en
+  priority: 1
+  enabled: true
+  aliases: []
+  preferred_publishers: []
+  preferred_formats:
+  - paperback
+  isbn13: ''
+  max_price: 240.0
+  notes: Keepa wishlist
+- key: tawny-man-trilogy-series-3-books-set-by-robin-hobb--robin-hobb
+  title: Tawny Man Trilogy Series 3 Books Set By Robin Hobb
+  author: Robin Hobb
+  series: The Tawny Man Trilogy
+  volume: 1
+  status: Want to Buy
+  language: en
+  priority: 1
+  enabled: true
+  aliases:
+  - Tawny Man Trilogy Series 3 Books Set By Robin Hobb - Fool's Errand, Golden Fool,
+    Fool's Fate
+  preferred_publishers: []
+  preferred_formats:
+  - paperback
+  isbn13: ''
+  max_price: 240.0
+  notes: Keepa set
+- key: the-wheel-of-time-complete-set-of-15--robert-jordan
+  title: 'The Wheel of Time: Complete Set Of 15'
+  author: Robert Jordan
+  series: The Wheel of Time
+  volume: 1
+  status: Want to Buy
+  language: en
+  priority: 1
+  enabled: true
+  aliases: []
+  preferred_publishers: []
+  preferred_formats:
+  - paperback
+  isbn13: ''
+  max_price: 947.21
+  notes: Keepa set
+- key: frank-herbert-s-dune-saga-6-book-boxed-set--frank-herbert
+  title: Frank Herbert'S Dune Saga 6-Book Boxed Set
+  author: Frank Herbert
+  series: Dune
+  volume: 1
+  status: Want to Buy
+  language: en
+  priority: 1
+  enabled: true
+  aliases:
+  - 'Frank Herbert''S Dune Saga 6-Book Boxed Set: Dune, Dune Messiah, Children Of
+    Dune, God Emperor Of Dune, Heretics Of Dune, And Chapterhouse: Dune'
+  preferred_publishers: []
+  preferred_formats:
+  - hardcover
+  isbn13: ''
+  max_price: 280.0
+  notes: Keepa set
+- key: fitz-and-the-fool-trilogy-3-books-collection-set--robin-hobb
+  title: Fitz and the Fool Trilogy 3 Books Collection Set
+  author: Robin Hobb
+  series: The Fitz and the Fool
+  volume: 1
+  status: Want to Buy
+  language: en
+  priority: 1
+  enabled: true
+  aliases:
+  - Fitz and the Fool Trilogy 3 Books Collection Set - Fool's Assassin, Fool's Quest,
+    Assassin's Fate – Epic Fantasy Adventure
+  preferred_publishers: []
+  preferred_formats:
+  - paperback
+  isbn13: ''
+  max_price: 240.0
+  notes: Keepa set
+- key: the-wheel-of-time-complete-set-of-14--robert-jordan
+  title: 'The Wheel of Time: Complete Set of 14'
+  author: Robert Jordan
+  series: The Wheel of Time
+  volume: 1
+  status: Want to Buy
+  language: en
+  priority: 1
+  enabled: true
+  aliases: []
+  preferred_publishers: []
+  preferred_formats:
+  - paperback
+  isbn13: ''
+  max_price: 210000.0
+  notes: Keepa set
+- key: the-broken-earth-trilogy--n-k-jemisin
+  title: The Broken Earth Trilogy
+  author: N. K. Jemisin
+  series: The Broken Earth
+  volume: 1
+  status: Want to Buy
+  language: en
+  priority: 1
+  enabled: true
+  aliases:
+  - 'The Broken Earth Trilogy: The Fifth Season, the Obelisk Gate, the Stone Sky'
+  preferred_publishers: []
+  preferred_formats:
+  - paperback
+  isbn13: ''
+  max_price: 110.0
+  notes: Keepa set
+- key: red-country--joe-abercrombie
+  title: Red Country
+  author: Joe Abercrombie
+  series: The First Law
+  volume: 1
+  status: Want to Buy
+  language: en
+  priority: 1
+  enabled: true
+  aliases: []
+  preferred_publishers: []
+  preferred_formats:
+  - hardcover
+  isbn13: ''
+  max_price: 100.0
+  notes: Keepa wishlist
+- key: steven-erikson-10-books-collection-set--steven-erikson
+  title: Steven Erikson 10 Books Collection Set
+  author: Steven Erikson
+  series: Malazan Book of the Fallen
+  volume: 1
+  status: Want to Buy
+  language: en
+  priority: 1
+  enabled: true
+  aliases:
+  - Steven Erikson 10 Books Collection Set (Vol. 1-10) (The Malazan Book of the Fallen)
+  preferred_publishers: []
+  preferred_formats:
+  - paperback
+  isbn13: ''
+  max_price: 600.0
+  notes: Keepa set
+- key: the-murderbot-diaries-collection-7-hardcover-book-set--martha-wells
+  title: The Murderbot Diaries Collection 7 hardcover book set
+  author: Martha Wells
+  series: The Murderbot Diaries
+  volume: 1
+  status: Want to Buy
+  language: en
+  priority: 1
+  enabled: true
+  aliases:
+  - The Murderbot Diaries Collection 7 hardcover book set (All Systems Red, Artificial
+    Condition, Rogue Protocol, Exit Strategy,Network Effect, Fugitive Telemetry)
+  preferred_publishers: []
+  preferred_formats:
+  - hardcover
+  isbn13: ''
+  max_price: 450.25
+  notes: Keepa set
+- key: stormlight-archives-hc-box-set-1-4--brandon-sanderson
+  title: Stormlight Archives Hc Box Set 1-4
+  author: Brandon Sanderson
+  series: The Stormlight Archive
+  volume: 1
+  status: Want to Buy
+  language: en
+  priority: 1
+  enabled: true
+  aliases:
+  - 'Stormlight Archives Hc Box Set 1-4: The Way of Kings, Words of Radiance, Oathbringer,
+    Rhythm of War'
+  preferred_publishers: []
+  preferred_formats:
+  - hardcover
+  isbn13: ''
+  max_price: 420.0
+  notes: Keepa set
+- key: the-stormlight-archive-hardcover-boxed-set-books-1-5--brandon-sanderson
+  title: The Stormlight Archive Hardcover Boxed Set, Books 1-5
+  author: Brandon Sanderson
+  series: The Stormlight Archive
+  volume: 1
+  status: Want to Buy
+  language: en
+  priority: 1
+  enabled: true
+  aliases:
+  - 'The Stormlight Archive Hardcover Boxed Set, Books 1-5: The Way of Kings, Words
+    of Radiance, Oathbringer, Rhythm of War, Wind and Truth'
+  preferred_publishers: []
+  preferred_formats:
+  - hardcover
+  isbn13: ''
+  max_price: 620.0
+  notes: Keepa set
+- key: the-dragon-reborn--robert-jordan
+  title: The Dragon Reborn
+  author: Robert Jordan
+  series: The Wheel of Time
+  volume: 3
+  status: Want to Buy
+  language: en
+  priority: 1
+  enabled: true
+  aliases:
+  - 'The Dragon Reborn: Book Three of ''The Wheel of Time'': 3'
+  preferred_publishers: []
+  preferred_formats:
+  - paperback
+  isbn13: ''
+  max_price: 120.0
+  notes: Keepa wishlist
+- key: the-burning-god-collector-s-edition-an-epic-fantasy-of-war-magic-and-mythology-in-a-high-conflict-world-from-bestselling-author-r-f-kuang-3--r-f-kuang
+  title: 'The Burning God Collector''s Edition: An Epic Fantasy of War, Magic, and
+    Mythology in a High-Conflict World from Bestselling Author R. F. Kuang: 3'
+  author: R. F. Kuang
+  series: The Poppy War
+  volume: 3
+  status: Want to Buy
+  language: en
+  priority: 1
+  enabled: true
+  aliases: []
+  preferred_publishers: []
+  preferred_formats:
+  - hardcover
+  isbn13: ''
+  max_price: 120.0
+  notes: Keepa edição específica
+- key: the-stormlight-archive-boxed-set-part-two--brandon-sanderson
+  title: The Stormlight Archive Boxed Set Part Two
+  author: Brandon Sanderson
+  series: The Stormlight Archive
+  volume: 1
+  status: Want to Buy
+  language: en
+  priority: 1
+  enabled: true
+  aliases:
+  - 'The Stormlight Archive Boxed Set Part Two: Part Two'
+  preferred_publishers: []
+  preferred_formats:
+  - paperback
+  isbn13: ''
+  max_price: 250.0
+  notes: Keepa set
+- key: the-dandelion-dynasty-series-4-book-collection-set--ken-liu
+  title: The Dandelion Dynasty Series 4-Book Collection Set
+  author: Ken Liu
+  series: The Dandelion Dynasty
+  volume: 1
+  status: Want to Buy
+  language: en
+  priority: 1
+  enabled: true
+  aliases:
+  - The Dandelion Dynasty Series 4-Book Collection Set - Epic Silkpunk Fantasy Saga
+    - The Grace of Kings, The Wall of Storms, The Veiled Throne, Speaking Bones
+  preferred_publishers: []
+  preferred_formats:
+  - paperback
+  isbn13: ''
+  max_price: 400.21
+  notes: Keepa set
+- key: liveship-traders-trilogy-collection--robin-hobb
+  title: Liveship Traders Trilogy Collection
+  author: Robin Hobb
+  series: The Liveship Traders
+  volume: 1
+  status: Want to Buy
+  language: en
+  priority: 1
+  enabled: true
+  aliases:
+  - Liveship Traders Trilogy Collection (3 Paperback Books) - Mad Ship, Ship of Magic,
+    Ship of Destiny
+  preferred_publishers: []
+  preferred_formats:
+  - paperback
+  isbn13: ''
+  max_price: 240.0
+  notes: Keepa set

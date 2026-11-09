@@ -1,0 +1,134 @@
+# Consultas de autor geradas pelo import do Keepa.
+queries:
+- term: Evan Winter
+  kind: author
+  priority: 1
+  enabled: true
+- term: John Gwynne
+  kind: author
+  priority: 1
+  enabled: true
+- term: Becky Chambers
+  kind: author
+  priority: 1
+  enabled: true
+- term: Samantha Shannon
+  kind: author
+  priority: 1
+  enabled: true
+- term: Susanna Clarke
+  kind: author
+  priority: 1
+  enabled: true
+- term: Gene Wolfe
+  kind: author
+  priority: 1
+  enabled: true
+- term: R. F. Kuang
+  kind: author
+  priority: 1
+  enabled: true
+- term: Matt Dinniman
+  kind: author
+  priority: 1
+  enabled: true
+- term: Brandon Sanderson
+  kind: author
+  priority: 1
+  enabled: true
+- term: Guy Gavriel Kay
+  kind: author
+  priority: 1
+  enabled: true
+- term: Robert Jordan
+  kind: author
+  priority: 1
+  enabled: true
+- term: George R. R. Martin
+  kind: author
+  priority: 1
+  enabled: true
+- term: Cixin Liu
+  kind: author
+  priority: 1
+  enabled: true
+- term: Robert Jackson Bennett
+  kind: author
+  priority: 1
+  enabled: true
+- term: William Gibson
+  kind: author
+  priority: 1
+  enabled: true
+- term: J.R.R. Tolkien
+  kind: author
+  priority: 1
+  enabled: true
+- term: James S. A. Corey
+  kind: author
+  priority: 1
+  enabled: true
+- term: R. Scott Bakker
+  kind: author
+  priority: 1
+  enabled: true
+- term: Stephen Graham Jones
+  kind: author
+  priority: 1
+  enabled: true
+- term: Eiji Yoshikawa
+  kind: author
+  priority: 1
+  enabled: true
+- term: Patrick Rothfuss
+  kind: author
+  priority: 1
+  enabled: true
+- term: Dan Simmons
+  kind: author
+  priority: 1
+  enabled: true
+- term: Blake Crouch
+  kind: author
+  priority: 1
+  enabled: true
+- term: Joe Abercrombie
+  kind: author
+  priority: 1
+  enabled: true
+- term: Frank Herbert
+  kind: author
+  priority: 1
+  enabled: true
+- term: Robin Hobb
+  kind: author
+  priority: 1
+  enabled: true
+- term: Michael Crichton
+  kind: author
+  priority: 1
+  enabled: true
+- term: Hugh Howey
+  kind: author
+  priority: 1
+  enabled: true
+- term: Ken Liu
+  kind: author
+  priority: 1
+  enabled: true
+- term: Scott Lynch
+  kind: author
+  priority: 1
+  enabled: true
+- term: N. K. Jemisin
+  kind: author
+  priority: 1
+  enabled: true
+- term: Steven Erikson
+  kind: author
+  priority: 1
+  enabled: true
+- term: Martha Wells
+  kind: author
+  priority: 1
+  enabled: true

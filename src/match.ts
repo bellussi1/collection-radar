@@ -36,6 +36,10 @@ export function matchListing(
   const publisher = detectPublisher(haystack);
   const isbn = extractIsbn(haystack);
   const set = isSet(haystack);
+  const listingIsSet = /\b(set|boxed|box set|collection|trilogy|complete)\b/i.test(haystack);
+  const listingIsEdition = /\b(illustrated|deluxe|collector|collectors|anniversary|special|limited|signed)\b/i.test(
+    haystack
+  );
   const nonBook = /\b(cd|vinil|lp|jogo|board game|jogo de tabuleiro|action figure|camiseta|poster|pôster|mangá)\b/i.test(
     haystack
   );
@@ -46,6 +50,9 @@ export function matchListing(
 
   for (const work of works) {
     if (!work.enabled) continue;
+    // Sets e edições específicas do Keepa só casam com anúncios que também são set/edição.
+    if (work.notes.includes("Keepa set") && !listingIsSet) continue;
+    if (work.notes.includes("Keepa edição específica") && !listingIsEdition) continue;
 
     const reasons: string[] = [];
     let score = 0;

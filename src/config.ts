@@ -57,40 +57,103 @@ function loadIsbnOverrides(): Record<string, string> {
   }
 }
 
+interface KeepaOverride {
+  max_price?: number;
+  preferred_formats?: string[];
+  priority?: number;
+  enabled?: boolean;
+  notes?: string;
+}
+
+function toWork(item: unknown): Work {
+  const row = item as Record<string, unknown>;
+  return {
+    key: String(row.key ?? ""),
+    title: String(row.title ?? ""),
+    author: String(row.author ?? ""),
+    series: String(row.series ?? ""),
+    volume: Number(row.volume ?? 1),
+    status: String(row.status ?? "none"),
+    language: String(row.language ?? "en"),
+    priority: Number(row.priority ?? 3),
+    enabled: Boolean(row.enabled ?? true),
+    aliases: Array.isArray(row.aliases) ? row.aliases.map(String) : [],
+    preferred_publishers: Array.isArray(row.preferred_publishers)
+      ? row.preferred_publishers.map(String)
+      : [],
+    preferred_formats: Array.isArray(row.preferred_formats)
+      ? row.preferred_formats.map(String)
+      : [],
+    isbn13: String(row.isbn13 ?? ""),
+    max_price: Number(row.max_price ?? 150),
+    notes: String(row.notes ?? "")
+  } satisfies Work;
+}
+
+function loadKeepaWishlist(): { overrides: Record<string, KeepaOverride>; works: Work[] } {
+  try {
+    const data = readYaml("config/keepa-wishlist.yaml") as {
+      overrides?: Record<string, KeepaOverride>;
+      works?: unknown[];
+    } | null;
+    return {
+      overrides: data?.overrides ?? {},
+      works: Array.isArray(data?.works) ? data.works.map(toWork) : []
+    };
+  } catch {
+    return { overrides: {}, works: [] };
+  }
+}
+
 export function loadWorks(): Work[] {
   const data = readYaml("config/watchlist.yaml") as { works?: unknown[] } | null;
-  const works = Array.isArray(data?.works) ? data.works : [];
-  const overrides = loadIsbnOverrides();
-  return works.map((item) => {
-    const row = item as Record<string, unknown>;
+  const base = (Array.isArray(data?.works) ? data.works : []).map(toWork);
+  const keepa = loadKeepaWishlist();
+  const merged = base.map((work) => {
+    const override = keepa.overrides[work.key];
+    if (!override) return work;
     return {
-      key: String(row.key ?? ""),
-      title: String(row.title ?? ""),
-      author: String(row.author ?? ""),
-      series: String(row.series ?? ""),
-      volume: Number(row.volume ?? 1),
-      status: String(row.status ?? "none"),
-      language: String(row.language ?? "en"),
-      priority: Number(row.priority ?? 3),
-      enabled: Boolean(row.enabled ?? true),
-      aliases: Array.isArray(row.aliases) ? row.aliases.map(String) : [],
-      preferred_publishers: Array.isArray(row.preferred_publishers)
-        ? row.preferred_publishers.map(String)
-        : [],
-      preferred_formats: Array.isArray(row.preferred_formats)
-        ? row.preferred_formats.map(String)
-        : [],
-      isbn13: String(row.isbn13 ?? ""),
-      max_price: Number(row.max_price ?? 150),
-      notes: String(row.notes ?? "")
-    } satisfies Work;
-  }).map((work) => ({ ...work, isbn13: overrides[work.key] ?? work.isbn13 }));
+      ...work,
+      max_price: override.max_price ?? work.max_price,
+      preferred_formats: override.preferred_formats ?? work.preferred_formats,
+      priority: override.priority ?? work.priority,
+      enabled: override.enabled ?? work.enabled,
+      notes: override.notes ? `${work.notes} | ${override.notes}` : work.notes
+    };
+  });
+  const keys = new Set(merged.map((work) => work.key));
+  for (const work of keepa.works) {
+    if (!keys.has(work.key)) {
+      merged.push(work);
+      keys.add(work.key);
+    }
+  }
+  const isbn = loadIsbnOverrides();
+  return merged.map((work) => ({ ...work, isbn13: isbn[work.key] ?? work.isbn13 }));
+}
+
+function loadKeepaQueries(): QueryConfig[] {
+  try {
+    const data = readYaml("config/keepa-queries.yaml") as { queries?: unknown[] } | null;
+    return (Array.isArray(data?.queries) ? data.queries : [])
+      .map((item) => {
+        const row = item as Record<string, unknown>;
+        return {
+          term: String(row.term ?? "").trim(),
+          kind: String(row.kind ?? "author"),
+          priority: Number(row.priority ?? 3),
+          enabled: Boolean(row.enabled ?? true)
+        } satisfies QueryConfig;
+      })
+      .filter((query) => query.enabled && query.term.length > 1);
+  } catch {
+    return [];
+  }
 }
 
 export function loadQueries(): QueryConfig[] {
   const data = readYaml("config/queries.yaml") as { queries?: unknown[] } | null;
-  const queries = Array.isArray(data?.queries) ? data.queries : [];
-  return queries
+  const base = (Array.isArray(data?.queries) ? data.queries : [])
     .map((item) => {
       const row = item as Record<string, unknown>;
       return {
@@ -101,4 +164,12 @@ export function loadQueries(): QueryConfig[] {
       } satisfies QueryConfig;
     })
     .filter((query) => query.enabled && query.term.length > 1);
+
+  const byTerm = new Map<string, QueryConfig>();
+  for (const query of [...base, ...loadKeepaQueries()]) {
+    const key = query.term.toLowerCase();
+    const current = byTerm.get(key);
+    if (!current || query.priority < current.priority) byTerm.set(key, query);
+  }
+  return [...byTerm.values()];
 }
