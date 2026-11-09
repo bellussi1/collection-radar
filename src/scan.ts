@@ -66,6 +66,10 @@ export async function runScan(options: ScanOptions = {}): Promise<ScanStats> {
   }
 
   const startedAt = new Date().toISOString();
+  const sourceHealth: ScanStats["sourceHealth"] = {};
+  for (const source of sources) {
+    sourceHealth[source.name] = { queries: 0, listings: 0, errors: 0, blocked: false };
+  }
   const stats: ScanStats = {
     startedAt,
     finishedAt: startedAt,
@@ -75,7 +79,8 @@ export async function runScan(options: ScanOptions = {}): Promise<ScanStats> {
     newListings: 0,
     matches: 0,
     errors: 0,
-    bySource: {}
+    bySource: {},
+    sourceHealth
   };
 
   console.log(
@@ -91,10 +96,12 @@ export async function runScan(options: ScanOptions = {}): Promise<ScanStats> {
         let newListings = 0;
         let errors = 0;
         try {
+          sourceHealth[source.name]!.queries += 1;
           const listings = await source.search(query.term, options.limit ?? settings.scan.limit_per_query);
           found = listings.length;
           stats.pages += 1;
           stats.listings += listings.length;
+          sourceHealth[source.name]!.listings += listings.length;
 
           for (const listing of listings) {
             const stored = db.upsertListing(listing);
@@ -116,8 +123,10 @@ export async function runScan(options: ScanOptions = {}): Promise<ScanStats> {
         } catch (error) {
           errors += 1;
           stats.errors += 1;
+          sourceHealth[source.name]!.errors += 1;
           const message = error instanceof Error ? error.message : String(error);
           if (error instanceof SourceBlockedError) {
+            sourceHealth[source.name]!.blocked = true;
             console.warn(`  ${source.name.padEnd(13)} bloqueado: ${message}`);
             db.finishRun(runId, found, newListings, errors);
             // Se a fonte bloqueou, não adianta insistir nas próximas consultas desta rodada.
@@ -129,7 +138,15 @@ export async function runScan(options: ScanOptions = {}): Promise<ScanStats> {
         }
         await sleep(settings.scan.delay_ms);
       }
+      const health = sourceHealth[source.name]!;
       console.log(`  ${source.name}: ${sourceCount} anúncios nesta rodada`);
+      if (health.blocked) {
+        console.warn(`  atenção: ${source.name} foi bloqueado nesta rodada`);
+      } else if (health.queries >= 2 && health.listings === 0) {
+        console.warn(
+          `  atenção: ${source.name} retornou 0 anúncios em ${health.queries} consultas — possível bloqueio ou mudança de layout`
+        );
+      }
     }
   } finally {
     await closeBrowser();

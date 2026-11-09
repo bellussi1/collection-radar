@@ -57,6 +57,13 @@ O Mercado Livre funciona sem token pela página, mas é instável. Se quiser a A
 oficial, crie um app em https://developers.mercadolivre.com.br e preencha
 `ML_ACCESS_TOKEN`.
 
+O `npm run enrich` usa Open Library e Google Books. Sem chave, o Google Books
+costuma responder 429; crie uma chave gratuita no Google Cloud Console
+(Books API) e preencha `GOOGLE_BOOKS_API_KEY`. As propostas ficam em
+`config/isbn-proposals.yaml`; os ISBNs com confiança suficiente vão para
+`config/isbn-overrides.yaml`, que o radar aplica por cima da watchlist. Revise
+antes de confiar: a API não sabe distinguir com perfeição hardcover de paperback.
+
 ## Comandos
 
 ```powershell
@@ -66,6 +73,7 @@ npm run scan -- --max-queries 10 --no-email
 npm run scan                       # varredura completa + e-mail
 npm run digest                     # reenvia os matches dos últimos 7 dias
 npm run email:test                 # testa o SMTP configurado
+npm run enrich -- --limit 50       # propõe ISBNs via Open Library/Google Books
 npm test
 npm run typecheck
 ```

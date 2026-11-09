@@ -1531,6 +1531,21 @@ works:
     isbn13: ""
     max_price: 150
     notes: "LitRPG,Fiction,Speculative Fiction,Fantasy,EN,Science Fantasy"
+  - key: "the-ocean-at-the-end-of-the-lane--neil-gaiman"
+    title: "The Ocean at the End of the Lane"
+    author: "Neil Gaiman"
+    series: ""
+    volume: 1.0
+    status: "none"
+    language: "en"
+    priority: 1
+    enabled: true
+    aliases: ["O Oceano no Fim do Caminho"]
+    preferred_publishers: []
+    preferred_formats: ["hardcover", "paperback"]
+    isbn13: ""
+    max_price: 150
+    notes: "PT-PT,Fiction,Speculative Fiction,Fantasy,Literary Fiction"
   - key: "the-name-of-the-wind--patrick-rothfuss"
     title: "The Name of the Wind"
     author: "Patrick Rothfuss"
@@ -2146,21 +2161,6 @@ works:
     isbn13: ""
     max_price: 150
     notes: "Fiction,Speculative Fiction,Fantasy,PT-BR,Literary Fiction"
-  - key: "daisy-jones-the-six--taylor-jenkins-reid"
-    title: "Daisy Jones & The Six"
-    author: "Taylor Jenkins Reid"
-    series: ""
-    volume: 1.0
-    status: "Currently Reading"
-    language: "en"
-    priority: 1
-    enabled: true
-    aliases: []
-    preferred_publishers: []
-    preferred_formats: ["hardcover", "paperback"]
-    isbn13: ""
-    max_price: 150
-    notes: "Fiction,PT-BR,Literary Fiction,Historical Fiction"
   - key: "the-dispossessed--ursula-k-le-guin"
     title: "The Dispossessed"
     author: "Ursula K. Le Guin"
@@ -2341,21 +2341,6 @@ works:
     isbn13: ""
     max_price: 120
     notes: "Horror,Fiction,Speculative Fiction,EN,Dark Fantasy"
-  - key: "the-grapes-of-wrath--john-steinbeck"
-    title: "The Grapes of Wrath"
-    author: "John Steinbeck"
-    series: ""
-    volume: 1.0
-    status: "Want to Read"
-    language: "en"
-    priority: 2
-    enabled: true
-    aliases: []
-    preferred_publishers: []
-    preferred_formats: ["hardcover", "paperback"]
-    isbn13: ""
-    max_price: 120
-    notes: "Fiction,PT-BR,Classic,Literary Fiction,Historical Fiction"
   - key: "never-let-me-go--kazuo-ishiguro"
     title: "Never Let Me Go"
     author: "Kazuo Ishiguro"
@@ -2461,21 +2446,6 @@ works:
     isbn13: ""
     max_price: 120
     notes: "Fiction,Speculative Fiction,PT-BR,Science Fiction,Thriller"
-  - key: "pachinko--min-jin-lee"
-    title: "Pachinko"
-    author: "Min Jin Lee"
-    series: ""
-    volume: 1.0
-    status: "Want to Read"
-    language: "en"
-    priority: 2
-    enabled: true
-    aliases: []
-    preferred_publishers: []
-    preferred_formats: ["hardcover", "paperback"]
-    isbn13: ""
-    max_price: 120
-    notes: "Fiction,PT-BR,Literary Fiction,Historical Fiction,Family Saga"
   - key: "the-fifth-season--n-k-jemisin"
     title: "The Fifth Season"
     author: "N. K. Jemisin"
@@ -2986,6 +2956,21 @@ works:
     isbn13: ""
     max_price: 100
     notes: "Fiction,Speculative Fiction,PT-BR,Literary Fiction,Dystopian"
+  - key: "the-grapes-of-wrath--john-steinbeck"
+    title: "The Grapes of Wrath"
+    author: "John Steinbeck"
+    series: ""
+    volume: 1.0
+    status: "Want to Read"
+    language: "en"
+    priority: 3
+    enabled: false
+    aliases: []
+    preferred_publishers: []
+    preferred_formats: ["hardcover", "paperback"]
+    isbn13: ""
+    max_price: 100
+    notes: "Fiction,PT-BR,Classic,Literary Fiction,Historical Fiction"
   - key: "manifest-der-kommunistischen-partei--karl-marx"
     title: "Manifest der Kommunistischen Partei"
     author: "Karl Marx & Friedrich Engels"
@@ -3121,21 +3106,21 @@ works:
     isbn13: ""
     max_price: 100
     notes: "Fiction,Speculative Fiction,PT-BR,Classic,Literary Fiction,Magical Realism,Satire"
-  - key: "the-ocean-at-the-end-of-the-lane--neil-gaiman"
-    title: "The Ocean at the End of the Lane"
-    author: "Neil Gaiman"
+  - key: "pachinko--min-jin-lee"
+    title: "Pachinko"
+    author: "Min Jin Lee"
     series: ""
     volume: 1.0
-    status: "none"
+    status: "Want to Read"
     language: "en"
     priority: 3
     enabled: false
-    aliases: ["O Oceano no Fim do Caminho"]
+    aliases: []
     preferred_publishers: []
     preferred_formats: ["hardcover", "paperback"]
     isbn13: ""
     max_price: 100
-    notes: "PT-PT,Fiction,Speculative Fiction,Fantasy,Literary Fiction"
+    notes: "Fiction,PT-BR,Literary Fiction,Historical Fiction,Family Saga"
   - key: "2666--roberto-bolano"
     title: "2666"
     author: "Roberto Bolaño"
@@ -3211,6 +3196,21 @@ works:
     isbn13: ""
     max_price: 100
     notes: "Horror,Fiction,Speculative Fiction,PT-BR,Classic"
+  - key: "daisy-jones-the-six--taylor-jenkins-reid"
+    title: "Daisy Jones & The Six"
+    author: "Taylor Jenkins Reid"
+    series: ""
+    volume: 1.0
+    status: "Currently Reading"
+    language: "en"
+    priority: 3
+    enabled: false
+    aliases: []
+    preferred_publishers: []
+    preferred_formats: ["hardcover", "paperback"]
+    isbn13: ""
+    max_price: 100
+    notes: "Fiction,PT-BR,Literary Fiction,Historical Fiction"
   - key: "the-lathe-of-heaven--ursula-k-le-guin"
     title: "The Lathe of Heaven"
     author: "Ursula K. Le Guin"

@@ -43,9 +43,24 @@ export function loadSettings(): Settings {
   };
 }
 
+function loadIsbnOverrides(): Record<string, string> {
+  try {
+    const data = readYaml("config/isbn-overrides.yaml") as Record<string, unknown> | null;
+    if (!data) return {};
+    return Object.fromEntries(
+      Object.entries(data)
+        .filter(([, value]) => typeof value === "string")
+        .map(([key, value]) => [key, value as string])
+    );
+  } catch {
+    return {};
+  }
+}
+
 export function loadWorks(): Work[] {
   const data = readYaml("config/watchlist.yaml") as { works?: unknown[] } | null;
   const works = Array.isArray(data?.works) ? data.works : [];
+  const overrides = loadIsbnOverrides();
   return works.map((item) => {
     const row = item as Record<string, unknown>;
     return {
@@ -69,7 +84,7 @@ export function loadWorks(): Work[] {
       max_price: Number(row.max_price ?? 150),
       notes: String(row.notes ?? "")
     } satisfies Work;
-  });
+  }).map((work) => ({ ...work, isbn13: overrides[work.key] ?? work.isbn13 }));
 }
 
 export function loadQueries(): QueryConfig[] {

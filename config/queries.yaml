@@ -112,6 +112,10 @@ queries:
     kind: "author"
     priority: 1
     enabled: true
+  - term: "Neil Gaiman"
+    kind: "author"
+    priority: 1
+    enabled: true
   - term: "Patrick Rothfuss"
     kind: "author"
     priority: 1
@@ -125,10 +129,6 @@ queries:
     priority: 1
     enabled: true
   - term: "Susanna Clarke"
-    kind: "author"
-    priority: 1
-    enabled: true
-  - term: "Taylor Jenkins Reid"
     kind: "author"
     priority: 1
     enabled: true
@@ -292,10 +292,6 @@ queries:
     kind: "title"
     priority: 1
     enabled: true
-  - term: "Daisy Jones & The Six"
-    kind: "title"
-    priority: 1
-    enabled: true
   - term: "Dark Matter"
     kind: "title"
     priority: 1
@@ -336,6 +332,10 @@ queries:
     kind: "title"
     priority: 1
     enabled: true
+  - term: "The Ocean at the End of the Lane"
+    kind: "title"
+    priority: 1
+    enabled: true
   - term: "The Road"
     kind: "title"
     priority: 1
@@ -372,6 +372,10 @@ queries:
     kind: "alias"
     priority: 1
     enabled: true
+  - term: "O Oceano no Fim do Caminho"
+    kind: "alias"
+    priority: 1
+    enabled: true
   - term: "Andrew Givler"
     kind: "author"
     priority: 2
@@ -381,10 +385,6 @@ queries:
     priority: 2
     enabled: true
   - term: "Joe Hill"
-    kind: "author"
-    priority: 2
-    enabled: true
-  - term: "John Steinbeck"
     kind: "author"
     priority: 2
     enabled: true
@@ -401,10 +401,6 @@ queries:
     priority: 2
     enabled: true
   - term: "Michael Crichton"
-    kind: "author"
-    priority: 2
-    enabled: true
-  - term: "Min Jin Lee"
     kind: "author"
     priority: 2
     enabled: true

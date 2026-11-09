@@ -88,4 +88,8 @@ export interface ScanStats {
   matches: number;
   errors: number;
   bySource: Record<string, number>;
+  sourceHealth: Record<
+    string,
+    { queries: number; listings: number; errors: number; blocked: boolean }
+  >;
 }

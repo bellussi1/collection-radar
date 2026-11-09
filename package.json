@@ -8,6 +8,7 @@
     "scan": "tsx src/index.ts scan",
     "digest": "tsx src/index.ts digest",
     "email:test": "tsx src/index.ts email-test",
+    "enrich": "tsx src/enrich.ts",
     "watchlist": "tsx src/index.ts watchlist",
     "sources": "tsx src/index.ts sources",
     "test": "tsx --test tests/*.test.ts",

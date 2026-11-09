@@ -62,9 +62,21 @@ priority_authors = {
     "dan simmons", "cixin liu", "jeff vandermeer", "ursula k. le guin", "gene wolfe",
     "china mieville", "martha wells", "arkady martine", "john scalzi", "fonda lee",
     "r. f. kuang", "susanna clarke", "andy weir", "j.r.r. tolkien", "robert jordan",
-    "glen cook", "m. l. wang", "becky chambers", "larry mcmurtry", "jacqueline harpman",
-    "daniel keyes", "neil gaiman", "albert camus", "gabriel garcia marquez",
+    "glen cook", "m. l. wang", "becky chambers", "neil gaiman",
     "arkadi strugatski & boris strugatski",
+}
+
+sf_f_tags = {
+    "fantasy", "science fiction", "grimdark", "space opera", "epic fantasy",
+    "high fantasy", "litrpg", "science fantasy", "horror", "dystopian",
+    "cyberpunk", "military fantasy", "historical fantasy", "urban fantasy",
+    "progression fantasy", "silkpunk", "dark fantasy", "weird fiction",
+    "post apocalyptic", "apocalyptic", "sword and sorcery",
+}
+
+literary_tags = {
+    "literary fiction", "magical realism", "historical fiction", "romance",
+    "family saga", "classic",
 }
 
 publisher_map = {
@@ -147,17 +159,26 @@ for r in rows:
             w["status"] = "Want to Read"
         continue
 
+    tag_set = {norm(t) for t in tags.split(",") if t.strip()}
+    is_sf_f = bool(tag_set & sf_f_tags) or (
+        "speculative fiction" in tag_set and not (tag_set & literary_tags)
+    )
     is_priority_author = any(a in norm(author) for a in priority_authors)
-    if is_priority_author or status in ("Read", "Currently Reading"):
+    keep_literary = norm(author) == "cormac mccarthy"
+
+    if not is_sf_f and not is_priority_author and not keep_literary:
+        # Fora do escopo: ficção literária, romance, não ficção etc.
+        priority = 3
+        enabled = False
+    elif is_priority_author or keep_literary or status in ("Read", "Currently Reading"):
         priority = 1
+        enabled = True
     elif status == "Want to Read":
         priority = 2
+        enabled = True
     else:
         priority = 3
-
-    # literary/non-SF-F gets lower priority
-    if norm(author) in ("albert camus", "gabriel garcia marquez", "larry mcmurtry", "jacqueline harpman", "daniel keyes", "neil gaiman", "pachinko"):
-        priority = max(priority, 3)
+        enabled = False
 
     preferred = publisher_map.get(norm(author), [])
     aliases = []
@@ -175,7 +196,7 @@ for r in rows:
         "status": status or "none",
         "language": "en",
         "priority": priority,
-        "enabled": priority <= 2,
+        "enabled": enabled,
         "aliases": sorted(set(aliases)),
         "preferred_publishers": preferred,
         "preferred_formats": ["hardcover", "paperback"],

@@ -112,6 +112,21 @@ export function buildDigest(
     })
     .join("");
 
+  const healthLines = Object.entries(stats.sourceHealth ?? {}).map(([source, health]) => {
+    const label = sourceLabel(source);
+    if (health.blocked) return `${label}: bloqueado`;
+    if (health.queries >= 2 && health.listings === 0) {
+      return `${label}: 0 anúncios em ${health.queries} consultas (atenção)`;
+    }
+    return `${label}: ${health.listings} anúncios`;
+  });
+  const healthHtml =
+    healthLines.length > 0
+      ? `<p style="font-size:12px;color:#6c757d;line-height:1.6;margin:10px 0 0">${healthLines
+          .map(escapeHtml)
+          .join(" · ")}</p>`
+      : "";
+
   const empty = `
     <p style="font-size:14px;color:#495057;line-height:1.6">
       Nenhum anúncio novo passou do corte de confiança nesta varredura. O radar continua rodando.
@@ -131,6 +146,7 @@ export function buildDigest(
             ${items.length} anúncio${items.length === 1 ? "" : "s"} novo${items.length === 1 ? "" : "s"} com match.
             ${stats.queries} consultas · ${stats.pages} páginas · ${stats.errors} erro${stats.errors === 1 ? "" : "s"}.
           </p>
+          ${healthHtml}
         </td></tr>
         <tr><td style="padding:0 24px 24px">
           ${items.length === 0 ? empty : rowsHtml}
@@ -147,6 +163,7 @@ export function buildDigest(
   const textLines = [
     `Radar de coleção — ${date}`,
     `${items.length} anúncio(s) novo(s) com match.`,
+    ...(healthLines.length > 0 ? [healthLines.join(" · ")] : []),
     ""
   ];
   for (const item of sorted) {

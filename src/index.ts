@@ -143,7 +143,8 @@ async function runDigest(): Promise<void> {
     newListings: rows.length,
     matches: rows.length,
     errors: 0,
-    bySource: {}
+    bySource: {},
+    sourceHealth: {}
   });
   const result = await sendDigest({
     subject: digest.subject,
