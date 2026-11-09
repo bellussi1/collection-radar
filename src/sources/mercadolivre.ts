@@ -77,8 +77,13 @@ export class MercadoLivreSource implements Source {
         .catch(() => undefined);
 
       const bodyText = (await page.locator("body").innerText().catch(() => "")).replace(/\s+/g, " ");
-      if (bodyText.includes("Hubo un error accediendo") || bodyText.includes("Acesso negado")) {
-        throw new SourceBlockedError("mercadolivre", "Mercado Livre retornou erro de acesso");
+      if (
+        bodyText.includes("Hubo un error accediendo") ||
+        bodyText.includes("Acesso negado") ||
+        bodyText.includes("Just a moment") ||
+        bodyText.includes("Attention Required")
+      ) {
+        throw new SourceBlockedError("mercadolivre", "Mercado Livre retornou erro de acesso/bloqueio");
       }
 
       const cards = (await page.$$eval("li.ui-search-layout__item", (elements, max) => {

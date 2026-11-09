@@ -1,19 +1,35 @@
 # Consultas geradas a partir da watchlist. Ajuste a prioridade e os termos.
 queries:
-  - term: "A Fúria do Assassino"
-    kind: "alias"
+  - term: "Brandon Sanderson"
+    kind: "author"
     priority: 1
     enabled: true
-  - term: "Império do Silêncio"
-    kind: "alias"
+  - term: "Christopher Ruocchio"
+    kind: "author"
     priority: 1
     enabled: true
-  - term: "O Aprendiz de Assassino"
-    kind: "alias"
+  - term: "Cormac McCarthy"
+    kind: "author"
     priority: 1
     enabled: true
-  - term: "O Assassino do Rei"
-    kind: "alias"
+  - term: "Frank Herbert"
+    kind: "author"
+    priority: 1
+    enabled: true
+  - term: "Matt Dinniman"
+    kind: "author"
+    priority: 1
+    enabled: true
+  - term: "Pierce Brown"
+    kind: "author"
+    priority: 1
+    enabled: true
+  - term: "Robin Hobb"
+    kind: "author"
+    priority: 1
+    enabled: true
+  - term: "Steven Erikson"
+    kind: "author"
     priority: 1
     enabled: true
   - term: "Andy Weir"
@@ -32,10 +48,6 @@ queries:
     kind: "author"
     priority: 1
     enabled: true
-  - term: "Brandon Sanderson"
-    kind: "author"
-    priority: 1
-    enabled: true
   - term: "China Miéville"
     kind: "author"
     priority: 1
@@ -44,15 +56,7 @@ queries:
     kind: "author"
     priority: 1
     enabled: true
-  - term: "Christopher Ruocchio"
-    kind: "author"
-    priority: 1
-    enabled: true
   - term: "Cixin Liu"
-    kind: "author"
-    priority: 1
-    enabled: true
-  - term: "Cormac McCarthy"
     kind: "author"
     priority: 1
     enabled: true
@@ -61,10 +65,6 @@ queries:
     priority: 1
     enabled: true
   - term: "Fonda Lee"
-    kind: "author"
-    priority: 1
-    enabled: true
-  - term: "Frank Herbert"
     kind: "author"
     priority: 1
     enabled: true
@@ -112,15 +112,7 @@ queries:
     kind: "author"
     priority: 1
     enabled: true
-  - term: "Matt Dinniman"
-    kind: "author"
-    priority: 1
-    enabled: true
   - term: "Patrick Rothfuss"
-    kind: "author"
-    priority: 1
-    enabled: true
-  - term: "Pierce Brown"
     kind: "author"
     priority: 1
     enabled: true
@@ -128,15 +120,7 @@ queries:
     kind: "author"
     priority: 1
     enabled: true
-  - term: "Robin Hobb"
-    kind: "author"
-    priority: 1
-    enabled: true
   - term: "Scott Lynch"
-    kind: "author"
-    priority: 1
-    enabled: true
-  - term: "Steven Erikson"
     kind: "author"
     priority: 1
     enabled: true
@@ -370,6 +354,22 @@ queries:
     enabled: true
   - term: "Warbreaker"
     kind: "title"
+    priority: 1
+    enabled: true
+  - term: "A Fúria do Assassino"
+    kind: "alias"
+    priority: 1
+    enabled: true
+  - term: "Império do Silêncio"
+    kind: "alias"
+    priority: 1
+    enabled: true
+  - term: "O Aprendiz de Assassino"
+    kind: "alias"
+    priority: 1
+    enabled: true
+  - term: "O Assassino do Rei"
+    kind: "alias"
     priority: 1
     enabled: true
   - term: "Andrew Givler"

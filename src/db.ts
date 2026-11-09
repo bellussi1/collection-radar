@@ -77,6 +77,10 @@ export class RadarDb {
         new_listings INTEGER DEFAULT 0,
         errors INTEGER DEFAULT 0
       );
+      CREATE TABLE IF NOT EXISTS kv (
+        key TEXT PRIMARY KEY,
+        value TEXT NOT NULL
+      );
       CREATE INDEX IF NOT EXISTS idx_listings_first_seen ON listings(first_seen);
       CREATE INDEX IF NOT EXISTS idx_matches_work_key ON matches(work_key);
     `);
@@ -229,6 +233,22 @@ export class RadarDb {
   countListings(): number {
     const row = this.db.prepare("SELECT COUNT(*) AS count FROM listings").get() as { count: number };
     return row.count;
+  }
+
+  getKv(key: string): string | null {
+    const row = this.db.prepare("SELECT value FROM kv WHERE key = ?").get(key) as
+      | { value: string }
+      | undefined;
+    return row?.value ?? null;
+  }
+
+  setKv(key: string, value: string): void {
+    this.db
+      .prepare(`
+        INSERT INTO kv (key, value) VALUES (?, ?)
+        ON CONFLICT(key) DO UPDATE SET value = excluded.value
+      `)
+      .run(key, value);
   }
 
   close(): void {

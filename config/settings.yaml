@@ -1,6 +1,6 @@
 scan:
-  # 0 = todas as consultas. Para testar, use --max-queries 10.
-  max_queries: 0
+  # 0 = todas as consultas. Com 40, o radar roda 40 por vez e retoma de onde parou.
+  max_queries: 40
   limit_per_query: 30
   # Pausa entre consultas para não irritar os sites.
   delay_ms: 2500

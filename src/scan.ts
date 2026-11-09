@@ -43,9 +43,6 @@ export async function runScan(options: ScanOptions = {}): Promise<ScanStats> {
   if (options.maxQueries && options.maxQueries > 0) {
     queries = queries.slice(0, options.maxQueries);
   }
-  if (settings.scan.max_queries > 0) {
-    queries = queries.slice(0, settings.scan.max_queries);
-  }
 
   const sources = createSources(settings).filter(
     (source) => !options.source || source.name === options.source
@@ -59,6 +56,15 @@ export async function runScan(options: ScanOptions = {}): Promise<ScanStats> {
   }
 
   const db = new RadarDb(options.dbPath ?? "data/radar.db");
+  const explicitFilter = Boolean(options.query || options.queries?.length || options.maxQueries);
+  if (!explicitFilter && settings.scan.max_queries > 0 && queries.length > settings.scan.max_queries) {
+    const totalQueries = queries.length;
+    const cursor = Number(db.getKv("query_cursor") ?? 0) % totalQueries;
+    const rotated = [...queries.slice(cursor), ...queries.slice(0, cursor)];
+    queries = rotated.slice(0, settings.scan.max_queries);
+    db.setKv("query_cursor", String((cursor + queries.length) % totalQueries));
+  }
+
   const startedAt = new Date().toISOString();
   const stats: ScanStats = {
     startedAt,
