@@ -1,0 +1,21 @@
+scan:
+  # 0 = todas as consultas. Para testar, use --max-queries 10.
+  max_queries: 0
+  limit_per_query: 30
+  # Pausa entre consultas para não irritar os sites.
+  delay_ms: 2500
+  # Corte de confiança para entrar no digest.
+  min_score: 0.62
+  # Reservado para alerta imediato (o MVP manda um digest por rodada).
+  immediate_score: 0.82
+  max_age_days: 30
+
+sources:
+  estante: true
+  olx: true
+  mercadolivre: true
+  enjoei: true
+
+email:
+  enabled: true
+  to: enzobellussi3@gmail.com

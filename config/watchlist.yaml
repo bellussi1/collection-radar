@@ -1,0 +1,3228 @@
+# Gerado a partir da biblioteca Calibre em 2026-11-09.
+# Edite à vontade: o radar lê este arquivo a cada execução.
+works:
+  - key: "the-martian--andy-weir"
+    title: "The Martian"
+    author: "Andy Weir"
+    series: ""
+    volume: 1.0
+    status: "Want to Read"
+    language: "en"
+    priority: 1
+    enabled: true
+    aliases: []
+    preferred_publishers: ["Crown", "Broadway"]
+    preferred_formats: ["hardcover", "paperback"]
+    isbn13: ""
+    max_price: 150
+    notes: "Fiction,Speculative Fiction,PT-BR,Science Fiction,Hard Science Fiction"
+  - key: "project-hail-mary--andy-weir"
+    title: "Project Hail Mary"
+    author: "Andy Weir"
+    series: ""
+    volume: 1.0
+    status: "Want to Read"
+    language: "en"
+    priority: 1
+    enabled: true
+    aliases: []
+    preferred_publishers: ["Crown", "Broadway"]
+    preferred_formats: ["hardcover", "paperback"]
+    isbn13: ""
+    max_price: 150
+    notes: "Fiction,Speculative Fiction,PT-BR,Science Fiction,Hard Science Fiction"
+  - key: "a-memory-called-empire--arkady-martine"
+    title: "A Memory Called Empire"
+    author: "Arkady Martine"
+    series: "Teixcalaan"
+    volume: 1.0
+    status: "Want to Read"
+    language: "en"
+    priority: 1
+    enabled: true
+    aliases: []
+    preferred_publishers: ["Tor"]
+    preferred_formats: ["hardcover", "paperback"]
+    isbn13: ""
+    max_price: 150
+    notes: "Fiction,Speculative Fiction,PT-BR,Science Fiction,Space Opera,Political Fiction"
+  - key: "a-desolation-called-peace--arkady-martine"
+    title: "A Desolation Called Peace"
+    author: "Arkady Martine"
+    series: "Teixcalaan"
+    volume: 2.0
+    status: "Want to Read"
+    language: "en"
+    priority: 1
+    enabled: true
+    aliases: []
+    preferred_publishers: ["Tor"]
+    preferred_formats: ["hardcover", "paperback"]
+    isbn13: ""
+    max_price: 150
+    notes: "Fiction,Speculative Fiction,PT-BR,Science Fiction,Space Opera,Political Fiction"
+  - key: "a-psalm-for-the-wild-built--becky-chambers"
+    title: "A Psalm for the Wild-Built"
+    author: "Becky Chambers"
+    series: ""
+    volume: 1.0
+    status: "Read"
+    language: "en"
+    priority: 1
+    enabled: true
+    aliases: []
+    preferred_publishers: []
+    preferred_formats: ["hardcover", "paperback"]
+    isbn13: ""
+    max_price: 150
+    notes: "Fiction,Speculative Fiction,PT-BR,Science Fiction,Solarpunk"
+  - key: "dark-matter--blake-crouch"
+    title: "Dark Matter"
+    author: "Blake Crouch"
+    series: ""
+    volume: 1.0
+    status: "Read"
+    language: "en"
+    priority: 1
+    enabled: true
+    aliases: []
+    preferred_publishers: []
+    preferred_formats: ["hardcover", "paperback"]
+    isbn13: ""
+    max_price: 150
+    notes: "Fiction,Speculative Fiction,PT-BR,Science Fiction,Thriller"
+  - key: "the-sunlit-man--brandon-sanderson"
+    title: "The Sunlit Man"
+    author: "Brandon Sanderson"
+    series: ""
+    volume: 1.0
+    status: "Want to Read"
+    language: "en"
+    priority: 1
+    enabled: true
+    aliases: []
+    preferred_publishers: ["Tor", "Gollancz"]
+    preferred_formats: ["hardcover", "paperback"]
+    isbn13: ""
+    max_price: 150
+    notes: "Cosmere,Fiction,Speculative Fiction,Fantasy,PT-BR,Science Fantasy"
+  - key: "warbreaker--brandon-sanderson"
+    title: "Warbreaker"
+    author: "Brandon Sanderson"
+    series: ""
+    volume: 2.0
+    status: "Want to Read"
+    language: "en"
+    priority: 1
+    enabled: true
+    aliases: []
+    preferred_publishers: ["Tor", "Gollancz"]
+    preferred_formats: ["hardcover", "paperback"]
+    isbn13: ""
+    max_price: 150
+    notes: "Cosmere,Fiction,Speculative Fiction,Fantasy,PT-BR,High Fantasy"
+  - key: "tress-of-the-emerald-sea--brandon-sanderson"
+    title: "Tress of the Emerald Sea"
+    author: "Brandon Sanderson"
+    series: ""
+    volume: 3.0
+    status: "Want to Read"
+    language: "en"
+    priority: 1
+    enabled: true
+    aliases: []
+    preferred_publishers: ["Tor", "Gollancz"]
+    preferred_formats: ["hardcover", "paperback"]
+    isbn13: ""
+    max_price: 150
+    notes: "Cosmere,Fiction,Speculative Fiction,Fantasy,PT-BR"
+  - key: "the-final-empire--brandon-sanderson"
+    title: "The Final Empire"
+    author: "Brandon Sanderson"
+    series: "Mistborn"
+    volume: 1.0
+    status: "Read"
+    language: "en"
+    priority: 1
+    enabled: true
+    aliases: []
+    preferred_publishers: ["Tor", "Gollancz"]
+    preferred_formats: ["hardcover", "paperback"]
+    isbn13: ""
+    max_price: 150
+    notes: "Cosmere,Fiction,Speculative Fiction,Fantasy,Epic Fantasy,PT-BR,High Fantasy"
+  - key: "the-well-of-ascension--brandon-sanderson"
+    title: "The Well of Ascension"
+    author: "Brandon Sanderson"
+    series: "Mistborn"
+    volume: 2.0
+    status: "Read"
+    language: "en"
+    priority: 1
+    enabled: true
+    aliases: []
+    preferred_publishers: ["Tor", "Gollancz"]
+    preferred_formats: ["hardcover", "paperback"]
+    isbn13: ""
+    max_price: 150
+    notes: "Cosmere,Fiction,Speculative Fiction,Fantasy,Epic Fantasy,PT-BR,High Fantasy"
+  - key: "the-hero-of-ages--brandon-sanderson"
+    title: "The Hero of Ages"
+    author: "Brandon Sanderson"
+    series: "Mistborn"
+    volume: 3.0
+    status: "Read"
+    language: "en"
+    priority: 1
+    enabled: true
+    aliases: []
+    preferred_publishers: ["Tor", "Gollancz"]
+    preferred_formats: ["hardcover", "paperback"]
+    isbn13: ""
+    max_price: 150
+    notes: "Cosmere,Fiction,Speculative Fiction,Fantasy,Epic Fantasy,PT-BR,High Fantasy"
+  - key: "mistborn-secret-history--brandon-sanderson"
+    title: "Mistborn: Secret History"
+    author: "Brandon Sanderson"
+    series: "Mistborn"
+    volume: 3.5
+    status: "none"
+    language: "en"
+    priority: 1
+    enabled: true
+    aliases: []
+    preferred_publishers: ["Tor", "Gollancz"]
+    preferred_formats: ["hardcover", "paperback"]
+    isbn13: ""
+    max_price: 150
+    notes: "Cosmere,Fiction,Speculative Fiction,Fantasy,Epic Fantasy,PT-BR,High Fantasy"
+  - key: "the-way-of-kings--brandon-sanderson"
+    title: "The Way of Kings"
+    author: "Brandon Sanderson"
+    series: "The Stormlight Archive"
+    volume: 1.0
+    status: "Want to Read"
+    language: "en"
+    priority: 1
+    enabled: true
+    aliases: []
+    preferred_publishers: ["Tor", "Gollancz"]
+    preferred_formats: ["hardcover", "paperback"]
+    isbn13: ""
+    max_price: 150
+    notes: "Cosmere,Fiction,Speculative Fiction,Fantasy,Epic Fantasy,PT-BR,High Fantasy"
+  - key: "words-of-radiance--brandon-sanderson"
+    title: "Words of Radiance"
+    author: "Brandon Sanderson"
+    series: "The Stormlight Archive"
+    volume: 2.0
+    status: "Want to Read"
+    language: "en"
+    priority: 1
+    enabled: true
+    aliases: []
+    preferred_publishers: ["Tor", "Gollancz"]
+    preferred_formats: ["hardcover", "paperback"]
+    isbn13: ""
+    max_price: 150
+    notes: "Cosmere,Fiction,Speculative Fiction,Fantasy,Epic Fantasy,PT-BR,High Fantasy"
+  - key: "oathbringer--brandon-sanderson"
+    title: "Oathbringer"
+    author: "Brandon Sanderson"
+    series: "The Stormlight Archive"
+    volume: 3.0
+    status: "Want to Read"
+    language: "en"
+    priority: 1
+    enabled: true
+    aliases: []
+    preferred_publishers: ["Tor", "Gollancz"]
+    preferred_formats: ["hardcover", "paperback"]
+    isbn13: ""
+    max_price: 150
+    notes: "Cosmere,Fiction,Speculative Fiction,Fantasy,Epic Fantasy,PT-BR,High Fantasy"
+  - key: "rhythm-of-war--brandon-sanderson"
+    title: "Rhythm of War"
+    author: "Brandon Sanderson"
+    series: "The Stormlight Archive"
+    volume: 4.0
+    status: "Want to Read"
+    language: "en"
+    priority: 1
+    enabled: true
+    aliases: []
+    preferred_publishers: ["Tor", "Gollancz"]
+    preferred_formats: ["hardcover", "paperback"]
+    isbn13: ""
+    max_price: 150
+    notes: "Cosmere,Fiction,Speculative Fiction,Fantasy,Epic Fantasy,PT-BR,High Fantasy"
+  - key: "the-city-the-city--china-mieville"
+    title: "The City & the City"
+    author: "China Miéville"
+    series: ""
+    volume: 1.0
+    status: "Want to Read"
+    language: "en"
+    priority: 1
+    enabled: true
+    aliases: []
+    preferred_publishers: ["Del Rey", "Pan Macmillan"]
+    preferred_formats: ["hardcover", "paperback"]
+    isbn13: ""
+    max_price: 150
+    notes: "Crime,New Weird,Fiction,Speculative Fiction,PT-BR,Mystery"
+  - key: "perdido-street-station--china-mieville"
+    title: "Perdido Street Station"
+    author: "China Miéville"
+    series: "Bas-Lag"
+    volume: 1.0
+    status: "Want to Read"
+    language: "en"
+    priority: 1
+    enabled: true
+    aliases: []
+    preferred_publishers: ["Del Rey", "Pan Macmillan"]
+    preferred_formats: ["hardcover", "paperback"]
+    isbn13: ""
+    max_price: 150
+    notes: "New Weird,Steampunk,Fiction,Speculative Fiction,Fantasy,PT-BR"
+  - key: "between-two-fires--christopher-buehlman"
+    title: "Between Two Fires"
+    author: "Christopher Buehlman"
+    series: ""
+    volume: 1.0
+    status: "Read"
+    language: "en"
+    priority: 1
+    enabled: true
+    aliases: []
+    preferred_publishers: []
+    preferred_formats: ["hardcover", "paperback"]
+    isbn13: ""
+    max_price: 150
+    notes: "Fiction,Speculative Fiction,Fantasy,PT-BR,Dark Fantasy,Historical Fantasy"
+  - key: "empire-of-silence--christopher-ruocchio"
+    title: "Empire of Silence"
+    author: "Christopher Ruocchio"
+    series: "The Sun Eater"
+    volume: 1.0
+    status: "none"
+    language: "en"
+    priority: 1
+    enabled: true
+    aliases: ["Império do Silêncio"]
+    preferred_publishers: ["DAW", "Baen"]
+    preferred_formats: ["hardcover", "paperback"]
+    isbn13: ""
+    max_price: 150
+    notes: "Fiction,Speculative Fiction,PT-BR,Science Fiction,Space Opera,Science Fantasy"
+  - key: "the-lesser-devil--christopher-ruocchio"
+    title: "The Lesser Devil"
+    author: "Christopher Ruocchio"
+    series: "The Sun Eater"
+    volume: 1.5
+    status: "none"
+    language: "en"
+    priority: 1
+    enabled: true
+    aliases: []
+    preferred_publishers: ["DAW", "Baen"]
+    preferred_formats: ["hardcover", "paperback"]
+    isbn13: ""
+    max_price: 150
+    notes: "Fiction,Speculative Fiction,EN,Science Fiction,Space Opera,Science Fantasy"
+  - key: "howling-dark--christopher-ruocchio"
+    title: "Howling Dark"
+    author: "Christopher Ruocchio"
+    series: "The Sun Eater"
+    volume: 2.0
+    status: "none"
+    language: "en"
+    priority: 1
+    enabled: true
+    aliases: []
+    preferred_publishers: ["DAW", "Baen"]
+    preferred_formats: ["hardcover", "paperback"]
+    isbn13: ""
+    max_price: 150
+    notes: "Fiction,Speculative Fiction,EN,Science Fiction,Space Opera,Science Fantasy"
+  - key: "queen-amid-ashes--christopher-ruocchio"
+    title: "Queen Amid Ashes"
+    author: "Christopher Ruocchio"
+    series: "The Sun Eater"
+    volume: 2.5
+    status: "none"
+    language: "en"
+    priority: 1
+    enabled: true
+    aliases: []
+    preferred_publishers: ["DAW", "Baen"]
+    preferred_formats: ["hardcover", "paperback"]
+    isbn13: ""
+    max_price: 150
+    notes: "Fiction,Speculative Fiction,EN,Science Fiction,Space Opera,Science Fantasy"
+  - key: "demon-in-white--christopher-ruocchio"
+    title: "Demon in White"
+    author: "Christopher Ruocchio"
+    series: "The Sun Eater"
+    volume: 3.0
+    status: "none"
+    language: "en"
+    priority: 1
+    enabled: true
+    aliases: []
+    preferred_publishers: ["DAW", "Baen"]
+    preferred_formats: ["hardcover", "paperback"]
+    isbn13: ""
+    max_price: 150
+    notes: "Fiction,Speculative Fiction,EN,Science Fiction,Space Opera,Science Fantasy"
+  - key: "kingdoms-of-death--christopher-ruocchio"
+    title: "Kingdoms of Death"
+    author: "Christopher Ruocchio"
+    series: "The Sun Eater"
+    volume: 4.0
+    status: "none"
+    language: "en"
+    priority: 1
+    enabled: true
+    aliases: []
+    preferred_publishers: ["DAW", "Baen"]
+    preferred_formats: ["hardcover", "paperback"]
+    isbn13: ""
+    max_price: 150
+    notes: "Fiction,Speculative Fiction,EN,Science Fiction,Space Opera,Science Fantasy"
+  - key: "ashes-of-man--christopher-ruocchio"
+    title: "Ashes of Man"
+    author: "Christopher Ruocchio"
+    series: "The Sun Eater"
+    volume: 5.0
+    status: "none"
+    language: "en"
+    priority: 1
+    enabled: true
+    aliases: []
+    preferred_publishers: ["DAW", "Baen"]
+    preferred_formats: ["hardcover", "paperback"]
+    isbn13: ""
+    max_price: 150
+    notes: "Fiction,Speculative Fiction,EN,Science Fiction,Space Opera,Science Fantasy"
+  - key: "the-dregs-of-empire-a-tale-of-the-sun-eater--christopher-ruocchio"
+    title: "The Dregs of Empire: A Tale of the Sun Eater"
+    author: "Christopher Ruocchio"
+    series: "The Sun Eater"
+    volume: 5.5
+    status: "none"
+    language: "en"
+    priority: 1
+    enabled: true
+    aliases: []
+    preferred_publishers: ["DAW", "Baen"]
+    preferred_formats: ["hardcover", "paperback"]
+    isbn13: ""
+    max_price: 150
+    notes: "Fiction,Speculative Fiction,EN,Science Fiction,Space Opera,Science Fantasy"
+  - key: "disquiet-gods--christopher-ruocchio"
+    title: "Disquiet Gods"
+    author: "Christopher Ruocchio"
+    series: "The Sun Eater"
+    volume: 6.0
+    status: "none"
+    language: "en"
+    priority: 1
+    enabled: true
+    aliases: []
+    preferred_publishers: ["DAW", "Baen"]
+    preferred_formats: ["hardcover", "paperback"]
+    isbn13: ""
+    max_price: 150
+    notes: "Fiction,Speculative Fiction,EN,Science Fiction,Space Opera,Science Fantasy"
+  - key: "shadows-upon-time--christopher-ruocchio"
+    title: "Shadows Upon Time"
+    author: "Christopher Ruocchio"
+    series: "The Sun Eater"
+    volume: 7.0
+    status: "none"
+    language: "en"
+    priority: 1
+    enabled: true
+    aliases: []
+    preferred_publishers: ["DAW", "Baen"]
+    preferred_formats: ["hardcover", "paperback"]
+    isbn13: ""
+    max_price: 150
+    notes: "Fiction,Speculative Fiction,EN,Science Fiction,Space Opera,Science Fantasy"
+  - key: "the-three-body-problem--cixin-liu"
+    title: "The Three-Body Problem"
+    author: "Cixin Liu"
+    series: "Remembrance of Earth's Past"
+    volume: 1.0
+    status: "Want to Read"
+    language: "en"
+    priority: 1
+    enabled: true
+    aliases: ["San Ti"]
+    preferred_publishers: ["Tor", "Head of Zeus"]
+    preferred_formats: ["hardcover", "paperback"]
+    isbn13: ""
+    max_price: 150
+    notes: "Fiction,Speculative Fiction,PT-BR,Science Fiction,Hard Science Fiction,Space Opera,First Contact"
+  - key: "the-dark-forest--cixin-liu"
+    title: "The Dark Forest"
+    author: "Cixin Liu"
+    series: "Remembrance of Earth's Past"
+    volume: 2.0
+    status: "Want to Read"
+    language: "en"
+    priority: 1
+    enabled: true
+    aliases: ["Hei'an Senlin"]
+    preferred_publishers: ["Tor", "Head of Zeus"]
+    preferred_formats: ["hardcover", "paperback"]
+    isbn13: ""
+    max_price: 150
+    notes: "Fiction,Speculative Fiction,PT-BR,Science Fiction,Hard Science Fiction,Space Opera,First Contact"
+  - key: "death-s-end--cixin-liu"
+    title: "Death's End"
+    author: "Cixin Liu"
+    series: "Remembrance of Earth's Past"
+    volume: 3.0
+    status: "Want to Read"
+    language: "en"
+    priority: 1
+    enabled: true
+    aliases: ["Sishen Yongsheng"]
+    preferred_publishers: ["Tor", "Head of Zeus"]
+    preferred_formats: ["hardcover", "paperback"]
+    isbn13: ""
+    max_price: 150
+    notes: "Fiction,Speculative Fiction,PT-BR,Science Fiction,Hard Science Fiction,Space Opera,First Contact"
+  - key: "the-road--cormac-mccarthy"
+    title: "The Road"
+    author: "Cormac McCarthy"
+    series: ""
+    volume: 1.0
+    status: "Currently Reading"
+    language: "en"
+    priority: 1
+    enabled: true
+    aliases: []
+    preferred_publishers: ["Knopf", "Picador"]
+    preferred_formats: ["hardcover", "paperback"]
+    isbn13: ""
+    max_price: 150
+    notes: "Fiction,Speculative Fiction,PT-BR,Literary Fiction,Post-Apocalyptic"
+  - key: "blood-meridian--cormac-mccarthy"
+    title: "Blood Meridian"
+    author: "Cormac McCarthy"
+    series: ""
+    volume: 1.0
+    status: "Want to Read"
+    language: "en"
+    priority: 1
+    enabled: true
+    aliases: []
+    preferred_publishers: ["Knopf", "Picador"]
+    preferred_formats: ["hardcover", "paperback"]
+    isbn13: ""
+    max_price: 150
+    notes: "Fiction,PT-BR,Literary Fiction,Historical Fiction,Western"
+  - key: "no-country-for-old-men--cormac-mccarthy"
+    title: "No Country for Old Men"
+    author: "Cormac McCarthy"
+    series: ""
+    volume: 1
+    status: "Want to Read"
+    language: "en"
+    priority: 1
+    enabled: true
+    aliases: []
+    preferred_publishers: ["Knopf", "Picador"]
+    preferred_formats: ["hardcover", "paperback"]
+    isbn13: ""
+    max_price: 150
+    notes: "McCarthy"
+  - key: "suttree--cormac-mccarthy"
+    title: "Suttree"
+    author: "Cormac McCarthy"
+    series: ""
+    volume: 1
+    status: "Want to Read"
+    language: "en"
+    priority: 1
+    enabled: true
+    aliases: []
+    preferred_publishers: ["Knopf", "Picador"]
+    preferred_formats: ["hardcover", "paperback"]
+    isbn13: ""
+    max_price: 150
+    notes: "McCarthy"
+  - key: "hyperion--dan-simmons"
+    title: "Hyperion"
+    author: "Dan Simmons"
+    series: "Hyperion"
+    volume: 1.0
+    status: "Want to Read"
+    language: "en"
+    priority: 1
+    enabled: true
+    aliases: []
+    preferred_publishers: ["Bantam", "Gollancz"]
+    preferred_formats: ["hardcover", "paperback"]
+    isbn13: ""
+    max_price: 150
+    notes: "Fiction,Speculative Fiction,PT-BR,Classic,Science Fiction,Space Opera"
+  - key: "the-fall-of-hyperion--dan-simmons"
+    title: "The Fall of Hyperion"
+    author: "Dan Simmons"
+    series: "Hyperion"
+    volume: 2.0
+    status: "Want to Read"
+    language: "en"
+    priority: 1
+    enabled: true
+    aliases: []
+    preferred_publishers: ["Bantam", "Gollancz"]
+    preferred_formats: ["hardcover", "paperback"]
+    isbn13: ""
+    max_price: 150
+    notes: "Fiction,Speculative Fiction,PT-BR,Classic,Science Fiction,Space Opera"
+  - key: "jade-city--fonda-lee"
+    title: "Jade City"
+    author: "Fonda Lee"
+    series: "The Green Bone Saga"
+    volume: 1.0
+    status: "Want to Read"
+    language: "en"
+    priority: 1
+    enabled: true
+    aliases: []
+    preferred_publishers: ["Orbit"]
+    preferred_formats: ["hardcover", "paperback"]
+    isbn13: ""
+    max_price: 150
+    notes: "Crime,Fiction,Speculative Fiction,Fantasy,PT-BR,Urban Fantasy"
+  - key: "jade-war--fonda-lee"
+    title: "Jade War"
+    author: "Fonda Lee"
+    series: "The Green Bone Saga"
+    volume: 2.0
+    status: "Want to Read"
+    language: "en"
+    priority: 1
+    enabled: true
+    aliases: []
+    preferred_publishers: ["Orbit"]
+    preferred_formats: ["hardcover", "paperback"]
+    isbn13: ""
+    max_price: 150
+    notes: "Crime,Fiction,Speculative Fiction,Fantasy,PT-BR,Urban Fantasy"
+  - key: "jade-legacy--fonda-lee"
+    title: "Jade Legacy"
+    author: "Fonda Lee"
+    series: "The Green Bone Saga"
+    volume: 3.0
+    status: "Want to Read"
+    language: "en"
+    priority: 1
+    enabled: true
+    aliases: []
+    preferred_publishers: ["Orbit"]
+    preferred_formats: ["hardcover", "paperback"]
+    isbn13: ""
+    max_price: 150
+    notes: "Crime,Fiction,Speculative Fiction,Fantasy,PT-BR,Urban Fantasy"
+  - key: "dune--frank-herbert"
+    title: "Dune"
+    author: "Frank Herbert"
+    series: "Dune"
+    volume: 1.0
+    status: "Read"
+    language: "en"
+    priority: 1
+    enabled: true
+    aliases: []
+    preferred_publishers: ["Ace", "Berkley"]
+    preferred_formats: ["hardcover", "paperback"]
+    isbn13: ""
+    max_price: 150
+    notes: "Fiction,Speculative Fiction,PT-BR,Classic,Science Fiction,Space Opera"
+  - key: "dune-messiah--frank-herbert"
+    title: "Dune Messiah"
+    author: "Frank Herbert"
+    series: "Dune"
+    volume: 2.0
+    status: "Read"
+    language: "en"
+    priority: 1
+    enabled: true
+    aliases: []
+    preferred_publishers: ["Ace", "Berkley"]
+    preferred_formats: ["hardcover", "paperback"]
+    isbn13: ""
+    max_price: 150
+    notes: "Fiction,Speculative Fiction,PT-BR,Classic,Science Fiction,Space Opera"
+  - key: "children-of-dune--frank-herbert"
+    title: "Children of Dune"
+    author: "Frank Herbert"
+    series: "Dune"
+    volume: 3.0
+    status: "Want to Read"
+    language: "en"
+    priority: 1
+    enabled: true
+    aliases: []
+    preferred_publishers: ["Ace", "Berkley"]
+    preferred_formats: ["hardcover", "paperback"]
+    isbn13: ""
+    max_price: 150
+    notes: "Fiction,Speculative Fiction,PT-BR,Classic,Science Fiction,Space Opera"
+  - key: "god-emperor-of-dune--frank-herbert"
+    title: "God Emperor of Dune"
+    author: "Frank Herbert"
+    series: "Dune"
+    volume: 4.0
+    status: "Want to Read"
+    language: "en"
+    priority: 1
+    enabled: true
+    aliases: []
+    preferred_publishers: ["Ace", "Berkley"]
+    preferred_formats: ["hardcover", "paperback"]
+    isbn13: ""
+    max_price: 150
+    notes: "Fiction,Speculative Fiction,PT-BR,Classic,Science Fiction,Space Opera"
+  - key: "the-shadow-of-the-torturer--gene-wolfe"
+    title: "The Shadow of the Torturer"
+    author: "Gene Wolfe"
+    series: "The Book of the New Sun"
+    volume: 1.0
+    status: "Want to Read"
+    language: "en"
+    priority: 1
+    enabled: true
+    aliases: []
+    preferred_publishers: ["Tor", "Gollancz"]
+    preferred_formats: ["hardcover", "paperback"]
+    isbn13: ""
+    max_price: 150
+    notes: "Fiction,Speculative Fiction,Fantasy,PT-BR,Classic,Science Fiction,Science Fantasy"
+  - key: "the-claw-of-the-conciliator--gene-wolfe"
+    title: "The Claw of the Conciliator"
+    author: "Gene Wolfe"
+    series: "The Book of the New Sun"
+    volume: 2.0
+    status: "none"
+    language: "en"
+    priority: 1
+    enabled: true
+    aliases: []
+    preferred_publishers: ["Tor", "Gollancz"]
+    preferred_formats: ["hardcover", "paperback"]
+    isbn13: ""
+    max_price: 150
+    notes: "Fiction,Speculative Fiction,Fantasy,PT-BR,Classic,Science Fiction,Science Fantasy"
+  - key: "the-sword-of-the-lictor--gene-wolfe"
+    title: "The Sword of the Lictor"
+    author: "Gene Wolfe"
+    series: "The Book of the New Sun"
+    volume: 3.0
+    status: "none"
+    language: "en"
+    priority: 1
+    enabled: true
+    aliases: []
+    preferred_publishers: ["Tor", "Gollancz"]
+    preferred_formats: ["hardcover", "paperback"]
+    isbn13: ""
+    max_price: 150
+    notes: "Fiction,Speculative Fiction,Fantasy,PT-BR,Classic,Science Fiction,Science Fantasy"
+  - key: "the-citadel-of-the-autarch--gene-wolfe"
+    title: "The Citadel of the Autarch"
+    author: "Gene Wolfe"
+    series: "The Book of the New Sun"
+    volume: 4.0
+    status: "none"
+    language: "en"
+    priority: 1
+    enabled: true
+    aliases: []
+    preferred_publishers: ["Tor", "Gollancz"]
+    preferred_formats: ["hardcover", "paperback"]
+    isbn13: ""
+    max_price: 150
+    notes: "Fiction,Speculative Fiction,Fantasy,PT-BR,Classic,Science Fiction,Science Fantasy"
+  - key: "the-black-company--glen-cook"
+    title: "The Black Company"
+    author: "Glen Cook"
+    series: "The Black Company"
+    volume: 1.0
+    status: "Want to Read"
+    language: "en"
+    priority: 1
+    enabled: true
+    aliases: []
+    preferred_publishers: ["Tor", "Roc"]
+    preferred_formats: ["hardcover", "paperback"]
+    isbn13: ""
+    max_price: 150
+    notes: "Grimdark,Fiction,Speculative Fiction,Fantasy,PT-BR,Military Fantasy"
+  - key: "shadows-linger--glen-cook"
+    title: "Shadows Linger"
+    author: "Glen Cook"
+    series: "The Black Company"
+    volume: 2.0
+    status: "none"
+    language: "en"
+    priority: 1
+    enabled: true
+    aliases: []
+    preferred_publishers: ["Tor", "Roc"]
+    preferred_formats: ["hardcover", "paperback"]
+    isbn13: ""
+    max_price: 150
+    notes: "Grimdark,Fiction,Speculative Fiction,Fantasy,PT-BR,Military Fantasy"
+  - key: "the-white-rose--glen-cook"
+    title: "The White Rose"
+    author: "Glen Cook"
+    series: "The Black Company"
+    volume: 3.0
+    status: "none"
+    language: "en"
+    priority: 1
+    enabled: true
+    aliases: []
+    preferred_publishers: ["Tor", "Roc"]
+    preferred_formats: ["hardcover", "paperback"]
+    isbn13: ""
+    max_price: 150
+    notes: "Grimdark,Fiction,Speculative Fiction,Fantasy,PT-BR,Military Fantasy"
+  - key: "the-will-of-the-many--james-islington"
+    title: "The Will of the Many"
+    author: "James Islington"
+    series: "Hierarchy"
+    volume: 1.0
+    status: "Want to Read"
+    language: "en"
+    priority: 1
+    enabled: true
+    aliases: []
+    preferred_publishers: ["Orbit"]
+    preferred_formats: ["hardcover", "paperback"]
+    isbn13: ""
+    max_price: 150
+    notes: "Fiction,Speculative Fiction,Fantasy,Epic Fantasy,PT-BR"
+  - key: "the-strength-of-the-few--james-islington"
+    title: "The Strength of the Few"
+    author: "James Islington"
+    series: "Hierarchy"
+    volume: 2.0
+    status: "Want to Read"
+    language: "en"
+    priority: 1
+    enabled: true
+    aliases: []
+    preferred_publishers: ["Orbit"]
+    preferred_formats: ["hardcover", "paperback"]
+    isbn13: ""
+    max_price: 150
+    notes: "Fiction,Speculative Fiction,Fantasy,Epic Fantasy,PT-BR"
+  - key: "the-shadow-of-what-was-lost--james-islington"
+    title: "The Shadow of What Was Lost"
+    author: "James Islington"
+    series: "The Licanius Trilogy"
+    volume: 1.0
+    status: "Want to Read"
+    language: "en"
+    priority: 1
+    enabled: true
+    aliases: []
+    preferred_publishers: ["Orbit"]
+    preferred_formats: ["hardcover", "paperback"]
+    isbn13: ""
+    max_price: 150
+    notes: "Fiction,Speculative Fiction,Fantasy,Epic Fantasy,PT-BR"
+  - key: "an-echo-of-things-to-come--james-islington"
+    title: "An Echo of Things to Come"
+    author: "James Islington"
+    series: "The Licanius Trilogy"
+    volume: 2.0
+    status: "Want to Read"
+    language: "en"
+    priority: 1
+    enabled: true
+    aliases: []
+    preferred_publishers: ["Orbit"]
+    preferred_formats: ["hardcover", "paperback"]
+    isbn13: ""
+    max_price: 150
+    notes: "Fiction,Speculative Fiction,Fantasy,Epic Fantasy,PT-BR"
+  - key: "the-light-of-all-that-falls--james-islington"
+    title: "The Light of All That Falls"
+    author: "James Islington"
+    series: "The Licanius Trilogy"
+    volume: 3.0
+    status: "Want to Read"
+    language: "en"
+    priority: 1
+    enabled: true
+    aliases: []
+    preferred_publishers: ["Orbit"]
+    preferred_formats: ["hardcover", "paperback"]
+    isbn13: ""
+    max_price: 150
+    notes: "Fiction,Speculative Fiction,Fantasy,Epic Fantasy,PT-BR"
+  - key: "empire-of-the-vampire--jay-kristoff"
+    title: "Empire of the Vampire"
+    author: "Jay Kristoff"
+    series: "Empire of the Vampire"
+    volume: 1.0
+    status: "Read"
+    language: "en"
+    priority: 1
+    enabled: true
+    aliases: ["Empire of the Vampire"]
+    preferred_publishers: ["St. Martin's Press", "HarperCollins"]
+    preferred_formats: ["hardcover", "paperback"]
+    isbn13: ""
+    max_price: 150
+    notes: "Horror,Fiction,Speculative Fiction,Fantasy,PT-BR,Dark Fantasy"
+  - key: "empire-of-the-damned--jay-kristoff"
+    title: "Empire of the Damned"
+    author: "Jay Kristoff"
+    series: "Empire of the Vampire"
+    volume: 2.0
+    status: "Read"
+    language: "en"
+    priority: 1
+    enabled: true
+    aliases: ["Empire of the Damned"]
+    preferred_publishers: ["St. Martin's Press", "HarperCollins"]
+    preferred_formats: ["hardcover", "paperback"]
+    isbn13: ""
+    max_price: 150
+    notes: "Horror,Fiction,Speculative Fiction,Fantasy,PT-BR,Dark Fantasy"
+  - key: "empire-of-the-dawn--jay-kristoff"
+    title: "Empire of the Dawn"
+    author: "Jay Kristoff"
+    series: "Empire of the Vampire"
+    volume: 3.0
+    status: "none"
+    language: "en"
+    priority: 1
+    enabled: true
+    aliases: ["Empire of the Dawn"]
+    preferred_publishers: ["St. Martin's Press", "HarperCollins"]
+    preferred_formats: ["hardcover", "paperback"]
+    isbn13: ""
+    max_price: 150
+    notes: "Horror,Fiction,Speculative Fiction,Fantasy,EN,Dark Fantasy"
+  - key: "annihilation--jeff-vandermeer"
+    title: "Annihilation"
+    author: "Jeff VanderMeer"
+    series: "Southern Reach Trilogy"
+    volume: 1.0
+    status: "Want to Read"
+    language: "en"
+    priority: 1
+    enabled: true
+    aliases: []
+    preferred_publishers: ["FSG", "Fourth Estate"]
+    preferred_formats: ["hardcover", "paperback"]
+    isbn13: ""
+    max_price: 150
+    notes: "Horror,New Weird,Fiction,Speculative Fiction,PT-BR,Science Fiction"
+  - key: "authority--jeff-vandermeer"
+    title: "Authority"
+    author: "Jeff VanderMeer"
+    series: "Southern Reach Trilogy"
+    volume: 2.0
+    status: "none"
+    language: "en"
+    priority: 1
+    enabled: true
+    aliases: []
+    preferred_publishers: ["FSG", "Fourth Estate"]
+    preferred_formats: ["hardcover", "paperback"]
+    isbn13: ""
+    max_price: 150
+    notes: "Horror,New Weird,Fiction,Speculative Fiction,PT-BR,Science Fiction"
+  - key: "acceptance--jeff-vandermeer"
+    title: "Acceptance"
+    author: "Jeff VanderMeer"
+    series: "Southern Reach Trilogy"
+    volume: 3.0
+    status: "none"
+    language: "en"
+    priority: 1
+    enabled: true
+    aliases: []
+    preferred_publishers: ["FSG", "Fourth Estate"]
+    preferred_formats: ["hardcover", "paperback"]
+    isbn13: ""
+    max_price: 150
+    notes: "Horror,New Weird,Fiction,Speculative Fiction,PT-BR,Science Fiction"
+  - key: "the-devils--joe-abercrombie"
+    title: "The Devils"
+    author: "Joe Abercrombie"
+    series: ""
+    volume: 1.0
+    status: "Want to Read"
+    language: "en"
+    priority: 1
+    enabled: true
+    aliases: []
+    preferred_publishers: ["Gollancz", "Orbit"]
+    preferred_formats: ["hardcover", "paperback"]
+    isbn13: ""
+    max_price: 150
+    notes: "Grimdark,Fiction,Speculative Fiction,Fantasy,PT-BR,Dark Fantasy"
+  - key: "a-little-hatred--joe-abercrombie"
+    title: "A Little Hatred"
+    author: "Joe Abercrombie"
+    series: "The Age of Madness"
+    volume: 1.0
+    status: "Want to Read"
+    language: "en"
+    priority: 1
+    enabled: true
+    aliases: []
+    preferred_publishers: ["Gollancz", "Orbit"]
+    preferred_formats: ["hardcover", "paperback"]
+    isbn13: ""
+    max_price: 150
+    notes: "Grimdark,Fiction,Speculative Fiction,Fantasy,Epic Fantasy,EN"
+  - key: "the-trouble-with-peace--joe-abercrombie"
+    title: "The Trouble with Peace"
+    author: "Joe Abercrombie"
+    series: "The Age of Madness"
+    volume: 2.0
+    status: "Want to Read"
+    language: "en"
+    priority: 1
+    enabled: true
+    aliases: []
+    preferred_publishers: ["Gollancz", "Orbit"]
+    preferred_formats: ["hardcover", "paperback"]
+    isbn13: ""
+    max_price: 150
+    notes: "Grimdark,Fiction,Speculative Fiction,Fantasy,Epic Fantasy,EN"
+  - key: "the-wisdom-of-crowds--joe-abercrombie"
+    title: "The Wisdom of Crowds"
+    author: "Joe Abercrombie"
+    series: "The Age of Madness"
+    volume: 3.0
+    status: "Want to Read"
+    language: "en"
+    priority: 1
+    enabled: true
+    aliases: []
+    preferred_publishers: ["Gollancz", "Orbit"]
+    preferred_formats: ["hardcover", "paperback"]
+    isbn13: ""
+    max_price: 150
+    notes: "Grimdark,Fiction,Speculative Fiction,Fantasy,Epic Fantasy,EN"
+  - key: "the-blade-itself--joe-abercrombie"
+    title: "The Blade Itself"
+    author: "Joe Abercrombie"
+    series: "The First Law"
+    volume: 1.0
+    status: "Read"
+    language: "en"
+    priority: 1
+    enabled: true
+    aliases: []
+    preferred_publishers: ["Gollancz", "Orbit"]
+    preferred_formats: ["hardcover", "paperback"]
+    isbn13: ""
+    max_price: 150
+    notes: "Grimdark,Fiction,Speculative Fiction,Fantasy,Epic Fantasy,PT-BR"
+  - key: "before-they-are-hanged--joe-abercrombie"
+    title: "Before They Are Hanged"
+    author: "Joe Abercrombie"
+    series: "The First Law"
+    volume: 2.0
+    status: "Read"
+    language: "en"
+    priority: 1
+    enabled: true
+    aliases: []
+    preferred_publishers: ["Gollancz", "Orbit"]
+    preferred_formats: ["hardcover", "paperback"]
+    isbn13: ""
+    max_price: 150
+    notes: "Grimdark,Fiction,Speculative Fiction,Fantasy,Epic Fantasy,PT-BR"
+  - key: "last-argument-of-kings--joe-abercrombie"
+    title: "Last Argument of Kings"
+    author: "Joe Abercrombie"
+    series: "The First Law"
+    volume: 3.0
+    status: "Read"
+    language: "en"
+    priority: 1
+    enabled: true
+    aliases: []
+    preferred_publishers: ["Gollancz", "Orbit"]
+    preferred_formats: ["hardcover", "paperback"]
+    isbn13: ""
+    max_price: 150
+    notes: "Grimdark,Fiction,Speculative Fiction,Fantasy,Epic Fantasy,PT-BR"
+  - key: "the-shadow-of-the-gods--john-gwynne"
+    title: "The Shadow of the Gods"
+    author: "John Gwynne"
+    series: ""
+    volume: 1.0
+    status: "Want to Read"
+    language: "en"
+    priority: 1
+    enabled: true
+    aliases: ["The Shadow of the Gods"]
+    preferred_publishers: ["Orbit", "Pan Macmillan"]
+    preferred_formats: ["hardcover", "paperback"]
+    isbn13: ""
+    max_price: 150
+    notes: "Fiction,Speculative Fiction,Fantasy,Epic Fantasy,PT-BR,High Fantasy"
+  - key: "malice--john-gwynne"
+    title: "Malice"
+    author: "John Gwynne"
+    series: ""
+    volume: 1.0
+    status: "Want to Read"
+    language: "en"
+    priority: 1
+    enabled: true
+    aliases: []
+    preferred_publishers: ["Orbit", "Pan Macmillan"]
+    preferred_formats: ["hardcover", "paperback"]
+    isbn13: ""
+    max_price: 150
+    notes: "Fiction,Speculative Fiction,Fantasy,Epic Fantasy,EN,High Fantasy"
+  - key: "a-time-of-dread--john-gwynne"
+    title: "A Time of Dread"
+    author: "John Gwynne"
+    series: "Of Blood and Bone"
+    volume: 1.0
+    status: "Want to Read"
+    language: "en"
+    priority: 1
+    enabled: true
+    aliases: []
+    preferred_publishers: ["Orbit", "Pan Macmillan"]
+    preferred_formats: ["hardcover", "paperback"]
+    isbn13: ""
+    max_price: 150
+    notes: "Fiction,Speculative Fiction,Fantasy,Epic Fantasy,EN,High Fantasy"
+  - key: "a-time-of-blood--john-gwynne"
+    title: "A Time of Blood"
+    author: "John Gwynne"
+    series: "Of Blood and Bone"
+    volume: 2.0
+    status: "Want to Read"
+    language: "en"
+    priority: 1
+    enabled: true
+    aliases: []
+    preferred_publishers: ["Orbit", "Pan Macmillan"]
+    preferred_formats: ["hardcover", "paperback"]
+    isbn13: ""
+    max_price: 150
+    notes: "Fiction,Speculative Fiction,Fantasy,Epic Fantasy,EN,High Fantasy"
+  - key: "a-time-of-courage--john-gwynne"
+    title: "A Time of Courage"
+    author: "John Gwynne"
+    series: "Of Blood and Bone"
+    volume: 3.0
+    status: "Want to Read"
+    language: "en"
+    priority: 1
+    enabled: true
+    aliases: []
+    preferred_publishers: ["Orbit", "Pan Macmillan"]
+    preferred_formats: ["hardcover", "paperback"]
+    isbn13: ""
+    max_price: 150
+    notes: "Fiction,Speculative Fiction,Fantasy,Epic Fantasy,EN,High Fantasy"
+  - key: "the-hunger-of-the-gods--john-gwynne"
+    title: "The Hunger of the Gods"
+    author: "John Gwynne"
+    series: "The Bloodsworn Trilogy"
+    volume: 2.0
+    status: "Want to Read"
+    language: "en"
+    priority: 1
+    enabled: true
+    aliases: []
+    preferred_publishers: ["Orbit", "Pan Macmillan"]
+    preferred_formats: ["hardcover", "paperback"]
+    isbn13: ""
+    max_price: 150
+    notes: "Fiction,Speculative Fiction,Fantasy,Epic Fantasy,EN,High Fantasy"
+  - key: "the-fury-of-the-gods--john-gwynne"
+    title: "The Fury of the Gods"
+    author: "John Gwynne"
+    series: "The Bloodsworn Trilogy"
+    volume: 3.0
+    status: "Want to Read"
+    language: "en"
+    priority: 1
+    enabled: true
+    aliases: []
+    preferred_publishers: ["Orbit", "Pan Macmillan"]
+    preferred_formats: ["hardcover", "paperback"]
+    isbn13: ""
+    max_price: 150
+    notes: "Fiction,Speculative Fiction,Fantasy,Epic Fantasy,EN,High Fantasy"
+  - key: "valour--john-gwynne"
+    title: "Valour"
+    author: "John Gwynne"
+    series: "The Faithful and the Fallen"
+    volume: 2.0
+    status: "Want to Read"
+    language: "en"
+    priority: 1
+    enabled: true
+    aliases: []
+    preferred_publishers: ["Orbit", "Pan Macmillan"]
+    preferred_formats: ["hardcover", "paperback"]
+    isbn13: ""
+    max_price: 150
+    notes: "Fiction,Speculative Fiction,Fantasy,Epic Fantasy,EN,High Fantasy"
+  - key: "ruin--john-gwynne"
+    title: "Ruin"
+    author: "John Gwynne"
+    series: "The Faithful and the Fallen"
+    volume: 3.0
+    status: "Want to Read"
+    language: "en"
+    priority: 1
+    enabled: true
+    aliases: []
+    preferred_publishers: ["Orbit", "Pan Macmillan"]
+    preferred_formats: ["hardcover", "paperback"]
+    isbn13: ""
+    max_price: 150
+    notes: "Fiction,Speculative Fiction,Fantasy,Epic Fantasy,EN,High Fantasy"
+  - key: "wrath--john-gwynne"
+    title: "Wrath"
+    author: "John Gwynne"
+    series: "The Faithful and the Fallen"
+    volume: 4.0
+    status: "Want to Read"
+    language: "en"
+    priority: 1
+    enabled: true
+    aliases: []
+    preferred_publishers: ["Orbit", "Pan Macmillan"]
+    preferred_formats: ["hardcover", "paperback"]
+    isbn13: ""
+    max_price: 150
+    notes: "Fiction,Speculative Fiction,Fantasy,Epic Fantasy,EN,High Fantasy"
+  - key: "old-man-s-war--john-scalzi"
+    title: "Old Man's War"
+    author: "John Scalzi"
+    series: "Old Man's War"
+    volume: 1.0
+    status: "Want to Read"
+    language: "en"
+    priority: 1
+    enabled: true
+    aliases: []
+    preferred_publishers: ["Tor"]
+    preferred_formats: ["hardcover", "paperback"]
+    isbn13: ""
+    max_price: 150
+    notes: "Fiction,Speculative Fiction,PT-BR,Science Fiction,Space Opera,Military Science Fiction"
+  - key: "the-ghost-brigades--john-scalzi"
+    title: "The Ghost Brigades"
+    author: "John Scalzi"
+    series: "Old Man's War"
+    volume: 2.0
+    status: "none"
+    language: "en"
+    priority: 1
+    enabled: true
+    aliases: []
+    preferred_publishers: ["Tor"]
+    preferred_formats: ["hardcover", "paperback"]
+    isbn13: ""
+    max_price: 150
+    notes: "Fiction,Speculative Fiction,PT-BR,Science Fiction,Space Opera,Military Science Fiction"
+  - key: "the-last-colony--john-scalzi"
+    title: "The Last Colony"
+    author: "John Scalzi"
+    series: "Old Man's War"
+    volume: 3.0
+    status: "none"
+    language: "en"
+    priority: 1
+    enabled: true
+    aliases: []
+    preferred_publishers: ["Tor"]
+    preferred_formats: ["hardcover", "paperback"]
+    isbn13: ""
+    max_price: 150
+    notes: "Fiction,Speculative Fiction,PT-BR,Science Fiction,Space Opera,Military Science Fiction"
+  - key: "the-grace-of-kings--ken-liu"
+    title: "The Grace of Kings"
+    author: "Ken Liu"
+    series: "The Dandelion Dynasty"
+    volume: 1.0
+    status: "Want to Read"
+    language: "en"
+    priority: 1
+    enabled: true
+    aliases: []
+    preferred_publishers: ["Saga Press", "Head of Zeus"]
+    preferred_formats: ["hardcover", "paperback"]
+    isbn13: ""
+    max_price: 150
+    notes: "Silkpunk,Fiction,Speculative Fiction,Fantasy,Epic Fantasy,EN,High Fantasy"
+  - key: "the-wall-of-storms--ken-liu"
+    title: "The Wall of Storms"
+    author: "Ken Liu"
+    series: "The Dandelion Dynasty"
+    volume: 2.0
+    status: "none"
+    language: "en"
+    priority: 1
+    enabled: true
+    aliases: []
+    preferred_publishers: ["Saga Press", "Head of Zeus"]
+    preferred_formats: ["hardcover", "paperback"]
+    isbn13: ""
+    max_price: 150
+    notes: "Silkpunk,Fiction,Speculative Fiction,Fantasy,Epic Fantasy,EN,High Fantasy"
+  - key: "the-veiled-throne--ken-liu"
+    title: "The Veiled Throne"
+    author: "Ken Liu"
+    series: "The Dandelion Dynasty"
+    volume: 3.0
+    status: "none"
+    language: "en"
+    priority: 1
+    enabled: true
+    aliases: []
+    preferred_publishers: ["Saga Press", "Head of Zeus"]
+    preferred_formats: ["hardcover", "paperback"]
+    isbn13: ""
+    max_price: 150
+    notes: "Silkpunk,Fiction,Speculative Fiction,Fantasy,Epic Fantasy,EN,High Fantasy"
+  - key: "speaking-bones--ken-liu"
+    title: "Speaking Bones"
+    author: "Ken Liu"
+    series: "The Dandelion Dynasty"
+    volume: 4.0
+    status: "none"
+    language: "en"
+    priority: 1
+    enabled: true
+    aliases: []
+    preferred_publishers: ["Saga Press", "Head of Zeus"]
+    preferred_formats: ["hardcover", "paperback"]
+    isbn13: ""
+    max_price: 150
+    notes: "Silkpunk,Fiction,Speculative Fiction,Fantasy,Epic Fantasy,EN,High Fantasy"
+  - key: "prince-of-thorns--mark-lawrence"
+    title: "Prince of Thorns"
+    author: "Mark Lawrence"
+    series: "The Broken Empire"
+    volume: 1.0
+    status: "Want to Read"
+    language: "en"
+    priority: 1
+    enabled: true
+    aliases: []
+    preferred_publishers: ["Voyager", "Ace"]
+    preferred_formats: ["hardcover", "paperback"]
+    isbn13: ""
+    max_price: 150
+    notes: "Grimdark,Fiction,Speculative Fiction,Fantasy,EN"
+  - key: "king-of-thorns--mark-lawrence"
+    title: "King of Thorns"
+    author: "Mark Lawrence"
+    series: "The Broken Empire"
+    volume: 2.0
+    status: "none"
+    language: "en"
+    priority: 1
+    enabled: true
+    aliases: []
+    preferred_publishers: ["Voyager", "Ace"]
+    preferred_formats: ["hardcover", "paperback"]
+    isbn13: ""
+    max_price: 150
+    notes: "Grimdark,Fiction,Speculative Fiction,Fantasy,EN"
+  - key: "emperor-of-thorns--mark-lawrence"
+    title: "Emperor of Thorns"
+    author: "Mark Lawrence"
+    series: "The Broken Empire"
+    volume: 3.0
+    status: "none"
+    language: "en"
+    priority: 1
+    enabled: true
+    aliases: []
+    preferred_publishers: ["Voyager", "Ace"]
+    preferred_formats: ["hardcover", "paperback"]
+    isbn13: ""
+    max_price: 150
+    notes: "Grimdark,Fiction,Speculative Fiction,Fantasy,EN"
+  - key: "all-systems-red--martha-wells"
+    title: "All Systems Red"
+    author: "Martha Wells"
+    series: "The Murderbot Diaries"
+    volume: 1.0
+    status: "Want to Read"
+    language: "en"
+    priority: 1
+    enabled: true
+    aliases: []
+    preferred_publishers: ["Tor.com", "Tor"]
+    preferred_formats: ["hardcover", "paperback"]
+    isbn13: ""
+    max_price: 150
+    notes: "Fiction,Speculative Fiction,PT-BR,Science Fiction,Space Opera"
+  - key: "artificial-condition--martha-wells"
+    title: "Artificial Condition"
+    author: "Martha Wells"
+    series: "The Murderbot Diaries"
+    volume: 2.0
+    status: "none"
+    language: "en"
+    priority: 1
+    enabled: true
+    aliases: []
+    preferred_publishers: ["Tor.com", "Tor"]
+    preferred_formats: ["hardcover", "paperback"]
+    isbn13: ""
+    max_price: 150
+    notes: "Fiction,Speculative Fiction,PT-BR,Science Fiction,Space Opera"
+  - key: "rogue-protocol--martha-wells"
+    title: "Rogue Protocol"
+    author: "Martha Wells"
+    series: "The Murderbot Diaries"
+    volume: 3.0
+    status: "none"
+    language: "en"
+    priority: 1
+    enabled: true
+    aliases: []
+    preferred_publishers: ["Tor.com", "Tor"]
+    preferred_formats: ["hardcover", "paperback"]
+    isbn13: ""
+    max_price: 150
+    notes: "Fiction,Speculative Fiction,PT-BR,Science Fiction,Space Opera"
+  - key: "exit-strategy--martha-wells"
+    title: "Exit Strategy"
+    author: "Martha Wells"
+    series: "The Murderbot Diaries"
+    volume: 4.0
+    status: "none"
+    language: "en"
+    priority: 1
+    enabled: true
+    aliases: []
+    preferred_publishers: ["Tor.com", "Tor"]
+    preferred_formats: ["hardcover", "paperback"]
+    isbn13: ""
+    max_price: 150
+    notes: "Fiction,Speculative Fiction,PT-BR,Science Fiction,Space Opera"
+  - key: "dungeon-crawler-carl--matt-dinniman"
+    title: "Dungeon Crawler Carl"
+    author: "Matt Dinniman"
+    series: "Dungeon Crawler Carl"
+    volume: 1.0
+    status: "Read"
+    language: "en"
+    priority: 1
+    enabled: true
+    aliases: []
+    preferred_publishers: ["Ace", "Dandy House"]
+    preferred_formats: ["hardcover", "paperback"]
+    isbn13: ""
+    max_price: 150
+    notes: "LitRPG,Fiction,Speculative Fiction,Fantasy,EN,Science Fantasy"
+  - key: "carl-s-doomsday-scenario--matt-dinniman"
+    title: "Carl's Doomsday Scenario"
+    author: "Matt Dinniman"
+    series: "Dungeon Crawler Carl"
+    volume: 2.0
+    status: "Read"
+    language: "en"
+    priority: 1
+    enabled: true
+    aliases: []
+    preferred_publishers: ["Ace", "Dandy House"]
+    preferred_formats: ["hardcover", "paperback"]
+    isbn13: ""
+    max_price: 150
+    notes: "LitRPG,Fiction,Speculative Fiction,Fantasy,EN,Science Fantasy"
+  - key: "the-dungeon-anarchist-s-cookbook--matt-dinniman"
+    title: "The Dungeon Anarchist's Cookbook"
+    author: "Matt Dinniman"
+    series: "Dungeon Crawler Carl"
+    volume: 3.0
+    status: "Read"
+    language: "en"
+    priority: 1
+    enabled: true
+    aliases: []
+    preferred_publishers: ["Ace", "Dandy House"]
+    preferred_formats: ["hardcover", "paperback"]
+    isbn13: ""
+    max_price: 150
+    notes: "LitRPG,Fiction,Speculative Fiction,Fantasy,EN,Science Fantasy"
+  - key: "the-gate-of-the-feral-gods--matt-dinniman"
+    title: "The Gate of the Feral Gods"
+    author: "Matt Dinniman"
+    series: "Dungeon Crawler Carl"
+    volume: 4.0
+    status: "Read"
+    language: "en"
+    priority: 1
+    enabled: true
+    aliases: []
+    preferred_publishers: ["Ace", "Dandy House"]
+    preferred_formats: ["hardcover", "paperback"]
+    isbn13: ""
+    max_price: 150
+    notes: "LitRPG,Fiction,Speculative Fiction,Fantasy,EN,Science Fantasy"
+  - key: "the-butcher-s-masquerade--matt-dinniman"
+    title: "The Butcher's Masquerade"
+    author: "Matt Dinniman"
+    series: "Dungeon Crawler Carl"
+    volume: 5.0
+    status: "Read"
+    language: "en"
+    priority: 1
+    enabled: true
+    aliases: []
+    preferred_publishers: ["Ace", "Dandy House"]
+    preferred_formats: ["hardcover", "paperback"]
+    isbn13: ""
+    max_price: 150
+    notes: "LitRPG,Fiction,Speculative Fiction,Fantasy,EN,Science Fantasy"
+  - key: "the-eye-of-the-bedlam-bride--matt-dinniman"
+    title: "The Eye of the Bedlam Bride"
+    author: "Matt Dinniman"
+    series: "Dungeon Crawler Carl"
+    volume: 6.0
+    status: "Want to Read"
+    language: "en"
+    priority: 1
+    enabled: true
+    aliases: []
+    preferred_publishers: ["Ace", "Dandy House"]
+    preferred_formats: ["hardcover", "paperback"]
+    isbn13: ""
+    max_price: 150
+    notes: "LitRPG,Fiction,Speculative Fiction,Fantasy,EN,Science Fantasy"
+  - key: "this-inevitable-ruin--matt-dinniman"
+    title: "This Inevitable Ruin"
+    author: "Matt Dinniman"
+    series: "Dungeon Crawler Carl"
+    volume: 7.0
+    status: "none"
+    language: "en"
+    priority: 1
+    enabled: true
+    aliases: []
+    preferred_publishers: ["Ace", "Dandy House"]
+    preferred_formats: ["hardcover", "paperback"]
+    isbn13: ""
+    max_price: 150
+    notes: "LitRPG,Fiction,Speculative Fiction,Fantasy,EN,Science Fantasy"
+  - key: "the-name-of-the-wind--patrick-rothfuss"
+    title: "The Name of the Wind"
+    author: "Patrick Rothfuss"
+    series: "A Crônica do Matador do Rei"
+    volume: 1.0
+    status: "Want to Read"
+    language: "en"
+    priority: 1
+    enabled: true
+    aliases: []
+    preferred_publishers: ["DAW", "Gollancz"]
+    preferred_formats: ["hardcover", "paperback"]
+    isbn13: ""
+    max_price: 150
+    notes: "Fiction,Speculative Fiction,Fantasy,Epic Fantasy,PT-BR,High Fantasy"
+  - key: "the-wise-man-s-fear--patrick-rothfuss"
+    title: "The Wise Man's Fear"
+    author: "Patrick Rothfuss"
+    series: "A Crônica do Matador do Rei"
+    volume: 2.0
+    status: "Want to Read"
+    language: "en"
+    priority: 1
+    enabled: true
+    aliases: []
+    preferred_publishers: ["DAW", "Gollancz"]
+    preferred_formats: ["hardcover", "paperback"]
+    isbn13: ""
+    max_price: 150
+    notes: "Fiction,Speculative Fiction,Fantasy,Epic Fantasy,PT-BR,High Fantasy"
+  - key: "golden-son--pierce-brown"
+    title: "Golden Son"
+    author: "Pierce Brown"
+    series: "Red Rising"
+    volume: 2.0
+    status: "Read"
+    language: "en"
+    priority: 1
+    enabled: true
+    aliases: []
+    preferred_publishers: ["Del Rey"]
+    preferred_formats: ["hardcover", "paperback"]
+    isbn13: ""
+    max_price: 150
+    notes: "Fiction,Speculative Fiction,PT-BR,Science Fiction,Space Opera,Dystopian"
+  - key: "morning-star--pierce-brown"
+    title: "Morning Star"
+    author: "Pierce Brown"
+    series: "Red Rising"
+    volume: 3.0
+    status: "Read"
+    language: "en"
+    priority: 1
+    enabled: true
+    aliases: []
+    preferred_publishers: ["Del Rey"]
+    preferred_formats: ["hardcover", "paperback"]
+    isbn13: ""
+    max_price: 150
+    notes: "Fiction,Speculative Fiction,PT-BR,Science Fiction,Space Opera,Dystopian"
+  - key: "iron-gold--pierce-brown"
+    title: "Iron Gold"
+    author: "Pierce Brown"
+    series: "Red Rising"
+    volume: 4.0
+    status: "Read"
+    language: "en"
+    priority: 1
+    enabled: true
+    aliases: []
+    preferred_publishers: ["Del Rey"]
+    preferred_formats: ["hardcover", "paperback"]
+    isbn13: ""
+    max_price: 150
+    notes: "Fiction,Speculative Fiction,EN,Science Fiction,Space Opera,Dystopian"
+  - key: "dark-age--pierce-brown"
+    title: "Dark Age"
+    author: "Pierce Brown"
+    series: "Red Rising"
+    volume: 5.0
+    status: "Read"
+    language: "en"
+    priority: 1
+    enabled: true
+    aliases: []
+    preferred_publishers: ["Del Rey"]
+    preferred_formats: ["hardcover", "paperback"]
+    isbn13: ""
+    max_price: 150
+    notes: "Fiction,Speculative Fiction,EN,Science Fiction,Space Opera,Dystopian"
+  - key: "light-bringer--pierce-brown"
+    title: "Light Bringer"
+    author: "Pierce Brown"
+    series: "Red Rising"
+    volume: 6.0
+    status: "Read"
+    language: "en"
+    priority: 1
+    enabled: true
+    aliases: []
+    preferred_publishers: ["Del Rey"]
+    preferred_formats: ["hardcover", "paperback"]
+    isbn13: ""
+    max_price: 150
+    notes: "Fiction,Speculative Fiction,EN,Science Fiction,Space Opera,Dystopian"
+  - key: "the-poppy-war--r-f-kuang"
+    title: "The Poppy War"
+    author: "R. F. Kuang"
+    series: "The Poppy War"
+    volume: 1.0
+    status: "Read"
+    language: "en"
+    priority: 1
+    enabled: true
+    aliases: []
+    preferred_publishers: []
+    preferred_formats: ["hardcover", "paperback"]
+    isbn13: ""
+    max_price: 150
+    notes: "Fiction,Speculative Fiction,Fantasy,PT-BR,Historical Fantasy,Military Fantasy"
+  - key: "the-dragon-republic--r-f-kuang"
+    title: "The Dragon Republic"
+    author: "R. F. Kuang"
+    series: "The Poppy War"
+    volume: 2.0
+    status: "Read"
+    language: "en"
+    priority: 1
+    enabled: true
+    aliases: []
+    preferred_publishers: []
+    preferred_formats: ["hardcover", "paperback"]
+    isbn13: ""
+    max_price: 150
+    notes: "Fiction,Speculative Fiction,Fantasy,PT-BR,Historical Fantasy,Military Fantasy"
+  - key: "the-burning-god--r-f-kuang"
+    title: "The Burning God"
+    author: "R. F. Kuang"
+    series: "The Poppy War"
+    volume: 3.0
+    status: "Read"
+    language: "en"
+    priority: 1
+    enabled: true
+    aliases: []
+    preferred_publishers: []
+    preferred_formats: ["hardcover", "paperback"]
+    isbn13: ""
+    max_price: 150
+    notes: "Fiction,Speculative Fiction,Fantasy,PT-BR,Historical Fantasy,Military Fantasy"
+  - key: "assassin-s-apprentice--robin-hobb"
+    title: "Assassin's Apprentice"
+    author: "Robin Hobb"
+    series: "The Farseer Trilogy"
+    volume: 1.0
+    status: "none"
+    language: "en"
+    priority: 1
+    enabled: true
+    aliases: ["O Aprendiz de Assassino", "Assassin's Apprentice"]
+    preferred_publishers: ["HarperVoyager"]
+    preferred_formats: ["hardcover", "paperback"]
+    isbn13: "9780007562251"
+    max_price: 150
+    notes: "Realm of the Elderlings,Fiction,Speculative Fiction,Fantasy,Epic Fantasy,PT-BR,High Fantasy"
+  - key: "royal-assassin--robin-hobb"
+    title: "Royal Assassin"
+    author: "Robin Hobb"
+    series: "The Farseer Trilogy"
+    volume: 2.0
+    status: "Want to Read"
+    language: "en"
+    priority: 1
+    enabled: true
+    aliases: ["O Assassino do Rei", "Royal Assassin"]
+    preferred_publishers: ["HarperVoyager"]
+    preferred_formats: ["hardcover", "paperback"]
+    isbn13: "9780007562268"
+    max_price: 150
+    notes: "Realm of the Elderlings,Fiction,Speculative Fiction,Fantasy,Epic Fantasy,PT-BR,High Fantasy"
+  - key: "assassin-s-quest--robin-hobb"
+    title: "Assassin's Quest"
+    author: "Robin Hobb"
+    series: "The Farseer Trilogy"
+    volume: 3.0
+    status: "Want to Read"
+    language: "en"
+    priority: 1
+    enabled: true
+    aliases: ["A Fúria do Assassino", "Assassin's Quest"]
+    preferred_publishers: ["HarperVoyager"]
+    preferred_formats: ["hardcover", "paperback"]
+    isbn13: "9780007562275"
+    max_price: 150
+    notes: "Realm of the Elderlings,Fiction,Speculative Fiction,Fantasy,Epic Fantasy,PT-BR,High Fantasy"
+  - key: "fool-s-assassin--robin-hobb"
+    title: "Fool's Assassin"
+    author: "Robin Hobb"
+    series: "The Fitz and the Fool Trilogy"
+    volume: 1.0
+    status: "Want to Read"
+    language: "en"
+    priority: 1
+    enabled: true
+    aliases: []
+    preferred_publishers: ["HarperVoyager"]
+    preferred_formats: ["hardcover", "paperback"]
+    isbn13: "9780007444205"
+    max_price: 150
+    notes: "Realm of the Elderlings,Fiction,Speculative Fiction,Fantasy,Epic Fantasy,EN,High Fantasy"
+  - key: "fool-s-quest--robin-hobb"
+    title: "Fool's Quest"
+    author: "Robin Hobb"
+    series: "The Fitz and the Fool Trilogy"
+    volume: 2.0
+    status: "Want to Read"
+    language: "en"
+    priority: 1
+    enabled: true
+    aliases: []
+    preferred_publishers: ["HarperVoyager"]
+    preferred_formats: ["hardcover", "paperback"]
+    isbn13: "9780007444243"
+    max_price: 150
+    notes: "Realm of the Elderlings,Fiction,Speculative Fiction,Fantasy,Epic Fantasy,EN,High Fantasy"
+  - key: "assassin-s-fate--robin-hobb"
+    title: "Assassin's Fate"
+    author: "Robin Hobb"
+    series: "The Fitz and the Fool Trilogy"
+    volume: 3.0
+    status: "Want to Read"
+    language: "en"
+    priority: 1
+    enabled: true
+    aliases: []
+    preferred_publishers: ["HarperVoyager"]
+    preferred_formats: ["hardcover", "paperback"]
+    isbn13: "9780007444281"
+    max_price: 150
+    notes: "Realm of the Elderlings,Fiction,Speculative Fiction,Fantasy,Epic Fantasy,EN,High Fantasy"
+  - key: "ship-of-magic--robin-hobb"
+    title: "Ship of Magic"
+    author: "Robin Hobb"
+    series: "The Liveship Traders"
+    volume: 1.0
+    status: "Want to Read"
+    language: "en"
+    priority: 1
+    enabled: true
+    aliases: []
+    preferred_publishers: ["HarperVoyager"]
+    preferred_formats: ["hardcover", "paperback"]
+    isbn13: "9780008117450"
+    max_price: 150
+    notes: "Realm of the Elderlings,Fiction,Speculative Fiction,Fantasy,Epic Fantasy,EN,High Fantasy"
+  - key: "the-mad-ship--robin-hobb"
+    title: "The Mad Ship"
+    author: "Robin Hobb"
+    series: "The Liveship Traders"
+    volume: 2.0
+    status: "Want to Read"
+    language: "en"
+    priority: 1
+    enabled: true
+    aliases: []
+    preferred_publishers: ["HarperVoyager"]
+    preferred_formats: ["hardcover", "paperback"]
+    isbn13: "9780008117467"
+    max_price: 150
+    notes: "Realm of the Elderlings,Fiction,Speculative Fiction,Fantasy,Epic Fantasy,EN,High Fantasy"
+  - key: "ship-of-destiny--robin-hobb"
+    title: "Ship of Destiny"
+    author: "Robin Hobb"
+    series: "The Liveship Traders"
+    volume: 3.0
+    status: "Want to Read"
+    language: "en"
+    priority: 1
+    enabled: true
+    aliases: []
+    preferred_publishers: ["HarperVoyager"]
+    preferred_formats: ["hardcover", "paperback"]
+    isbn13: "9780008117474"
+    max_price: 150
+    notes: "Realm of the Elderlings,Fiction,Speculative Fiction,Fantasy,Epic Fantasy,EN,High Fantasy"
+  - key: "dragon-keeper--robin-hobb"
+    title: "Dragon Keeper"
+    author: "Robin Hobb"
+    series: "The Rain Wild Chronicles"
+    volume: 1
+    status: "Want to Read"
+    language: "en"
+    priority: 1
+    enabled: true
+    aliases: []
+    preferred_publishers: ["HarperVoyager"]
+    preferred_formats: ["hardcover", "paperback"]
+    isbn13: "9780008154394"
+    max_price: 150
+    notes: "Realm of the Elderlings"
+  - key: "dragon-haven--robin-hobb"
+    title: "Dragon Haven"
+    author: "Robin Hobb"
+    series: "The Rain Wild Chronicles"
+    volume: 2
+    status: "Want to Read"
+    language: "en"
+    priority: 1
+    enabled: true
+    aliases: []
+    preferred_publishers: ["HarperVoyager"]
+    preferred_formats: ["hardcover", "paperback"]
+    isbn13: "9780008154400"
+    max_price: 150
+    notes: "Realm of the Elderlings"
+  - key: "city-of-dragons--robin-hobb"
+    title: "City of Dragons"
+    author: "Robin Hobb"
+    series: "The Rain Wild Chronicles"
+    volume: 3
+    status: "Want to Read"
+    language: "en"
+    priority: 1
+    enabled: true
+    aliases: []
+    preferred_publishers: ["HarperVoyager"]
+    preferred_formats: ["hardcover", "paperback"]
+    isbn13: "9780008154417"
+    max_price: 150
+    notes: "Realm of the Elderlings"
+  - key: "blood-of-dragons--robin-hobb"
+    title: "Blood of Dragons"
+    author: "Robin Hobb"
+    series: "The Rain Wild Chronicles"
+    volume: 4
+    status: "Want to Read"
+    language: "en"
+    priority: 1
+    enabled: true
+    aliases: []
+    preferred_publishers: ["HarperVoyager"]
+    preferred_formats: ["hardcover", "paperback"]
+    isbn13: "9780008154462"
+    max_price: 150
+    notes: "Realm of the Elderlings"
+  - key: "fool-s-errand--robin-hobb"
+    title: "Fool's Errand"
+    author: "Robin Hobb"
+    series: "The Tawny Man Trilogy"
+    volume: 1.0
+    status: "Want to Read"
+    language: "en"
+    priority: 1
+    enabled: true
+    aliases: []
+    preferred_publishers: ["HarperVoyager"]
+    preferred_formats: ["hardcover", "paperback"]
+    isbn13: "9780007585892"
+    max_price: 150
+    notes: "Realm of the Elderlings,Fiction,Speculative Fiction,Fantasy,Epic Fantasy,EN,High Fantasy"
+  - key: "the-golden-fool--robin-hobb"
+    title: "The Golden Fool"
+    author: "Robin Hobb"
+    series: "The Tawny Man Trilogy"
+    volume: 2.0
+    status: "Want to Read"
+    language: "en"
+    priority: 1
+    enabled: true
+    aliases: []
+    preferred_publishers: ["HarperVoyager"]
+    preferred_formats: ["hardcover", "paperback"]
+    isbn13: "9780007585908"
+    max_price: 150
+    notes: "Realm of the Elderlings,Fiction,Speculative Fiction,Fantasy,Epic Fantasy,EN,High Fantasy"
+  - key: "fool-s-fate--robin-hobb"
+    title: "Fool's Fate"
+    author: "Robin Hobb"
+    series: "The Tawny Man Trilogy"
+    volume: 3.0
+    status: "Want to Read"
+    language: "en"
+    priority: 1
+    enabled: true
+    aliases: []
+    preferred_publishers: ["HarperVoyager"]
+    preferred_formats: ["hardcover", "paperback"]
+    isbn13: "9780007588978"
+    max_price: 150
+    notes: "Realm of the Elderlings,Fiction,Speculative Fiction,Fantasy,Epic Fantasy,EN,High Fantasy"
+  - key: "the-gentleman-bastard-series-3-book-bundle-the-lies-of-locke-lamora-red-seas-under-red-skies-the-republic-of-thieves--scott-lynch"
+    title: "The Gentleman Bastard Series 3-Book Bundle: The Lies of Locke Lamora, Red Seas Under Red Skies, The Republic of Thieves"
+    author: "Scott Lynch"
+    series: ""
+    volume: 1.0
+    status: "none"
+    language: "en"
+    priority: 1
+    enabled: true
+    aliases: []
+    preferred_publishers: ["Del Rey", "Gollancz"]
+    preferred_formats: ["hardcover", "paperback"]
+    isbn13: ""
+    max_price: 150
+    notes: "Crime,Fiction,Speculative Fiction,Fantasy,EN,Dark Fantasy"
+  - key: "the-lies-of-locke-lamora--scott-lynch"
+    title: "The Lies of Locke Lamora"
+    author: "Scott Lynch"
+    series: "Gentleman Bastard Sequence"
+    volume: 1.0
+    status: "Want to Read"
+    language: "en"
+    priority: 1
+    enabled: true
+    aliases: []
+    preferred_publishers: ["Del Rey", "Gollancz"]
+    preferred_formats: ["hardcover", "paperback"]
+    isbn13: ""
+    max_price: 150
+    notes: "Crime,Fiction,Speculative Fiction,Fantasy,PT-BR,Dark Fantasy"
+  - key: "red-seas-under-red-skies--scott-lynch"
+    title: "Red Seas Under Red Skies"
+    author: "Scott Lynch"
+    series: "Gentleman Bastard Sequence"
+    volume: 2.0
+    status: "none"
+    language: "en"
+    priority: 1
+    enabled: true
+    aliases: []
+    preferred_publishers: ["Del Rey", "Gollancz"]
+    preferred_formats: ["hardcover", "paperback"]
+    isbn13: ""
+    max_price: 150
+    notes: "Crime,Fiction,Speculative Fiction,Fantasy,PT-BR,Dark Fantasy"
+  - key: "the-republic-of-thieves--scott-lynch"
+    title: "The Republic of Thieves"
+    author: "Scott Lynch"
+    series: "Gentleman Bastard Sequence"
+    volume: 3.0
+    status: "none"
+    language: "en"
+    priority: 1
+    enabled: true
+    aliases: []
+    preferred_publishers: ["Del Rey", "Gollancz"]
+    preferred_formats: ["hardcover", "paperback"]
+    isbn13: ""
+    max_price: 150
+    notes: "Crime,Fiction,Speculative Fiction,Fantasy,PT-BR,Dark Fantasy"
+  - key: "gardens-of-the-moon--steven-erikson"
+    title: "Gardens of the Moon"
+    author: "Steven Erikson"
+    series: "Malazan Book of the Fallen"
+    volume: 1
+    status: "Want to Read"
+    language: "en"
+    priority: 1
+    enabled: true
+    aliases: []
+    preferred_publishers: ["Bantam", "Tor"]
+    preferred_formats: ["hardcover", "paperback"]
+    isbn13: ""
+    max_price: 150
+    notes: "Malazan"
+  - key: "deadhouse-gates--steven-erikson"
+    title: "Deadhouse Gates"
+    author: "Steven Erikson"
+    series: "Malazan Book of the Fallen"
+    volume: 2
+    status: "Want to Read"
+    language: "en"
+    priority: 1
+    enabled: true
+    aliases: []
+    preferred_publishers: ["Bantam", "Tor"]
+    preferred_formats: ["hardcover", "paperback"]
+    isbn13: ""
+    max_price: 150
+    notes: "Malazan"
+  - key: "memories-of-ice--steven-erikson"
+    title: "Memories of Ice"
+    author: "Steven Erikson"
+    series: "Malazan Book of the Fallen"
+    volume: 3
+    status: "Want to Read"
+    language: "en"
+    priority: 1
+    enabled: true
+    aliases: []
+    preferred_publishers: ["Bantam", "Tor"]
+    preferred_formats: ["hardcover", "paperback"]
+    isbn13: ""
+    max_price: 150
+    notes: "Malazan"
+  - key: "house-of-chains--steven-erikson"
+    title: "House of Chains"
+    author: "Steven Erikson"
+    series: "Malazan Book of the Fallen"
+    volume: 4
+    status: "Want to Read"
+    language: "en"
+    priority: 1
+    enabled: true
+    aliases: []
+    preferred_publishers: ["Bantam", "Tor"]
+    preferred_formats: ["hardcover", "paperback"]
+    isbn13: ""
+    max_price: 150
+    notes: "Malazan"
+  - key: "midnight-tides--steven-erikson"
+    title: "Midnight Tides"
+    author: "Steven Erikson"
+    series: "Malazan Book of the Fallen"
+    volume: 5
+    status: "Want to Read"
+    language: "en"
+    priority: 1
+    enabled: true
+    aliases: []
+    preferred_publishers: ["Bantam", "Tor"]
+    preferred_formats: ["hardcover", "paperback"]
+    isbn13: ""
+    max_price: 150
+    notes: "Malazan"
+  - key: "the-bonehunters--steven-erikson"
+    title: "The Bonehunters"
+    author: "Steven Erikson"
+    series: "Malazan Book of the Fallen"
+    volume: 6
+    status: "Want to Read"
+    language: "en"
+    priority: 1
+    enabled: true
+    aliases: []
+    preferred_publishers: ["Bantam", "Tor"]
+    preferred_formats: ["hardcover", "paperback"]
+    isbn13: ""
+    max_price: 150
+    notes: "Malazan"
+  - key: "reaper-s-gale--steven-erikson"
+    title: "Reaper's Gale"
+    author: "Steven Erikson"
+    series: "Malazan Book of the Fallen"
+    volume: 7
+    status: "Want to Read"
+    language: "en"
+    priority: 1
+    enabled: true
+    aliases: []
+    preferred_publishers: ["Bantam", "Tor"]
+    preferred_formats: ["hardcover", "paperback"]
+    isbn13: ""
+    max_price: 150
+    notes: "Malazan"
+  - key: "toll-the-hounds--steven-erikson"
+    title: "Toll the Hounds"
+    author: "Steven Erikson"
+    series: "Malazan Book of the Fallen"
+    volume: 8
+    status: "Want to Read"
+    language: "en"
+    priority: 1
+    enabled: true
+    aliases: []
+    preferred_publishers: ["Bantam", "Tor"]
+    preferred_formats: ["hardcover", "paperback"]
+    isbn13: ""
+    max_price: 150
+    notes: "Malazan"
+  - key: "dust-of-dreams--steven-erikson"
+    title: "Dust of Dreams"
+    author: "Steven Erikson"
+    series: "Malazan Book of the Fallen"
+    volume: 9
+    status: "Want to Read"
+    language: "en"
+    priority: 1
+    enabled: true
+    aliases: []
+    preferred_publishers: ["Bantam", "Tor"]
+    preferred_formats: ["hardcover", "paperback"]
+    isbn13: ""
+    max_price: 150
+    notes: "Malazan"
+  - key: "the-crippled-god--steven-erikson"
+    title: "The Crippled God"
+    author: "Steven Erikson"
+    series: "Malazan Book of the Fallen"
+    volume: 10
+    status: "Want to Read"
+    language: "en"
+    priority: 1
+    enabled: true
+    aliases: []
+    preferred_publishers: ["Bantam", "Tor"]
+    preferred_formats: ["hardcover", "paperback"]
+    isbn13: ""
+    max_price: 150
+    notes: "Malazan"
+  - key: "piranesi--susanna-clarke"
+    title: "Piranesi"
+    author: "Susanna Clarke"
+    series: ""
+    volume: 1.0
+    status: "Read"
+    language: "en"
+    priority: 1
+    enabled: true
+    aliases: []
+    preferred_publishers: ["Bloomsbury"]
+    preferred_formats: ["hardcover", "paperback"]
+    isbn13: ""
+    max_price: 150
+    notes: "Fiction,Speculative Fiction,Fantasy,PT-BR,Literary Fiction"
+  - key: "daisy-jones-the-six--taylor-jenkins-reid"
+    title: "Daisy Jones & The Six"
+    author: "Taylor Jenkins Reid"
+    series: ""
+    volume: 1.0
+    status: "Currently Reading"
+    language: "en"
+    priority: 1
+    enabled: true
+    aliases: []
+    preferred_publishers: []
+    preferred_formats: ["hardcover", "paperback"]
+    isbn13: ""
+    max_price: 150
+    notes: "Fiction,PT-BR,Literary Fiction,Historical Fiction"
+  - key: "the-dispossessed--ursula-k-le-guin"
+    title: "The Dispossessed"
+    author: "Ursula K. Le Guin"
+    series: "Hainish Cycle"
+    volume: 6.0
+    status: "Read"
+    language: "en"
+    priority: 1
+    enabled: true
+    aliases: []
+    preferred_publishers: []
+    preferred_formats: ["hardcover", "paperback"]
+    isbn13: ""
+    max_price: 150
+    notes: "Fiction,Speculative Fiction,PT-BR,Classic,Science Fiction,Political Fiction"
+  - key: "ironbound--andrew-givler"
+    title: "Ironbound"
+    author: "Andrew Givler"
+    series: "Ironbound"
+    volume: 3.0
+    status: "Want to Read"
+    language: "en"
+    priority: 2
+    enabled: true
+    aliases: []
+    preferred_publishers: []
+    preferred_formats: ["hardcover", "paperback"]
+    isbn13: ""
+    max_price: 120
+    notes: "Fiction,Speculative Fiction,Fantasy,Progression Fantasy,EN"
+  - key: "recursion--blake-crouch"
+    title: "Recursion"
+    author: "Blake Crouch"
+    series: ""
+    volume: 1.0
+    status: "Want to Read"
+    language: "en"
+    priority: 2
+    enabled: true
+    aliases: []
+    preferred_publishers: []
+    preferred_formats: ["hardcover", "paperback"]
+    isbn13: ""
+    max_price: 120
+    notes: "Fiction,Speculative Fiction,PT-BR,Science Fiction,Thriller,Time Travel"
+  - key: "a-game-of-thrones--george-r-r-martin"
+    title: "A Game of Thrones"
+    author: "George R. R. Martin"
+    series: "A Song of Ice and Fire"
+    volume: 1.0
+    status: "Want to Read"
+    language: "en"
+    priority: 2
+    enabled: false
+    aliases: []
+    preferred_publishers: []
+    preferred_formats: ["hardcover", "paperback"]
+    isbn13: ""
+    max_price: 120
+    notes: "Grimdark,Fiction,Speculative Fiction,Fantasy,Epic Fantasy,PT-BR | já tenho a coleção HarperVoyager"
+  - key: "a-clash-of-kings--george-r-r-martin"
+    title: "A Clash of Kings"
+    author: "George R. R. Martin"
+    series: "A Song of Ice and Fire"
+    volume: 2.0
+    status: "Want to Read"
+    language: "en"
+    priority: 2
+    enabled: false
+    aliases: []
+    preferred_publishers: []
+    preferred_formats: ["hardcover", "paperback"]
+    isbn13: ""
+    max_price: 120
+    notes: "Grimdark,Fiction,Speculative Fiction,Fantasy,Epic Fantasy,PT-BR | já tenho a coleção HarperVoyager"
+  - key: "a-storm-of-swords--george-r-r-martin"
+    title: "A Storm of Swords"
+    author: "George R. R. Martin"
+    series: "A Song of Ice and Fire"
+    volume: 3.0
+    status: "Want to Read"
+    language: "en"
+    priority: 2
+    enabled: false
+    aliases: []
+    preferred_publishers: []
+    preferred_formats: ["hardcover", "paperback"]
+    isbn13: ""
+    max_price: 120
+    notes: "Grimdark,Fiction,Speculative Fiction,Fantasy,Epic Fantasy,PT-BR | já tenho a coleção HarperVoyager"
+  - key: "a-feast-for-crows--george-r-r-martin"
+    title: "A Feast for Crows"
+    author: "George R. R. Martin"
+    series: "A Song of Ice and Fire"
+    volume: 4.0
+    status: "Want to Read"
+    language: "en"
+    priority: 2
+    enabled: false
+    aliases: []
+    preferred_publishers: []
+    preferred_formats: ["hardcover", "paperback"]
+    isbn13: ""
+    max_price: 120
+    notes: "Grimdark,Fiction,Speculative Fiction,Fantasy,Epic Fantasy,PT-BR | já tenho a coleção HarperVoyager"
+  - key: "a-dance-with-dragons--george-r-r-martin"
+    title: "A Dance with Dragons"
+    author: "George R. R. Martin"
+    series: "A Song of Ice and Fire"
+    volume: 5.0
+    status: "Want to Read"
+    language: "en"
+    priority: 2
+    enabled: false
+    aliases: []
+    preferred_publishers: []
+    preferred_formats: ["hardcover", "paperback"]
+    isbn13: ""
+    max_price: 120
+    notes: "Grimdark,Fiction,Speculative Fiction,Fantasy,Epic Fantasy,PT-BR | já tenho a coleção HarperVoyager"
+  - key: "the-fellowship-of-the-ring--j-r-r-tolkien"
+    title: "The Fellowship of the Ring"
+    author: "J.R.R. Tolkien"
+    series: "The Lord of the Rings"
+    volume: 1.0
+    status: "Want to Read"
+    language: "en"
+    priority: 2
+    enabled: true
+    aliases: []
+    preferred_publishers: []
+    preferred_formats: ["hardcover", "paperback"]
+    isbn13: ""
+    max_price: 120
+    notes: "Fiction,Speculative Fiction,Fantasy,Epic Fantasy,PT-BR,Classic,High Fantasy"
+  - key: "the-two-towers--j-r-r-tolkien"
+    title: "The Two Towers"
+    author: "J.R.R. Tolkien"
+    series: "The Lord of the Rings"
+    volume: 2.0
+    status: "Want to Read"
+    language: "en"
+    priority: 2
+    enabled: true
+    aliases: []
+    preferred_publishers: []
+    preferred_formats: ["hardcover", "paperback"]
+    isbn13: ""
+    max_price: 120
+    notes: "Fiction,Speculative Fiction,Fantasy,Epic Fantasy,PT-BR,Classic,High Fantasy"
+  - key: "the-return-of-the-king--j-r-r-tolkien"
+    title: "The Return of the King"
+    author: "J.R.R. Tolkien"
+    series: "The Lord of the Rings"
+    volume: 3.0
+    status: "Want to Read"
+    language: "en"
+    priority: 2
+    enabled: true
+    aliases: []
+    preferred_publishers: []
+    preferred_formats: ["hardcover", "paperback"]
+    isbn13: ""
+    max_price: 120
+    notes: "Fiction,Speculative Fiction,Fantasy,Epic Fantasy,PT-BR,Classic,High Fantasy"
+  - key: "king-sorrow--joe-hill"
+    title: "King Sorrow"
+    author: "Joe Hill"
+    series: ""
+    volume: 1.0
+    status: "Want to Read"
+    language: "en"
+    priority: 2
+    enabled: true
+    aliases: ["King Sorrow"]
+    preferred_publishers: []
+    preferred_formats: ["hardcover", "paperback"]
+    isbn13: ""
+    max_price: 120
+    notes: "Horror,Fiction,Speculative Fiction,EN,Dark Fantasy"
+  - key: "the-grapes-of-wrath--john-steinbeck"
+    title: "The Grapes of Wrath"
+    author: "John Steinbeck"
+    series: ""
+    volume: 1.0
+    status: "Want to Read"
+    language: "en"
+    priority: 2
+    enabled: true
+    aliases: []
+    preferred_publishers: []
+    preferred_formats: ["hardcover", "paperback"]
+    isbn13: ""
+    max_price: 120
+    notes: "Fiction,PT-BR,Classic,Literary Fiction,Historical Fiction"
+  - key: "never-let-me-go--kazuo-ishiguro"
+    title: "Never Let Me Go"
+    author: "Kazuo Ishiguro"
+    series: ""
+    volume: 1.0
+    status: "Want to Read"
+    language: "en"
+    priority: 2
+    enabled: true
+    aliases: []
+    preferred_publishers: []
+    preferred_formats: ["hardcover", "paperback"]
+    isbn13: ""
+    max_price: 120
+    notes: "Fiction,Speculative Fiction,PT-BR,Literary Fiction,Science Fiction,Dystopian"
+  - key: "slaughterhouse-five--kurt-vonnegut"
+    title: "Slaughterhouse-Five"
+    author: "Kurt Vonnegut"
+    series: ""
+    volume: 1.0
+    status: "Want to Read"
+    language: "en"
+    priority: 2
+    enabled: true
+    aliases: []
+    preferred_publishers: []
+    preferred_formats: ["hardcover", "paperback"]
+    isbn13: ""
+    max_price: 120
+    notes: "Fiction,Speculative Fiction,PT-BR,Classic,Literary Fiction,Science Fiction"
+  - key: "the-sirens-of-titan--kurt-vonnegut"
+    title: "The Sirens of Titan"
+    author: "Kurt Vonnegut"
+    series: ""
+    volume: 1.0
+    status: "Want to Read"
+    language: "en"
+    priority: 2
+    enabled: true
+    aliases: []
+    preferred_publishers: []
+    preferred_formats: ["hardcover", "paperback"]
+    isbn13: ""
+    max_price: 120
+    notes: "Fiction,Speculative Fiction,PT-BR,Classic,Science Fiction,Satire"
+  - key: "blood-over-bright-haven--m-l-wang"
+    title: "Blood Over Bright Haven"
+    author: "M. L. Wang"
+    series: ""
+    volume: 1.0
+    status: "Want to Read"
+    language: "en"
+    priority: 2
+    enabled: true
+    aliases: []
+    preferred_publishers: []
+    preferred_formats: ["hardcover", "paperback"]
+    isbn13: ""
+    max_price: 120
+    notes: "Fiction,Speculative Fiction,Fantasy,PT-BR,Dark Fantasy"
+  - key: "the-sword-of-kaigen--m-l-wang"
+    title: "The Sword of Kaigen"
+    author: "M. L. Wang"
+    series: ""
+    volume: 1.0
+    status: "Want to Read"
+    language: "en"
+    priority: 2
+    enabled: true
+    aliases: []
+    preferred_publishers: []
+    preferred_formats: ["hardcover", "paperback"]
+    isbn13: ""
+    max_price: 120
+    notes: "Fiction,Speculative Fiction,Fantasy,Epic Fantasy,PT-BR,Military Fantasy"
+  - key: "jurassic-park--michael-crichton"
+    title: "Jurassic Park"
+    author: "Michael Crichton"
+    series: "Jurassic Park"
+    volume: 1.0
+    status: "Want to Read"
+    language: "en"
+    priority: 2
+    enabled: true
+    aliases: []
+    preferred_publishers: []
+    preferred_formats: ["hardcover", "paperback"]
+    isbn13: ""
+    max_price: 120
+    notes: "Fiction,Speculative Fiction,PT-BR,Science Fiction,Thriller"
+  - key: "the-lost-world--michael-crichton"
+    title: "The Lost World"
+    author: "Michael Crichton"
+    series: "Jurassic Park"
+    volume: 2.0
+    status: "Want to Read"
+    language: "en"
+    priority: 2
+    enabled: true
+    aliases: []
+    preferred_publishers: []
+    preferred_formats: ["hardcover", "paperback"]
+    isbn13: ""
+    max_price: 120
+    notes: "Fiction,Speculative Fiction,PT-BR,Science Fiction,Thriller"
+  - key: "pachinko--min-jin-lee"
+    title: "Pachinko"
+    author: "Min Jin Lee"
+    series: ""
+    volume: 1.0
+    status: "Want to Read"
+    language: "en"
+    priority: 2
+    enabled: true
+    aliases: []
+    preferred_publishers: []
+    preferred_formats: ["hardcover", "paperback"]
+    isbn13: ""
+    max_price: 120
+    notes: "Fiction,PT-BR,Literary Fiction,Historical Fiction,Family Saga"
+  - key: "the-fifth-season--n-k-jemisin"
+    title: "The Fifth Season"
+    author: "N. K. Jemisin"
+    series: "The Broken Earth"
+    volume: 1.0
+    status: "Want to Read"
+    language: "en"
+    priority: 2
+    enabled: true
+    aliases: []
+    preferred_publishers: []
+    preferred_formats: ["hardcover", "paperback"]
+    isbn13: ""
+    max_price: 120
+    notes: "Fiction,Speculative Fiction,Fantasy,PT-BR,Science Fantasy,Dystopian"
+  - key: "the-obelisk-gate--n-k-jemisin"
+    title: "The Obelisk Gate"
+    author: "N. K. Jemisin"
+    series: "The Broken Earth"
+    volume: 2.0
+    status: "Want to Read"
+    language: "en"
+    priority: 2
+    enabled: true
+    aliases: []
+    preferred_publishers: []
+    preferred_formats: ["hardcover", "paperback"]
+    isbn13: ""
+    max_price: 120
+    notes: "Fiction,Speculative Fiction,Fantasy,PT-BR,Science Fantasy,Dystopian"
+  - key: "the-stone-sky--n-k-jemisin"
+    title: "The Stone Sky"
+    author: "N. K. Jemisin"
+    series: "The Broken Earth"
+    volume: 3.0
+    status: "Want to Read"
+    language: "en"
+    priority: 2
+    enabled: true
+    aliases: []
+    preferred_publishers: []
+    preferred_formats: ["hardcover", "paperback"]
+    isbn13: ""
+    max_price: 120
+    notes: "Fiction,Speculative Fiction,Fantasy,PT-BR,Science Fantasy,Dystopian"
+  - key: "kindred--octavia-e-butler"
+    title: "Kindred"
+    author: "Octavia E. Butler"
+    series: ""
+    volume: 1.0
+    status: "Want to Read"
+    language: "en"
+    priority: 2
+    enabled: true
+    aliases: []
+    preferred_publishers: []
+    preferred_formats: ["hardcover", "paperback"]
+    isbn13: ""
+    max_price: 120
+    notes: "Fiction,Speculative Fiction,PT-BR,Science Fiction,Time Travel,Historical Fiction"
+  - key: "the-tainted-cup--robert-jackson-bennett"
+    title: "The Tainted Cup"
+    author: "Robert Jackson Bennett"
+    series: ""
+    volume: 1.0
+    status: "Want to Read"
+    language: "en"
+    priority: 2
+    enabled: true
+    aliases: []
+    preferred_publishers: []
+    preferred_formats: ["hardcover", "paperback"]
+    isbn13: ""
+    max_price: 120
+    notes: "Fiction,Speculative Fiction,Fantasy,PT-BR,Mystery"
+  - key: "lord-of-light--roger-zelazny"
+    title: "Lord of Light"
+    author: "Roger Zelazny"
+    series: ""
+    volume: 1.0
+    status: "Want to Read"
+    language: "en"
+    priority: 2
+    enabled: true
+    aliases: []
+    preferred_publishers: []
+    preferred_formats: ["hardcover", "paperback"]
+    isbn13: ""
+    max_price: 120
+    notes: "Fiction,Speculative Fiction,Fantasy,PT-BR,Classic,Science Fiction,Science Fantasy"
+  - key: "11-22-63--stephen-king"
+    title: "11/22/63"
+    author: "Stephen King"
+    series: ""
+    volume: 1.0
+    status: "Want to Read"
+    language: "en"
+    priority: 2
+    enabled: true
+    aliases: []
+    preferred_publishers: []
+    preferred_formats: ["hardcover", "paperback"]
+    isbn13: ""
+    max_price: 120
+    notes: "Fiction,Speculative Fiction,PT-BR,Science Fiction,Thriller,Time Travel,Historical Fiction"
+  - key: "the-left-hand-of-darkness--ursula-k-le-guin"
+    title: "The Left Hand of Darkness"
+    author: "Ursula K. Le Guin"
+    series: "Hainish Cycle"
+    volume: 4.0
+    status: "Want to Read"
+    language: "en"
+    priority: 2
+    enabled: true
+    aliases: []
+    preferred_publishers: []
+    preferred_formats: ["hardcover", "paperback"]
+    isbn13: ""
+    max_price: 120
+    notes: "Fiction,Speculative Fiction,PT-BR,Classic,Science Fiction"
+  - key: "the-stranger--albert-camus"
+    title: "The Stranger"
+    author: "Albert Camus"
+    series: ""
+    volume: 1.0
+    status: "Want to Read"
+    language: "en"
+    priority: 3
+    enabled: false
+    aliases: ["L'Étranger"]
+    preferred_publishers: []
+    preferred_formats: ["hardcover", "paperback"]
+    isbn13: ""
+    max_price: 100
+    notes: "Fiction,PT-BR,Classic,Literary Fiction"
+  - key: "cold-wind--andrew-givler"
+    title: "Cold Wind"
+    author: "Andrew Givler"
+    series: "Ironbound"
+    volume: 2.0
+    status: "none"
+    language: "en"
+    priority: 3
+    enabled: false
+    aliases: []
+    preferred_publishers: []
+    preferred_formats: ["hardcover", "paperback"]
+    isbn13: ""
+    max_price: 100
+    notes: "Fiction,Speculative Fiction,Fantasy,Progression Fantasy,EN"
+  - key: "roadside-picnic--arkadi-strugatski"
+    title: "Roadside Picnic"
+    author: "Arkádi Strugátski & Bóris Strugátski"
+    series: ""
+    volume: 1.0
+    status: "none"
+    language: "en"
+    priority: 3
+    enabled: false
+    aliases: ["Piknik na obochine"]
+    preferred_publishers: []
+    preferred_formats: ["hardcover", "paperback"]
+    isbn13: ""
+    max_price: 100
+    notes: "Fiction,Speculative Fiction,PT-BR,Classic,Science Fiction,First Contact"
+  - key: "pequenas-coisas-como-estas--claire-keegan"
+    title: "Pequenas coisas como estas"
+    author: "Claire Keegan"
+    series: ""
+    volume: 1.0
+    status: "none"
+    language: "en"
+    priority: 3
+    enabled: false
+    aliases: []
+    preferred_publishers: []
+    preferred_formats: ["hardcover", "paperback"]
+    isbn13: ""
+    max_price: 100
+    notes: "Fiction,PT-BR,Literary Fiction,Historical Fiction"
+  - key: "suming-zhi-huan--cuttlefish-that-loves-diving"
+    title: "Suming zhi huan"
+    author: "Cuttlefish That Loves Diving"
+    series: ""
+    volume: 1.0
+    status: "none"
+    language: "en"
+    priority: 3
+    enabled: false
+    aliases: []
+    preferred_publishers: []
+    preferred_formats: ["hardcover", "paperback"]
+    isbn13: ""
+    max_price: 100
+    notes: "Fiction,Speculative Fiction,Fantasy,Progression Fantasy,EN,Mystery,Dark Fantasy"
+  - key: "xiaochou--cuttlefish-that-loves-diving"
+    title: "Xiaochou"
+    author: "Cuttlefish That Loves Diving"
+    series: "Lord of Mysteries"
+    volume: 1.0
+    status: "none"
+    language: "en"
+    priority: 3
+    enabled: false
+    aliases: []
+    preferred_publishers: []
+    preferred_formats: ["hardcover", "paperback"]
+    isbn13: ""
+    max_price: 100
+    notes: "Fiction,Speculative Fiction,Fantasy,Progression Fantasy,EN,Mystery,Dark Fantasy"
+  - key: "wumianren--cuttlefish-that-loves-diving"
+    title: "Wumianren"
+    author: "Cuttlefish That Loves Diving"
+    series: "Lord of Mysteries"
+    volume: 2.0
+    status: "none"
+    language: "en"
+    priority: 3
+    enabled: false
+    aliases: []
+    preferred_publishers: []
+    preferred_formats: ["hardcover", "paperback"]
+    isbn13: ""
+    max_price: 100
+    notes: "Fiction,Speculative Fiction,Fantasy,Progression Fantasy,EN,Mystery,Dark Fantasy"
+  - key: "luxingjia--cuttlefish-that-loves-diving"
+    title: "Lüxingjia"
+    author: "Cuttlefish That Loves Diving"
+    series: "Lord of Mysteries"
+    volume: 3.0
+    status: "none"
+    language: "en"
+    priority: 3
+    enabled: false
+    aliases: []
+    preferred_publishers: []
+    preferred_formats: ["hardcover", "paperback"]
+    isbn13: ""
+    max_price: 100
+    notes: "Fiction,Speculative Fiction,Fantasy,Progression Fantasy,EN,Mystery,Dark Fantasy"
+  - key: "bulaozhe--cuttlefish-that-loves-diving"
+    title: "Bulaozhe"
+    author: "Cuttlefish That Loves Diving"
+    series: "Lord of Mysteries"
+    volume: 4.0
+    status: "none"
+    language: "en"
+    priority: 3
+    enabled: false
+    aliases: []
+    preferred_publishers: []
+    preferred_formats: ["hardcover", "paperback"]
+    isbn13: ""
+    max_price: 100
+    notes: "Fiction,Speculative Fiction,Fantasy,Progression Fantasy,EN,Mystery,Dark Fantasy"
+  - key: "hongjisi--cuttlefish-that-loves-diving"
+    title: "Hongjisi"
+    author: "Cuttlefish That Loves Diving"
+    series: "Lord of Mysteries"
+    volume: 5.0
+    status: "none"
+    language: "en"
+    priority: 3
+    enabled: false
+    aliases: []
+    preferred_publishers: []
+    preferred_formats: ["hardcover", "paperback"]
+    isbn13: ""
+    max_price: 100
+    notes: "Fiction,Speculative Fiction,Fantasy,Progression Fantasy,EN,Mystery,Dark Fantasy"
+  - key: "zhuguangzhe--cuttlefish-that-loves-diving"
+    title: "Zhuguangzhe"
+    author: "Cuttlefish That Loves Diving"
+    series: "Lord of Mysteries"
+    volume: 6.0
+    status: "none"
+    language: "en"
+    priority: 3
+    enabled: false
+    aliases: []
+    preferred_publishers: []
+    preferred_formats: ["hardcover", "paperback"]
+    isbn13: ""
+    max_price: 100
+    notes: "Fiction,Speculative Fiction,Fantasy,Progression Fantasy,EN,Mystery,Dark Fantasy"
+  - key: "daodiaoren--cuttlefish-that-loves-diving"
+    title: "Daodiaoren"
+    author: "Cuttlefish That Loves Diving"
+    series: "Lord of Mysteries"
+    volume: 7.0
+    status: "none"
+    language: "en"
+    priority: 3
+    enabled: false
+    aliases: []
+    preferred_publishers: []
+    preferred_formats: ["hardcover", "paperback"]
+    isbn13: ""
+    max_price: 100
+    notes: "Fiction,Speculative Fiction,Fantasy,Progression Fantasy,EN,Mystery,Dark Fantasy"
+  - key: "yuzhe--cuttlefish-that-loves-diving"
+    title: "Yuzhe"
+    author: "Cuttlefish That Loves Diving"
+    series: "Lord of Mysteries"
+    volume: 8.0
+    status: "none"
+    language: "en"
+    priority: 3
+    enabled: false
+    aliases: []
+    preferred_publishers: []
+    preferred_formats: ["hardcover", "paperback"]
+    isbn13: ""
+    max_price: 100
+    notes: "Fiction,Speculative Fiction,Fantasy,Progression Fantasy,EN,Mystery,Dark Fantasy"
+  - key: "flowers-for-algernon--daniel-keyes"
+    title: "Flowers for Algernon"
+    author: "Daniel Keyes"
+    series: ""
+    volume: 1.0
+    status: "none"
+    language: "en"
+    priority: 3
+    enabled: false
+    aliases: ["Flores para Algernon"]
+    preferred_publishers: []
+    preferred_formats: ["hardcover", "paperback"]
+    isbn13: ""
+    max_price: 100
+    notes: "Fiction,Speculative Fiction,PT-BR,Classic,Literary Fiction,Science Fiction"
+  - key: "the-breadwinner--deborah-ellis"
+    title: "The Breadwinner"
+    author: "Deborah Ellis"
+    series: ""
+    volume: 1.0
+    status: "none"
+    language: "en"
+    priority: 3
+    enabled: false
+    aliases: []
+    preferred_publishers: []
+    preferred_formats: ["hardcover", "paperback"]
+    isbn13: ""
+    max_price: 100
+    notes: "Fiction,PT-BR,Historical Fiction"
+  - key: "belye-nochi--fiodor-dostoievski"
+    title: "Belye nochi"
+    author: "Fiódor Dostoiévski"
+    series: ""
+    volume: 1.0
+    status: "none"
+    language: "en"
+    priority: 3
+    enabled: false
+    aliases: []
+    preferred_publishers: []
+    preferred_formats: ["hardcover", "paperback"]
+    isbn13: ""
+    max_price: 100
+    notes: "Fiction,PT-BR,Classic,Literary Fiction"
+  - key: "idiot--fiodor-dostoievski"
+    title: "Idiot"
+    author: "Fiódor Dostoiévski"
+    series: ""
+    volume: 1.0
+    status: "none"
+    language: "en"
+    priority: 3
+    enabled: false
+    aliases: []
+    preferred_publishers: []
+    preferred_formats: ["hardcover", "paperback"]
+    isbn13: ""
+    max_price: 100
+    notes: "Fiction,PT-BR,Classic,Literary Fiction"
+  - key: "zapiski-iz-podpol-ya--fiodor-dostoievski"
+    title: "Zapiski iz podpol'ya"
+    author: "Fiódor Dostoiévski"
+    series: ""
+    volume: 1.0
+    status: "none"
+    language: "en"
+    priority: 3
+    enabled: false
+    aliases: []
+    preferred_publishers: []
+    preferred_formats: ["hardcover", "paperback"]
+    isbn13: ""
+    max_price: 100
+    notes: "Fiction,PT-BR,Classic,Literary Fiction"
+  - key: "brat-ya-karamazovy--fiodor-dostoievski"
+    title: "Brat'ya Karamazovy"
+    author: "Fiódor Dostoiévski"
+    series: ""
+    volume: 1.0
+    status: "none"
+    language: "en"
+    priority: 3
+    enabled: false
+    aliases: []
+    preferred_publishers: []
+    preferred_formats: ["hardcover", "paperback"]
+    isbn13: ""
+    max_price: 100
+    notes: "Fiction,PT-BR,Classic,Literary Fiction"
+  - key: "prestuplenie-i-nakazanie--fiodor-dostoievski"
+    title: "Prestuplenie i nakazanie"
+    author: "Fiódor Dostoiévski"
+    series: ""
+    volume: 1.0
+    status: "none"
+    language: "en"
+    priority: 3
+    enabled: false
+    aliases: []
+    preferred_publishers: []
+    preferred_formats: ["hardcover", "paperback"]
+    isbn13: ""
+    max_price: 100
+    notes: "Crime,Fiction,PT-BR,Classic,Literary Fiction"
+  - key: "die-lage-der-arbeitenden-klasse-in-england--friedrich-engels"
+    title: "Die Lage der arbeitenden Klasse in England"
+    author: "Friedrich Engels"
+    series: ""
+    volume: 1.0
+    status: "none"
+    language: "en"
+    priority: 3
+    enabled: false
+    aliases: []
+    preferred_publishers: []
+    preferred_formats: ["hardcover", "paperback"]
+    isbn13: ""
+    max_price: 100
+    notes: "PT-BR,Non-Fiction,Marxism,Sociology,History"
+  - key: "anti-duhring--friedrich-engels"
+    title: "Anti-Dühring"
+    author: "Friedrich Engels"
+    series: ""
+    volume: 1.0
+    status: "none"
+    language: "en"
+    priority: 3
+    enabled: false
+    aliases: []
+    preferred_publishers: []
+    preferred_formats: ["hardcover", "paperback"]
+    isbn13: ""
+    max_price: 100
+    notes: "PT-BR,Non-Fiction,Philosophy,Politics,Marxism,Political Economy"
+  - key: "one-hundred-years-of-solitude--gabriel-garcia-marquez"
+    title: "One Hundred Years of Solitude"
+    author: "Gabriel García Márquez"
+    series: ""
+    volume: 1.0
+    status: "Want to Read"
+    language: "en"
+    priority: 3
+    enabled: false
+    aliases: ["Cien años de soledad"]
+    preferred_publishers: []
+    preferred_formats: ["hardcover", "paperback"]
+    isbn13: ""
+    max_price: 100
+    notes: "Fiction,Speculative Fiction,PT-BR,Classic,Literary Fiction,Magical Realism,Family Saga"
+  - key: "1984--george-orwell"
+    title: "1984"
+    author: "George Orwell"
+    series: ""
+    volume: 1.0
+    status: "none"
+    language: "en"
+    priority: 3
+    enabled: false
+    aliases: []
+    preferred_publishers: []
+    preferred_formats: ["hardcover", "paperback"]
+    isbn13: ""
+    max_price: 100
+    notes: "Fiction,Speculative Fiction,PT-BR,Classic,Science Fiction,Political Fiction,Dystopian"
+  - key: "the-hobbit--j-r-r-tolkien"
+    title: "The Hobbit"
+    author: "J.R.R. Tolkien"
+    series: ""
+    volume: 1.0
+    status: "none"
+    language: "en"
+    priority: 3
+    enabled: false
+    aliases: ["O Hobbit"]
+    preferred_publishers: []
+    preferred_formats: ["hardcover", "paperback"]
+    isbn13: ""
+    max_price: 100
+    notes: "Fiction,Speculative Fiction,Fantasy,Epic Fantasy,PT-BR,Classic,High Fantasy"
+  - key: "i-who-have-never-known-men--jacqueline-harpman"
+    title: "I Who Have Never Known Men"
+    author: "Jacqueline Harpman"
+    series: ""
+    volume: 1.0
+    status: "none"
+    language: "en"
+    priority: 3
+    enabled: false
+    aliases: ["Eu que nunca conheci os homens"]
+    preferred_publishers: []
+    preferred_formats: ["hardcover", "paperback"]
+    isbn13: ""
+    max_price: 100
+    notes: "Fiction,Speculative Fiction,PT-BR,Literary Fiction,Dystopian"
+  - key: "manifest-der-kommunistischen-partei--karl-marx"
+    title: "Manifest der Kommunistischen Partei"
+    author: "Karl Marx & Friedrich Engels"
+    series: ""
+    volume: 1.0
+    status: "none"
+    language: "en"
+    priority: 3
+    enabled: false
+    aliases: []
+    preferred_publishers: []
+    preferred_formats: ["hardcover", "paperback"]
+    isbn13: ""
+    max_price: 100
+    notes: "PT-BR,Non-Fiction,Politics,Marxism,Political Philosophy"
+  - key: "a-guerra-civil-dos-estados-unidos--karl-marx"
+    title: "A guerra civil dos Estados Unidos"
+    author: "Karl Marx & Friedrich Engels"
+    series: ""
+    volume: 1.0
+    status: "none"
+    language: "en"
+    priority: 3
+    enabled: false
+    aliases: []
+    preferred_publishers: []
+    preferred_formats: ["hardcover", "paperback"]
+    isbn13: ""
+    max_price: 100
+    notes: "PT-BR,Non-Fiction,Politics,Marxism,History"
+  - key: "lonesome-dove--larry-mcmurtry"
+    title: "Lonesome Dove"
+    author: "Larry McMurtry"
+    series: ""
+    volume: 1.0
+    status: "Want to Read"
+    language: "en"
+    priority: 3
+    enabled: false
+    aliases: ["Pombo Solitário"]
+    preferred_publishers: []
+    preferred_formats: ["hardcover", "paperback"]
+    isbn13: ""
+    max_price: 100
+    notes: "Fiction,Classic,EN,Historical Fiction,Western"
+  - key: "smert-ivana-ilyicha--lev-tolstoi"
+    title: "Smert Ivana Ilyicha"
+    author: "Lev Tolstói"
+    series: ""
+    volume: 1.0
+    status: "none"
+    language: "en"
+    priority: 3
+    enabled: false
+    aliases: []
+    preferred_publishers: []
+    preferred_formats: ["hardcover", "paperback"]
+    isbn13: ""
+    max_price: 100
+    notes: "Fiction,PT-BR,Classic,Literary Fiction"
+  - key: "anna-karenina--lev-tolstoi"
+    title: "Anna Karenina"
+    author: "Lev Tolstói"
+    series: ""
+    volume: 1.0
+    status: "none"
+    language: "en"
+    priority: 3
+    enabled: false
+    aliases: []
+    preferred_publishers: []
+    preferred_formats: ["hardcover", "paperback"]
+    isbn13: ""
+    max_price: 100
+    notes: "Romance,Fiction,PT-BR,Classic,Literary Fiction"
+  - key: "voyna-i-mir--liev-tolstoi"
+    title: "Voyna i mir"
+    author: "Liev Tolstói"
+    series: ""
+    volume: 1.0
+    status: "none"
+    language: "en"
+    priority: 3
+    enabled: false
+    aliases: []
+    preferred_publishers: []
+    preferred_formats: ["hardcover", "paperback"]
+    isbn13: ""
+    max_price: 100
+    notes: "Fiction,PT-BR,Classic,Literary Fiction,Historical Fiction"
+  - key: "the-sword-of-kaigen-a-theonite-war-story--m-l-wang"
+    title: "The Sword of Kaigen: A Theonite War Story"
+    author: "M. L. Wang"
+    series: ""
+    volume: 1.0
+    status: "none"
+    language: "en"
+    priority: 3
+    enabled: false
+    aliases: []
+    preferred_publishers: []
+    preferred_formats: ["hardcover", "paperback"]
+    isbn13: ""
+    max_price: 100
+    notes: "Fiction,Speculative Fiction,Fantasy,Epic Fantasy,EN,Military Fantasy"
+  - key: "black-leopard-red-wolf--marlon-james"
+    title: "Black Leopard, Red Wolf"
+    author: "Marlon James"
+    series: "Dark Star Trilogy"
+    volume: 1.0
+    status: "none"
+    language: "en"
+    priority: 3
+    enabled: false
+    aliases: []
+    preferred_publishers: []
+    preferred_formats: ["hardcover", "paperback"]
+    isbn13: ""
+    max_price: 100
+    notes: "Fiction,Speculative Fiction,Fantasy,Epic Fantasy,PT-BR,Dark Fantasy"
+  - key: "master-i-margarita--mikhail-bulgakov"
+    title: "Master i Margarita"
+    author: "Mikhail Bulgakov"
+    series: ""
+    volume: 1.0
+    status: "none"
+    language: "en"
+    priority: 3
+    enabled: false
+    aliases: []
+    preferred_publishers: []
+    preferred_formats: ["hardcover", "paperback"]
+    isbn13: ""
+    max_price: 100
+    notes: "Fiction,Speculative Fiction,PT-BR,Classic,Literary Fiction,Magical Realism,Satire"
+  - key: "the-ocean-at-the-end-of-the-lane--neil-gaiman"
+    title: "The Ocean at the End of the Lane"
+    author: "Neil Gaiman"
+    series: ""
+    volume: 1.0
+    status: "none"
+    language: "en"
+    priority: 3
+    enabled: false
+    aliases: ["O Oceano no Fim do Caminho"]
+    preferred_publishers: []
+    preferred_formats: ["hardcover", "paperback"]
+    isbn13: ""
+    max_price: 100
+    notes: "PT-PT,Fiction,Speculative Fiction,Fantasy,Literary Fiction"
+  - key: "2666--roberto-bolano"
+    title: "2666"
+    author: "Roberto Bolaño"
+    series: ""
+    volume: 1.0
+    status: "none"
+    language: "en"
+    priority: 3
+    enabled: false
+    aliases: []
+    preferred_publishers: []
+    preferred_formats: ["hardcover", "paperback"]
+    isbn13: ""
+    max_price: 100
+    notes: "Crime,Fiction,PT-BR,Literary Fiction"
+  - key: "the-chronicles-of-amber-volume-one--roger-zelazny"
+    title: "The Chronicles of Amber, Volume One"
+    author: "Roger Zelazny"
+    series: "The Chronicles of Amber"
+    volume: 1.0
+    status: "none"
+    language: "en"
+    priority: 3
+    enabled: false
+    aliases: []
+    preferred_publishers: []
+    preferred_formats: ["hardcover", "paperback"]
+    isbn13: ""
+    max_price: 100
+    notes: "Fiction,Speculative Fiction,Fantasy,PT-BR,Classic,Portal Fantasy"
+  - key: "the-chronicles-of-amber-volume-two--roger-zelazny"
+    title: "The Chronicles of Amber, Volume Two"
+    author: "Roger Zelazny"
+    series: "The Chronicles of Amber"
+    volume: 2.0
+    status: "none"
+    language: "en"
+    priority: 3
+    enabled: false
+    aliases: []
+    preferred_publishers: []
+    preferred_formats: ["hardcover", "paperback"]
+    isbn13: ""
+    max_price: 100
+    notes: "Fiction,Speculative Fiction,Fantasy,PT-BR,Classic,Portal Fantasy"
+  - key: "solaris--stanis-aw-lem"
+    title: "Solaris"
+    author: "Stanisław Lem"
+    series: ""
+    volume: 1.0
+    status: "none"
+    language: "en"
+    priority: 3
+    enabled: false
+    aliases: []
+    preferred_publishers: []
+    preferred_formats: ["hardcover", "paperback"]
+    isbn13: ""
+    max_price: 100
+    notes: "Fiction,Speculative Fiction,PT-BR,Classic,Literary Fiction,Science Fiction"
+  - key: "the-shining--stephen-king"
+    title: "The Shining"
+    author: "Stephen King"
+    series: ""
+    volume: 1.0
+    status: "none"
+    language: "en"
+    priority: 3
+    enabled: false
+    aliases: []
+    preferred_publishers: []
+    preferred_formats: ["hardcover", "paperback"]
+    isbn13: ""
+    max_price: 100
+    notes: "Horror,Fiction,Speculative Fiction,PT-BR,Classic"
+  - key: "the-lathe-of-heaven--ursula-k-le-guin"
+    title: "The Lathe of Heaven"
+    author: "Ursula K. Le Guin"
+    series: ""
+    volume: 1.0
+    status: "none"
+    language: "en"
+    priority: 3
+    enabled: false
+    aliases: ["A curva do sonho"]
+    preferred_publishers: []
+    preferred_formats: ["hardcover", "paperback"]
+    isbn13: ""
+    max_price: 100
+    notes: "Fiction,Speculative Fiction,PT-BR,Science Fiction"

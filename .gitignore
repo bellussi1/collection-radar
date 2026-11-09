@@ -1,0 +1,8 @@
+node_modules/
+dist/
+data/
+logs/
+.env
+*.local
+playwright-report/
+test-results/

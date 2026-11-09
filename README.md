@@ -1,0 +1,152 @@
+# Collection Radar
+
+Radar local de livros usados e importados para a coleção física. Varre Estante
+Virtual, OLX, Mercado Livre e Enjoei, tenta identificar a edição certa e manda um
+digest por e-mail. Não compra nada sozinho.
+
+Primeiro caso de uso: Robin Hobb / Realm of the Elderlings na edição HarperVoyager
+UK de 129 × 198 mm. O orçamento da AbeBooks e da Better World Books está em
+[`docs/realm-of-the-elderlings-budget.md`](docs/realm-of-the-elderlings-budget.md).
+
+## Como funciona
+
+1. **Watchlist** (`config/watchlist.yaml`): obras, autor, série, editora
+   preferida, formato, ISBN e preço-teto. Foi gerada a partir da biblioteca do
+   Calibre em `C:\Users\Bellussi\Biblioteca do calibre` e pode ser editada à mão.
+2. **Consultas** (`config/queries.yaml`): autores, séries e títulos que serão
+   buscados em cada fonte.
+3. **Coletores** (`src/sources/`): Playwright para as quatro fontes. OLX e
+   Mercado Livre bloqueiam headless; o padrão é abrir um Chromium fora da tela.
+4. **Matcher** (`src/match.ts`): título/autor/série com tolerância a variações,
+   ISBN exato, editora, formato e idioma. Edição em português é descartada; o
+   radar é para o original em inglês.
+5. **Digest** (`src/digest.ts`): HTML e texto com link, preço, frete, fonte,
+   localização e confiança. O e-mail é opcional; sem SMTP, o digest fica em
+   `data/outbox/`.
+
+## Requisitos
+
+- Windows 11, Node.js 24+
+- Chromium do Playwright: `npx playwright install chromium`
+- Para OLX e Mercado Livre: deixe `HEADLESS=false` (padrão). O Chromium abre
+  fora da tela (`--window-position=-32000,-32000`).
+
+## Setup
+
+```powershell
+cd C:\Users\Bellussi\Documents\Workspace\collection-radar
+npm install
+npx playwright install chromium
+Copy-Item .env.example .env
+```
+
+Edite `.env` com o SMTP. Para Gmail, use uma **senha de app** (não a senha da
+conta):
+
+```
+SMTP_HOST=smtp.gmail.com
+SMTP_PORT=587
+SMTP_SECURE=false
+SMTP_USER=seuemail@gmail.com
+SMTP_PASS=senha-de-app
+MAIL_FROM=seuemail@gmail.com
+MAIL_TO=enzobellussi3@gmail.com
+```
+
+O Mercado Livre funciona sem token pela página, mas é instável. Se quiser a API
+oficial, crie um app em https://developers.mercadolivre.com.br e preencha
+`ML_ACCESS_TOKEN`.
+
+## Comandos
+
+```powershell
+npm run watchlist                  # resumo da watchlist e das fontes
+npm run sources -- --query "robin hobb" --limit 5
+npm run scan -- --max-queries 10 --no-email
+npm run scan                       # varredura completa + e-mail
+npm run digest                     # reenvia os matches dos últimos 7 dias
+npm test
+npm run typecheck
+```
+
+Opções do scan:
+
+- `--source estante|olx|mercadolivre|enjoei`
+- `--query "termo"` (filtra as consultas por substring)
+- `--limit 30` (anúncios por consulta)
+- `--max-queries 20`
+- `--no-email`
+- `--headless` (só use se a fonte aceitar; OLX/ML costumam bloquear)
+
+## Agendamento
+
+O script `scripts/scan.cmd` roda a varredura e grava o log em `logs/scan.log`.
+Para agendar no Task Scheduler (execute como o seu usuário):
+
+```powershell
+schtasks /Create /SC HOURLY /MO 6 /TN "Collection Radar" ^
+  /TR "C:\Users\Bellussi\Documents\Workspace\collection-radar\scripts\scan.cmd" /F
+```
+
+Ou abra o Task Scheduler e crie uma tarefa diária. O navegador abre fora da tela;
+se você estiver usando o PC, pode ver o processo no gerenciador de tarefas.
+
+## Como editar a watchlist
+
+Cada obra tem:
+
+```yaml
+- key: "assassin-s-quest--robin-hobb"
+  title: "Assassin's Quest"
+  author: "Robin Hobb"
+  series: "The Farseer Trilogy"
+  volume: 3
+  status: "Want to Read"
+  language: "en"
+  priority: 1
+  enabled: true
+  aliases: ["A Fúria do Assassino"]
+  preferred_publishers: ["HarperVoyager"]
+  preferred_formats: ["hardcover", "paperback"]
+  isbn13: "9780007562275"
+  max_price: 150
+```
+
+- `priority`: 1 = coleção principal, 2 = quero ler, 3 = radar geral.
+- `enabled: false` tira a obra das buscas.
+- `isbn13` é a arma mais forte: se o anúncio tiver o ISBN, o match é 100%.
+- `aliases` servem para títulos em português e variações.
+
+## Limites conhecidos
+
+- **OLX e Mercado Livre** usam Cloudflare. Headless é bloqueado; o modo headed
+  fora da tela funciona. Se mudar o layout, o coletor quebra e precisa de ajuste.
+- **Shopee** ainda não está no MVP. A API oficial é para parceiros e o scraping
+  é frágil.
+- **Sebos independentes** entram depois, com parsers por site ou Google
+  Programmable Search.
+- **Matching de capa** (pHash) e OCR de foto são a próxima evolução para os
+  anúncios vagos de desapego.
+- O radar não compra, não negocia e não faz oferta. A confirmação de edição,
+  idioma, formato e estado é humana.
+
+## Estrutura
+
+```
+config/          watchlist, consultas e settings
+src/sources/     estante, olx, mercadolivre, enjoei
+src/match.ts     motor de matching
+src/db.ts        SQLite (node:sqlite)
+src/digest.ts    HTML/texto do e-mail
+src/scan.ts      orquestrador
+data/            radar.db e outbox (gitignored)
+docs/            orçamentos e notas
+scripts/         probe e scan.cmd
+tests/           testes de normalize/match
+```
+
+## Uso e limites
+
+Uso pessoal, volume baixo, sem revenda. Respeite os termos e o robots.txt de cada
+site. Não contorne CAPTCHA nem aumente a frequência para burlar bloqueio. Se uma
+fonte bloquear, o radar para aquela fonte na rodada e segue nas outras.

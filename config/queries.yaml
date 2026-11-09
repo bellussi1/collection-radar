@@ -1,0 +1,446 @@
+# Consultas geradas a partir da watchlist. Ajuste a prioridade e os termos.
+queries:
+  - term: "A Fúria do Assassino"
+    kind: "alias"
+    priority: 1
+    enabled: true
+  - term: "Império do Silêncio"
+    kind: "alias"
+    priority: 1
+    enabled: true
+  - term: "O Aprendiz de Assassino"
+    kind: "alias"
+    priority: 1
+    enabled: true
+  - term: "O Assassino do Rei"
+    kind: "alias"
+    priority: 1
+    enabled: true
+  - term: "Andy Weir"
+    kind: "author"
+    priority: 1
+    enabled: true
+  - term: "Arkady Martine"
+    kind: "author"
+    priority: 1
+    enabled: true
+  - term: "Becky Chambers"
+    kind: "author"
+    priority: 1
+    enabled: true
+  - term: "Blake Crouch"
+    kind: "author"
+    priority: 1
+    enabled: true
+  - term: "Brandon Sanderson"
+    kind: "author"
+    priority: 1
+    enabled: true
+  - term: "China Miéville"
+    kind: "author"
+    priority: 1
+    enabled: true
+  - term: "Christopher Buehlman"
+    kind: "author"
+    priority: 1
+    enabled: true
+  - term: "Christopher Ruocchio"
+    kind: "author"
+    priority: 1
+    enabled: true
+  - term: "Cixin Liu"
+    kind: "author"
+    priority: 1
+    enabled: true
+  - term: "Cormac McCarthy"
+    kind: "author"
+    priority: 1
+    enabled: true
+  - term: "Dan Simmons"
+    kind: "author"
+    priority: 1
+    enabled: true
+  - term: "Fonda Lee"
+    kind: "author"
+    priority: 1
+    enabled: true
+  - term: "Frank Herbert"
+    kind: "author"
+    priority: 1
+    enabled: true
+  - term: "Gene Wolfe"
+    kind: "author"
+    priority: 1
+    enabled: true
+  - term: "Glen Cook"
+    kind: "author"
+    priority: 1
+    enabled: true
+  - term: "James Islington"
+    kind: "author"
+    priority: 1
+    enabled: true
+  - term: "Jay Kristoff"
+    kind: "author"
+    priority: 1
+    enabled: true
+  - term: "Jeff VanderMeer"
+    kind: "author"
+    priority: 1
+    enabled: true
+  - term: "Joe Abercrombie"
+    kind: "author"
+    priority: 1
+    enabled: true
+  - term: "John Gwynne"
+    kind: "author"
+    priority: 1
+    enabled: true
+  - term: "John Scalzi"
+    kind: "author"
+    priority: 1
+    enabled: true
+  - term: "Ken Liu"
+    kind: "author"
+    priority: 1
+    enabled: true
+  - term: "Mark Lawrence"
+    kind: "author"
+    priority: 1
+    enabled: true
+  - term: "Martha Wells"
+    kind: "author"
+    priority: 1
+    enabled: true
+  - term: "Matt Dinniman"
+    kind: "author"
+    priority: 1
+    enabled: true
+  - term: "Patrick Rothfuss"
+    kind: "author"
+    priority: 1
+    enabled: true
+  - term: "Pierce Brown"
+    kind: "author"
+    priority: 1
+    enabled: true
+  - term: "R. F. Kuang"
+    kind: "author"
+    priority: 1
+    enabled: true
+  - term: "Robin Hobb"
+    kind: "author"
+    priority: 1
+    enabled: true
+  - term: "Scott Lynch"
+    kind: "author"
+    priority: 1
+    enabled: true
+  - term: "Steven Erikson"
+    kind: "author"
+    priority: 1
+    enabled: true
+  - term: "Susanna Clarke"
+    kind: "author"
+    priority: 1
+    enabled: true
+  - term: "Taylor Jenkins Reid"
+    kind: "author"
+    priority: 1
+    enabled: true
+  - term: "Ursula K. Le Guin"
+    kind: "author"
+    priority: 1
+    enabled: true
+  - term: "A Crônica do Matador do Rei"
+    kind: "series"
+    priority: 1
+    enabled: true
+  - term: "Bas-Lag"
+    kind: "series"
+    priority: 1
+    enabled: true
+  - term: "Dune"
+    kind: "series"
+    priority: 1
+    enabled: true
+  - term: "Dungeon Crawler Carl"
+    kind: "series"
+    priority: 1
+    enabled: true
+  - term: "Empire of the Vampire"
+    kind: "series"
+    priority: 1
+    enabled: true
+  - term: "Gentleman Bastard Sequence"
+    kind: "series"
+    priority: 1
+    enabled: true
+  - term: "Hainish Cycle"
+    kind: "series"
+    priority: 1
+    enabled: true
+  - term: "Hierarchy"
+    kind: "series"
+    priority: 1
+    enabled: true
+  - term: "Hyperion"
+    kind: "series"
+    priority: 1
+    enabled: true
+  - term: "Malazan Book of the Fallen"
+    kind: "series"
+    priority: 1
+    enabled: true
+  - term: "Mistborn"
+    kind: "series"
+    priority: 1
+    enabled: true
+  - term: "Of Blood and Bone"
+    kind: "series"
+    priority: 1
+    enabled: true
+  - term: "Old Man's War"
+    kind: "series"
+    priority: 1
+    enabled: true
+  - term: "Red Rising"
+    kind: "series"
+    priority: 1
+    enabled: true
+  - term: "Remembrance of Earth's Past"
+    kind: "series"
+    priority: 1
+    enabled: true
+  - term: "Southern Reach Trilogy"
+    kind: "series"
+    priority: 1
+    enabled: true
+  - term: "Teixcalaan"
+    kind: "series"
+    priority: 1
+    enabled: true
+  - term: "The Age of Madness"
+    kind: "series"
+    priority: 1
+    enabled: true
+  - term: "The Black Company"
+    kind: "series"
+    priority: 1
+    enabled: true
+  - term: "The Bloodsworn Trilogy"
+    kind: "series"
+    priority: 1
+    enabled: true
+  - term: "The Book of the New Sun"
+    kind: "series"
+    priority: 1
+    enabled: true
+  - term: "The Broken Empire"
+    kind: "series"
+    priority: 1
+    enabled: true
+  - term: "The Dandelion Dynasty"
+    kind: "series"
+    priority: 1
+    enabled: true
+  - term: "The Faithful and the Fallen"
+    kind: "series"
+    priority: 1
+    enabled: true
+  - term: "The Farseer Trilogy"
+    kind: "series"
+    priority: 1
+    enabled: true
+  - term: "The First Law"
+    kind: "series"
+    priority: 1
+    enabled: true
+  - term: "The Fitz and the Fool Trilogy"
+    kind: "series"
+    priority: 1
+    enabled: true
+  - term: "The Green Bone Saga"
+    kind: "series"
+    priority: 1
+    enabled: true
+  - term: "The Licanius Trilogy"
+    kind: "series"
+    priority: 1
+    enabled: true
+  - term: "The Liveship Traders"
+    kind: "series"
+    priority: 1
+    enabled: true
+  - term: "The Murderbot Diaries"
+    kind: "series"
+    priority: 1
+    enabled: true
+  - term: "The Poppy War"
+    kind: "series"
+    priority: 1
+    enabled: true
+  - term: "The Rain Wild Chronicles"
+    kind: "series"
+    priority: 1
+    enabled: true
+  - term: "The Stormlight Archive"
+    kind: "series"
+    priority: 1
+    enabled: true
+  - term: "The Sun Eater"
+    kind: "series"
+    priority: 1
+    enabled: true
+  - term: "The Tawny Man Trilogy"
+    kind: "series"
+    priority: 1
+    enabled: true
+  - term: "A Psalm for the Wild-Built"
+    kind: "title"
+    priority: 1
+    enabled: true
+  - term: "Between Two Fires"
+    kind: "title"
+    priority: 1
+    enabled: true
+  - term: "Blood Meridian"
+    kind: "title"
+    priority: 1
+    enabled: true
+  - term: "Daisy Jones & The Six"
+    kind: "title"
+    priority: 1
+    enabled: true
+  - term: "Dark Matter"
+    kind: "title"
+    priority: 1
+    enabled: true
+  - term: "Malice"
+    kind: "title"
+    priority: 1
+    enabled: true
+  - term: "No Country for Old Men"
+    kind: "title"
+    priority: 1
+    enabled: true
+  - term: "Piranesi"
+    kind: "title"
+    priority: 1
+    enabled: true
+  - term: "Project Hail Mary"
+    kind: "title"
+    priority: 1
+    enabled: true
+  - term: "Suttree"
+    kind: "title"
+    priority: 1
+    enabled: true
+  - term: "The City & the City"
+    kind: "title"
+    priority: 1
+    enabled: true
+  - term: "The Devils"
+    kind: "title"
+    priority: 1
+    enabled: true
+  - term: "The Gentleman Bastard Series 3-Book Bundle: The Lies of Locke Lamora, Red Seas Under Red Skies, The Republic of Thieves"
+    kind: "title"
+    priority: 1
+    enabled: true
+  - term: "The Martian"
+    kind: "title"
+    priority: 1
+    enabled: true
+  - term: "The Road"
+    kind: "title"
+    priority: 1
+    enabled: true
+  - term: "The Shadow of the Gods"
+    kind: "title"
+    priority: 1
+    enabled: true
+  - term: "The Sunlit Man"
+    kind: "title"
+    priority: 1
+    enabled: true
+  - term: "Tress of the Emerald Sea"
+    kind: "title"
+    priority: 1
+    enabled: true
+  - term: "Warbreaker"
+    kind: "title"
+    priority: 1
+    enabled: true
+  - term: "Andrew Givler"
+    kind: "author"
+    priority: 2
+    enabled: true
+  - term: "J.R.R. Tolkien"
+    kind: "author"
+    priority: 2
+    enabled: true
+  - term: "Joe Hill"
+    kind: "author"
+    priority: 2
+    enabled: true
+  - term: "John Steinbeck"
+    kind: "author"
+    priority: 2
+    enabled: true
+  - term: "Kazuo Ishiguro"
+    kind: "author"
+    priority: 2
+    enabled: true
+  - term: "Kurt Vonnegut"
+    kind: "author"
+    priority: 2
+    enabled: true
+  - term: "M. L. Wang"
+    kind: "author"
+    priority: 2
+    enabled: true
+  - term: "Michael Crichton"
+    kind: "author"
+    priority: 2
+    enabled: true
+  - term: "Min Jin Lee"
+    kind: "author"
+    priority: 2
+    enabled: true
+  - term: "N. K. Jemisin"
+    kind: "author"
+    priority: 2
+    enabled: true
+  - term: "Octavia E. Butler"
+    kind: "author"
+    priority: 2
+    enabled: true
+  - term: "Robert Jackson Bennett"
+    kind: "author"
+    priority: 2
+    enabled: true
+  - term: "Roger Zelazny"
+    kind: "author"
+    priority: 2
+    enabled: true
+  - term: "Stephen King"
+    kind: "author"
+    priority: 2
+    enabled: true
+  - term: "Ironbound"
+    kind: "series"
+    priority: 2
+    enabled: true
+  - term: "Jurassic Park"
+    kind: "series"
+    priority: 2
+    enabled: true
+  - term: "The Broken Earth"
+    kind: "series"
+    priority: 2
+    enabled: true
+  - term: "The Lord of the Rings"
+    kind: "series"
+    priority: 2
+    enabled: true
