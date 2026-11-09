@@ -150,6 +150,10 @@ function scoreCandidate(candidate: Candidate, work: Work): ScoredCandidate {
   if (!isValidIsbn13(candidate.isbn13)) {
     return { ...candidate, score: 0, reasons: ["ISBN inválido"] };
   }
+  // Prefixos comuns de print-on-demand e large print; não são a edição de coleção.
+  if (["9781299", "9781423", "9781432", "9781611", "9780786"].some((prefix) => candidate.isbn13.startsWith(prefix))) {
+    return { ...candidate, score: 0, reasons: ["ISBN suspeito (POD/large print)"] };
+  }
 
   const titleScore = containmentScore(work.title, candidate.title);
   const authorScore = containmentScore(work.author, candidate.authors.join(" "));
