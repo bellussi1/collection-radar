@@ -28,7 +28,7 @@ export function matchListing(
   works: Work[],
   minScore: number
 ): MatchResult | null {
-  const haystack = [listing.title, listing.description, listing.condition, listing.seller]
+  const haystack = [listing.title, listing.description, listing.condition]
     .filter(Boolean)
     .join(" ");
   const language = detectLanguage(haystack);
@@ -55,10 +55,14 @@ export function matchListing(
       reasons.push("ISBN exato");
     } else {
       const titleCandidates = [work.title, ...work.aliases].filter((value) => value.length > 2);
-      let title = 0;
+      let titleOnly = 0;
+      let titleHaystack = 0;
       for (const candidate of titleCandidates) {
-        title = Math.max(title, containmentScore(haystack, candidate));
+        titleOnly = Math.max(titleOnly, containmentScore(listing.title, candidate));
+        titleHaystack = Math.max(titleHaystack, containmentScore(haystack, candidate));
       }
+      // Título no anúncio vale mais; descrição sozinha vale 85%.
+      const title = Math.max(titleOnly, titleHaystack * 0.85);
       const author = authorScore(haystack, work.author);
       const series = work.series ? containmentScore(haystack, work.series) : 0;
 

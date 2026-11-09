@@ -123,6 +123,15 @@ test("box genérico não vira Secret History", () => {
   assert.equal(result, null);
 });
 
+test("descrição não sequestra o título", () => {
+  const result = matchListing(
+    listing({ title: "Dune", description: "Mistborn Brandon Sanderson" }),
+    works,
+    0.62
+  );
+  assert.equal(result, null);
+});
+
 test("Royal Assassin não é confundido com Assassin's Quest", () => {
   const result = matchListing(
     listing({ title: "Royal Assassin", description: "Robin Hobb HarperVoyager paperback" }),

@@ -27,7 +27,7 @@ UK de 129 × 198 mm. O orçamento da AbeBooks e da Better World Books está em
 ## Requisitos
 
 - Windows 11, Node.js 24+
-- Chromium do Playwright: `npx playwright install chromium`
+- Chromium do Playwright: `npx.cmd playwright install chromium`
 - Para OLX e Mercado Livre: deixe `HEADLESS=false` (padrão). O Chromium abre
   fora da tela (`--window-position=-32000,-32000`).
 
@@ -35,8 +35,8 @@ UK de 129 × 198 mm. O orçamento da AbeBooks e da Better World Books está em
 
 ```powershell
 cd C:\Users\Bellussi\Documents\Workspace\collection-radar
-npm install
-npx playwright install chromium
+npm.cmd install
+npx.cmd playwright install chromium
 Copy-Item .env.example .env
 ```
 
@@ -65,6 +65,7 @@ npm run sources -- --query "robin hobb" --limit 5
 npm run scan -- --max-queries 10 --no-email
 npm run scan                       # varredura completa + e-mail
 npm run digest                     # reenvia os matches dos últimos 7 dias
+npm run email:test                 # testa o SMTP configurado
 npm test
 npm run typecheck
 ```
@@ -73,6 +74,7 @@ Opções do scan:
 
 - `--source estante|olx|mercadolivre|enjoei`
 - `--query "termo"` (filtra as consultas por substring)
+- `--queries "Robin Hobb,Brandon Sanderson,Steven Erikson"` (várias de uma vez)
 - `--limit 30` (anúncios por consulta)
 - `--max-queries 20`
 - `--no-email`
@@ -85,15 +87,19 @@ sobrecarregar os sites.
 ## Agendamento
 
 O script `scripts/scan.cmd` roda a varredura e grava o log em `logs/scan.log`.
-Para agendar no Task Scheduler (execute como o seu usuário):
+Para registrar a tarefa a cada 6 horas:
 
 ```powershell
-schtasks /Create /SC HOURLY /MO 6 /TN "Collection Radar" ^
-  /TR "C:\Users\Bellussi\Documents\Workspace\collection-radar\scripts\scan.cmd" /F
+.\scripts\install-task.ps1
 ```
 
-Ou abra o Task Scheduler e crie uma tarefa diária. O navegador abre fora da tela;
-se você estiver usando o PC, pode ver o processo no gerenciador de tarefas.
+A tarefa é criada com **"Run only when user is logged on"** (`LogonType
+Interactive`). Isso é necessário porque OLX e Mercado Livre bloqueiam headless;
+o Chromium precisa de uma sessão de desktop. O navegador abre fora da tela; se
+você estiver usando o PC, pode ver o processo no gerenciador de tarefas.
+
+Se preferir o Task Scheduler manual, use a mesma condição de logon e aponte para
+`scripts\scan.cmd`.
 
 ## Como editar a watchlist
 
@@ -120,6 +126,10 @@ Cada obra tem:
 - `enabled: false` tira a obra das buscas.
 - `isbn13` é a arma mais forte: se o anúncio tiver o ISBN, o match é 100%.
 - `aliases` servem para títulos em português e variações.
+
+O gerador `python scripts/build-watchlist.py` sobrescreve `watchlist.yaml` e
+`queries.yaml`. Se você editou à mão, faça backup antes; ele foi pensado para
+rodar quando a biblioteca do Calibre muda.
 
 ## Limites conhecidos
 

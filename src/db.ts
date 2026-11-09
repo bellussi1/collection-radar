@@ -91,18 +91,24 @@ export class RadarDb {
     const total =
       listing.price === null ? null : listing.price + (listing.shipping ?? 0);
     const existing = this.db
-      .prepare("SELECT id, first_seen FROM listings WHERE url = ?")
-      .get(listing.url) as { id: number; first_seen: string } | undefined;
+      .prepare(
+        "SELECT id FROM listings WHERE (source = ? AND external_id = ?) OR url = ? LIMIT 1"
+      )
+      .get(listing.source, listing.externalId, listing.url) as { id: number } | undefined;
 
     if (existing) {
       this.db
         .prepare(`
           UPDATE listings
-          SET title = ?, price = ?, shipping = ?, total = ?, seller = ?, location = ?,
-              condition = ?, description = ?, image_url = ?, last_seen = ?, raw_json = ?
+          SET source = ?, external_id = ?, url = ?, title = ?, price = ?, shipping = ?,
+              total = ?, seller = ?, location = ?, condition = ?, description = ?,
+              image_url = ?, last_seen = ?, raw_json = ?
           WHERE id = ?
         `)
         .run(
+          listing.source,
+          listing.externalId,
+          listing.url,
           listing.title,
           listing.price,
           listing.shipping,

@@ -23,24 +23,39 @@ function parseArgs(argv: string[]): CliOptions {
   const options: CliOptions = { command: argv[0] ?? "help" };
   for (let index = 1; index < argv.length; index += 1) {
     const arg = argv[index] ?? "";
-    const [flag, inline] = arg.includes("=") ? arg.split("=", 2) : [arg, undefined];
-    const next = inline ?? argv[index + 1];
-    if (inline === undefined && next && !next.startsWith("--")) index += 1;
+    if (!arg.startsWith("--")) continue;
+
+    const equals = arg.indexOf("=");
+    const flag = equals >= 0 ? arg.slice(0, equals) : arg;
+    let value: string;
+    if (equals >= 0) {
+      value = arg.slice(equals + 1);
+    } else {
+      const parts: string[] = [];
+      let next = index + 1;
+      while (next < argv.length && !argv[next]?.startsWith("--")) {
+        parts.push(argv[next] ?? "");
+        next += 1;
+      }
+      value = parts.join(" ").trim();
+      index = next - 1;
+    }
+
     switch (flag) {
       case "--source":
-        if (next) options.source = next as SourceName;
+        if (value) options.source = value as SourceName;
         break;
       case "--query":
-        if (next) options.query = next;
+        if (value) options.query = value;
         break;
       case "--queries":
-        if (next) options.queries = next.split(",").map((value) => value.trim()).filter(Boolean);
+        if (value) options.queries = value.split(",").map((item) => item.trim()).filter(Boolean);
         break;
       case "--limit":
-        options.limit = Number(next);
+        if (value) options.limit = Number(value);
         break;
       case "--max-queries":
-        options.maxQueries = Number(next);
+        if (value) options.maxQueries = Number(value);
         break;
       case "--no-email":
         options.noEmail = true;
@@ -142,6 +157,19 @@ async function runDigest(): Promise<void> {
   db.close();
 }
 
+async function testEmail(): Promise<void> {
+  const settings = loadSettings();
+  const result = await sendDigest({
+    subject: "Collection Radar — teste de SMTP",
+    html: "<p>Se você recebeu este e-mail, o SMTP do Collection Radar está funcionando.</p>",
+    text: "Se você recebeu este e-mail, o SMTP do Collection Radar está funcionando.",
+    to: settings.email.to,
+    enabled: true
+  });
+  console.log(result.sent ? `E-mail de teste enviado para ${settings.email.to}.` : `Não enviado: ${result.reason}`);
+  console.log(`Arquivo local: ${result.path}.html`);
+}
+
 async function testSources(options: CliOptions): Promise<void> {
   const settings = loadSettings();
   const sources = createSources(settings);
@@ -169,6 +197,10 @@ async function main(): Promise<void> {
     }
     case "digest": {
       await runDigest();
+      break;
+    }
+    case "email-test": {
+      await testEmail();
       break;
     }
     case "watchlist": {
