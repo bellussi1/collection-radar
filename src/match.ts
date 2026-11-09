@@ -4,7 +4,8 @@ import {
   detectLanguage,
   detectPublisher,
   extractIsbn,
-  normalizeText
+  normalizeText,
+  tokenSet
 } from "./normalize.js";
 import type { MatchResult, RawListing, Work } from "./types.js";
 
@@ -47,6 +48,7 @@ export function matchListing(
   if (nonBook && !bookish) return null;
 
   let best: MatchResult | null = null;
+  let bestTitleTokens = 0;
 
   for (const work of works) {
     if (!work.enabled) continue;
@@ -70,6 +72,8 @@ export function matchListing(
       }
       // Título no anúncio vale mais; descrição sozinha vale 85%.
       const title = Math.max(titleOnly, titleHaystack * 0.85);
+      // Se o título não ajuda, a descrição precisa ser quase exata.
+      if (titleOnly < 0.3 && titleHaystack < 0.9) continue;
       const author = authorScore(haystack, work.author);
       const series = work.series ? containmentScore(haystack, work.series) : 0;
 
@@ -117,7 +121,13 @@ export function matchListing(
     score = Math.max(0, Math.min(1, score));
     if (score < minScore) continue;
 
-    if (!best || score > best.score || (score === best.score && work.priority < best.work.priority)) {
+    const titleTokens = tokenSet(work.title).size;
+    if (
+      !best ||
+      score > best.score ||
+      (score === best.score && titleTokens > bestTitleTokens) ||
+      (score === best.score && titleTokens === bestTitleTokens && work.priority < best.work.priority)
+    ) {
       best = {
         work,
         score,
@@ -126,6 +136,7 @@ export function matchListing(
         format,
         publisher
       };
+      bestTitleTokens = titleTokens;
     }
   }
 

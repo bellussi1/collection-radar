@@ -315,6 +315,20 @@ with open(csv_path, encoding="utf-8-sig", newline="") as f:
 overrides = {}
 new_works = {}
 queries = {}
+
+
+def add_override(key, max_price, fmt, work):
+    """Mantém o menor teto quando o Keepa tem várias edições da mesma obra."""
+    current = overrides.get(key)
+    candidate = round(max_price, 2) if max_price else work["max_price"]
+    if current is None or candidate < current["max_price"]:
+        overrides[key] = {
+            "max_price": candidate,
+            "preferred_formats": [fmt] if fmt else work["preferred_formats"],
+            "priority": 1,
+            "enabled": True,
+            "notes": "Keepa wishlist",
+        }
 SET_PATTERNS = [
     r"^the first law trilogy\b",
     r"^the age of madness trilogy\b",
@@ -432,14 +446,7 @@ for row in rows:
     fmt = rule[4] if rule else "paperback"
 
     if matched:
-        key = matched["key"]
-        overrides[key] = {
-            "max_price": round(max_price, 2) if max_price else matched["max_price"],
-            "preferred_formats": [fmt] if fmt else matched["preferred_formats"],
-            "priority": 1,
-            "enabled": True,
-            "notes": "Keepa wishlist",
-        }
+        add_override(matched["key"], max_price, fmt, matched)
     else:
         work_title = base.split(":")[0].strip() if rule else base
         if normalized.startswith("mistborn ") and ":" in base:
@@ -447,13 +454,7 @@ for row in rows:
         key = slug(work_title) + "--" + slug(author or "revisar")
         existing_work = existing_by_key.get(key)
         if existing_work:
-            overrides[existing_work["key"]] = {
-                "max_price": round(max_price, 2) if max_price else existing_work["max_price"],
-                "preferred_formats": [fmt] if fmt else existing_work["preferred_formats"],
-                "priority": 1,
-                "enabled": True,
-                "notes": "Keepa wishlist",
-            }
+            add_override(existing_work["key"], max_price, fmt, existing_work)
             if author:
                 queries[author] = {"term": author, "kind": "author", "priority": 1, "enabled": True}
             continue

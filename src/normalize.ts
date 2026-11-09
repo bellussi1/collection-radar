@@ -87,7 +87,8 @@ const PT_WORDS = new Set([
   "espada", "feiticaria", "curva", "sonho", "silencio", "liga", "lei", "braceletes",
   "perdicao", "ascensao", "primeira", "segunda", "mole", "dura", "comum", "usado",
   "novo", "seminovo", "colecao", "trilogia", "edicao", "traducao", "nacional",
-  "brasileira", "portugues"
+  "brasileira", "portugues", "uma", "literatura", "cenario", "apocaliptico",
+  "intergalactica", "historia", "secreta"
 ]);
 
 function includesPublisher(text: string, publisher: string): boolean {

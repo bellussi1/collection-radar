@@ -114,7 +114,7 @@ function printWatchlist(): void {
   console.log(`E-mail: ${settings.email.enabled ? "ativado" : "desativado"} · ${settings.email.to}`);
 }
 
-async function runDigest(): Promise<void> {
+async function runDigest(options: CliOptions): Promise<void> {
   const settings = loadSettings();
   const works = loadWorks();
   const db = new RadarDb("data/radar.db");
@@ -151,7 +151,7 @@ async function runDigest(): Promise<void> {
     html: digest.html,
     text: digest.text,
     to: settings.email.to,
-    enabled: settings.email.enabled
+    enabled: settings.email.enabled && !options.noEmail
   });
   console.log(`Digest: ${result.path}.html`);
   console.log(result.sent ? `E-mail enviado para ${settings.email.to}.` : `Não enviado: ${result.reason}`);
@@ -197,7 +197,7 @@ async function main(): Promise<void> {
       break;
     }
     case "digest": {
-      await runDigest();
+      await runDigest(options);
       break;
     }
     case "email-test": {
