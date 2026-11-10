@@ -1,4 +1,11 @@
-import { detectCondition, parsePrice, parseUsd } from "../normalize.js";
+import { withPage } from "../browser.js";
+import {
+  containmentScore,
+  detectCondition,
+  jaccardScore,
+  parsePrice,
+  parseUsd
+} from "../normalize.js";
 import type { RawListing } from "../types.js";
 import type { Source } from "./types.js";
 
@@ -42,8 +49,7 @@ export function parseCsePrice(item: CseItem): number | null {
     meta["og:price:amount"],
     meta.price,
     item.pagemap?.offer?.[0]?.price,
-    item.pagemap?.product?.[0]?.price,
-    item.snippet?.match(/R\$\s*[\d.,]+/)?.[0]
+    item.pagemap?.product?.[0]?.price
   ];
   for (const candidate of candidates) {
     const price = parseMoney(candidate);
@@ -91,44 +97,120 @@ export function parseGoogleCseResponse(data: unknown): RawListing[] {
     .filter((listing) => listing.title.length > 0 && listing.url.length > 0);
 }
 
-function priceFromJsonLd(text: string): number | null {
+export interface CsePageCard {
+  title: string | null;
+  link: string | null;
+  snippet: string | null;
+  domain: string | null;
+  image: string | null;
+}
+
+export function parseCsePageCards(elements: Element[], max: number): CsePageCard[] {
+  return elements.slice(0, max).map((element) => {
+    const anchor = element.querySelector("a.gs-title") as HTMLAnchorElement | null;
+    return {
+      title: anchor?.innerText.trim() ?? null,
+      link: anchor?.getAttribute("data-ctorig") ?? anchor?.href ?? null,
+      snippet:
+        (element.querySelector(".gs-snippet") as HTMLElement | null)?.innerText.trim() ?? null,
+      domain:
+        (element.querySelector(".gs-visibleUrl-short") as HTMLElement | null)?.innerText.trim() ??
+        null,
+      image: (element.querySelector("img.gs-image") as HTMLImageElement | null)?.src ?? null
+    } satisfies CsePageCard;
+  });
+}
+
+export function mapCsePageCard(card: CsePageCard, price: number | null): RawListing {
+  const url = card.link ?? "";
+  let domain = card.domain?.trim() || null;
+  if (!domain) {
+    try {
+      domain = new URL(url).hostname.replace(/^www\./, "");
+    } catch {
+      domain = null;
+    }
+  }
+  const title = card.title?.trim() ?? "";
+  const snippet = card.snippet?.trim() ?? "";
+  return {
+    source: "sebos",
+    externalId: url,
+    url,
+    title,
+    price,
+    shipping: null,
+    currency: "BRL",
+    seller: domain,
+    location: null,
+    condition: detectCondition(`${title} ${snippet}`),
+    description: [snippet, domain].filter(Boolean).join(" | "),
+    imageUrl: card.image,
+    sellerRating: null,
+    raw: card
+  } satisfies RawListing;
+}
+
+function priceFromOffers(offers: unknown): number | null {
+  if (offers === null || offers === undefined) return null;
+  if (Array.isArray(offers)) {
+    for (const offer of offers) {
+      const price = priceFromOffers(offer);
+      if (price !== null) return price;
+    }
+    return null;
+  }
+  if (typeof offers === "object") {
+    const object = offers as Record<string, unknown>;
+    for (const key of ["price", "lowPrice", "highPrice"]) {
+      if (object[key] !== undefined) {
+        const price = parseMoney(object[key] as string | number);
+        if (price !== null) return price;
+      }
+    }
+  }
+  return null;
+}
+
+function priceFromJsonLd(text: string, expectedTitle: string): number | null {
   try {
     const data = JSON.parse(text) as unknown;
-    const walk = (value: unknown): number | null => {
-      if (value === null || value === undefined) return null;
+    const products: Array<{ name: string; price: number }> = [];
+
+    const walk = (value: unknown): void => {
+      if (value === null || value === undefined) return;
       if (Array.isArray(value)) {
-        for (const item of value) {
-          const price = walk(item);
-          if (price !== null) return price;
-        }
-        return null;
+        for (const item of value) walk(item);
+        return;
       }
       if (typeof value === "object") {
         const object = value as Record<string, unknown>;
-        if (object.offers) {
-          const price = walk(object.offers);
-          if (price !== null) return price;
-        }
-        for (const key of ["price", "lowPrice", "highPrice"]) {
-          if (object[key] !== undefined) {
-            const price = parseMoney(object[key] as string | number);
-            if (price !== null) return price;
-          }
-        }
-        for (const nested of Object.values(object)) {
-          const price = walk(nested);
-          if (price !== null) return price;
-        }
+        const name = typeof object.name === "string" ? object.name : "";
+        const price = priceFromOffers(object.offers);
+        if (name && price !== null) products.push({ name, price });
+        for (const nested of Object.values(object)) walk(nested);
       }
-      return null;
     };
-    return walk(data);
+    walk(data);
+
+    let best: { price: number; score: number } | null = null;
+    for (const product of products) {
+      const score = Math.max(
+        containmentScore(expectedTitle, product.name),
+        containmentScore(product.name, expectedTitle),
+        jaccardScore(expectedTitle, product.name)
+      );
+      if (score >= 0.5 && (!best || score > best.score)) {
+        best = { price: product.price, score };
+      }
+    }
+    return best?.price ?? null;
   } catch {
     return null;
   }
 }
 
-async function fetchPagePrice(url: string): Promise<number | null> {
+async function fetchPagePrice(url: string, expectedTitle: string): Promise<number | null> {
   try {
     const response = await fetch(url, {
       headers: {
@@ -146,9 +228,22 @@ async function fetchPagePrice(url: string): Promise<number | null> {
       ...html.matchAll(/<script[^>]+type=["']application\/ld\+json["'][^>]*>([\s\S]*?)<\/script>/gi)
     ];
     for (const script of scripts) {
-      const price = priceFromJsonLd(script[1] ?? "");
+      const price = priceFromJsonLd(script[1] ?? "", expectedTitle);
       if (price !== null) return price;
     }
+
+    const titleMeta = html.match(
+      /<meta[^>]+(?:property|name)=["']og:title["'][^>]+content=["']([^"']*)["']/i
+    );
+    const metaTitle = titleMeta?.[1] ?? "";
+    const titleScore = metaTitle
+      ? Math.max(
+          containmentScore(expectedTitle, metaTitle),
+          containmentScore(metaTitle, expectedTitle),
+          jaccardScore(expectedTitle, metaTitle)
+        )
+      : 0;
+    if (titleScore < 0.5) return null;
 
     const meta = html.match(
       /<meta[^>]+(?:property|name)=["'](?:product:price:amount|og:price:amount|price)["'][^>]+content=["']([^"']+)["']/i
@@ -159,19 +254,22 @@ async function fetchPagePrice(url: string): Promise<number | null> {
   }
 }
 
+function isRecommendationUrl(url: string): boolean {
+  return /\/recomendacao\//i.test(url);
+}
+
 export class GoogleCseSource implements Source {
   readonly name = "sebos" as const;
 
   constructor(private readonly options: { fetchPages?: boolean; maxPageFetches?: number } = {}) {}
 
   async search(term: string, limit: number): Promise<RawListing[]> {
-    const key = process.env.GOOGLE_CSE_API_KEY?.trim();
     const cx = process.env.GOOGLE_CSE_CX?.trim();
-    if (!key || !cx) {
-      throw new Error(
-        "Configure GOOGLE_CSE_API_KEY e GOOGLE_CSE_CX para buscar sebos independentes."
-      );
+    if (!cx) {
+      throw new Error("Configure GOOGLE_CSE_CX para buscar sebos independentes.");
     }
+    const key = process.env.GOOGLE_CSE_API_KEY?.trim();
+    if (!key) return this.searchPublicPage(term, limit, cx);
 
     const url = new URL("https://www.googleapis.com/customsearch/v1");
     url.searchParams.set("key", key);
@@ -201,6 +299,7 @@ export class GoogleCseSource implements Source {
     let fetched = 0;
 
     for (const item of items) {
+      if (item.link && isRecommendationUrl(item.link)) continue;
       let price = parseCsePrice(item);
       if (
         price === null &&
@@ -208,7 +307,7 @@ export class GoogleCseSource implements Source {
         fetched < (this.options.maxPageFetches ?? 5) &&
         item.link
       ) {
-        price = await fetchPagePrice(item.link);
+        price = await fetchPagePrice(item.link, item.title ?? "");
         fetched += 1;
         await sleep(300);
       }
@@ -217,5 +316,40 @@ export class GoogleCseSource implements Source {
     }
 
     return listings;
+  }
+
+  private async searchPublicPage(term: string, limit: number, cx: string): Promise<RawListing[]> {
+    const url = `https://cse.google.com/cse?cx=${encodeURIComponent(cx)}&q=${encodeURIComponent(term)}&hl=pt-BR`;
+    return withPage(async (page) => {
+      await page.goto(url, { waitUntil: "domcontentloaded", timeout: 60_000 });
+      await page
+        .waitForSelector(".gsc-webResult.gsc-result, #resInfo-0", { timeout: 20_000 })
+        .catch(() => undefined);
+
+      const cards = (await page.$$eval(
+        ".gsc-webResult.gsc-result",
+        parseCsePageCards,
+        Math.min(Math.max(limit, 1), 10)
+      )) as CsePageCard[];
+
+      const listings: RawListing[] = [];
+      let fetched = 0;
+      for (const card of cards) {
+        if (card.link && isRecommendationUrl(card.link)) continue;
+        let price: number | null = null;
+        if (
+          (this.options.fetchPages ?? true) &&
+          fetched < (this.options.maxPageFetches ?? 5) &&
+          card.link
+        ) {
+          price = await fetchPagePrice(card.link, card.title ?? "");
+          fetched += 1;
+          await sleep(300);
+        }
+        const listing = mapCsePageCard(card, price);
+        if (listing.title && listing.url) listings.push(listing);
+      }
+      return listings;
+    });
   }
 }

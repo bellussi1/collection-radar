@@ -1,10 +1,8 @@
 import "dotenv/config";
 import { runScan } from "./scan.js";
 
-if (!process.env.GOOGLE_CSE_API_KEY?.trim() || !process.env.GOOGLE_CSE_CX?.trim()) {
-  console.error(
-    "Configure GOOGLE_CSE_API_KEY e GOOGLE_CSE_CX no .env para buscar sebos independentes."
-  );
+if (!process.env.GOOGLE_CSE_CX?.trim()) {
+  console.error("Configure GOOGLE_CSE_CX no .env para buscar sebos independentes.");
   process.exit(1);
 }
 

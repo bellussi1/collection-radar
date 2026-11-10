@@ -7,6 +7,7 @@ import { mapEnjoeiCard, parseEnjoeiCards } from "../src/sources/enjoei.js";
 import { mapEstanteCard, parseEstanteCards } from "../src/sources/estante.js";
 import { mapMlCard, parseMlCards } from "../src/sources/mercadolivre.js";
 import { mapOlxCard, parseOlxCards } from "../src/sources/olx.js";
+import { mapCsePageCard, parseCsePageCards } from "../src/sources/sebos.js";
 
 let browser: Browser;
 let page: Page;
@@ -108,4 +109,18 @@ test("parser da AbeBooks lê cards salvos e converte o dólar", async () => {
   assert.match(first.priceNote ?? "", /5,52/);
   assert.ok(first.sellerRating === null || first.sellerRating >= 4);
   assert.ok(first.condition === "novo" || first.condition === "usado");
+});
+
+test("parser da página pública do CSE lê os sebos", async () => {
+  await page.setContent(fixture("google-cse-page.html"), { waitUntil: "domcontentloaded" });
+  const cards = await page.$$eval(".gsc-webResult.gsc-result", parseCsePageCards, 5);
+  assert.ok(cards.length >= 3);
+
+  const first = mapCsePageCard(cards[0]!, null);
+  assert.equal(first.source, "sebos");
+  assert.match(first.title, /Aprendiz de Assassino/);
+  assert.ok(first.url.startsWith("https://"));
+  assert.equal(first.seller, "sebonovafloresta.com.br");
+  assert.equal(first.condition, "usado");
+  assert.match(first.description ?? "", /Robin Hobb/);
 });

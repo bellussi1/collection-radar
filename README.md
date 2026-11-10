@@ -218,13 +218,14 @@ título não diz “usado”.
 ## Sebos independentes
 
 A Estante Virtual agrega muitos sebos, mas não todos. O radar usa o Google
-Programmable Search (Custom Search API) para varrer os domínios que você
-escolher:
+Programmable Search para varrer os domínios que você escolher:
 
 1. Crie um mecanismo em https://programmablesearchengine.google.com/ e adicione
    os domínios dos sebos que você acompanha.
-2. Ative a Custom Search API no Google Cloud e crie uma chave.
-3. Preencha `GOOGLE_CSE_API_KEY` e `GOOGLE_CSE_CX` no `.env`.
+2. Cole o CX em `GOOGLE_CSE_CX` no `.env`.
+3. Opcional: crie uma chave da Custom Search API em
+   https://console.cloud.google.com/ e preencha `GOOGLE_CSE_API_KEY` para usar a
+   API JSON. Sem chave, o radar usa a página pública do CSE via Playwright.
 
 ```powershell
 npm run sebos-scan
@@ -232,14 +233,14 @@ npm run sebos-scan
 
 O comando roda 8 autores prioritários, 10 resultados por consulta, e fica fora
 do scan normal. Para uma consulta específica:
-`npm run scan -- --source sebos --queries "Robin Hobb"`. O plano gratuito do
-Google CSE dá 100 consultas por dia; o comando usa 8.
+`npm run scan -- --source sebos --queries "Robin Hobb"`.
 
-O preço vem do `pagemap` do resultado, de JSON-LD ou de meta tags da página.
-Quando o site não expõe preço, o anúncio aparece com “—”. O vendedor é o domínio
-do sebo, sem nota numérica; a condição vem do título/trecho (“usado”/“novo”).
-A tarefa **Collection Radar Sebos** roda todos os dias às 08:30 e o digest das
-09:00 consolida os novos matches.
+O preço vem do `pagemap` da API, de JSON-LD ou de meta tags da página; preços de
+snippet são ignorados para não pegar recomendação. Quando o site não expõe
+preço, o anúncio aparece com “—”. O vendedor é o domínio do sebo, sem nota
+numérica; a condição vem do título/trecho (“usado”/“novo”). A tarefa
+**Collection Radar Sebos** roda todos os dias às 08:30 e o digest das 09:00
+consolida os novos matches.
 
 ## OCR de foto
 
