@@ -142,3 +142,143 @@ test("Royal Assassin não é confundido com Assassin's Quest", () => {
   assert.ok(result);
   assert.equal(result?.work.key, "royal-assassin--robin-hobb");
 });
+
+const fireBlood = work({
+  key: "fire-blood--george-r-r-martin",
+  title: "Fire & Blood",
+  author: "George R. R. Martin",
+  series: "A Song of Ice and Fire",
+  preferred_publishers: ["Bantam"]
+});
+
+const strengthOfFew = work({
+  key: "the-strength-of-the-few--james-islington",
+  title: "The Strength of the Few",
+  author: "James Islington",
+  series: "Hierarchy",
+  preferred_publishers: ["Orbit"]
+});
+
+const swordCitadel = work({
+  key: "sword-citadel--gene-wolfe",
+  title: "Sword & Citadel",
+  author: "Gene Wolfe",
+  series: "The Book of the New Sun",
+  preferred_publishers: ["Tor"]
+});
+
+const memoryEmpire = work({
+  key: "a-memory-called-empire--arkady-martine",
+  title: "A Memory Called Empire",
+  author: "Arkady Martine",
+  series: "Teixcalaan",
+  preferred_publishers: ["Tor"]
+});
+
+const dungeonCarl = work({
+  key: "dungeon-crawler-carl--matt-dinniman",
+  title: "Dungeon Crawler Carl",
+  author: "Matt Dinniman",
+  series: "Dungeon Crawler Carl",
+  preferred_publishers: ["Ace"]
+});
+
+const bloodAndBoneSet = work({
+  key: "of-blood-and-bone-set--john-gwynne",
+  title: "Of Blood and Bone Series 3 Books Collection Set",
+  author: "John Gwynne",
+  series: "Of Blood and Bone",
+  preferred_publishers: ["Orbit"],
+  notes: "Keepa set"
+});
+
+test("kit/box não casa com obra de volume único", () => {
+  const kit = matchListing(
+    listing({
+      title: "Kit 3 Livros Mistborn Wax & Wayne V. 1 2 3 Brandon Sanderson",
+      description: "Brandon Sanderson kit com 3 livros"
+    }),
+    works,
+    0.55
+  );
+  assert.equal(kit, null);
+
+  const box = matchListing(
+    listing({
+      title: "Mistborn Trilogy Box Set 3 Books Brandon Sanderson",
+      description: "Box com 3 livros"
+    }),
+    works,
+    0.55
+  );
+  assert.equal(box, null);
+});
+
+test("set de outra série não casa com obra de volume único", () => {
+  const result = matchListing(
+    listing({
+      title: "livros george r.r.martin game of thrones '6' livros",
+      description: "George R. R. Martin - 6 livros"
+    }),
+    [fireBlood],
+    0.55
+  );
+  assert.equal(result, null);
+});
+
+test("título fraco não casa por autor/série", () => {
+  const power = matchListing(
+    listing({
+      title: "The Power Of Few - Livro De Fantasia De Islington Em Inglês",
+      description: "James Islington"
+    }),
+    [strengthOfFew],
+    0.55
+  );
+  assert.equal(power, null);
+
+  const urth = matchListing(
+    listing({
+      title: "livro the urth of the new sun gene wolfe",
+      description: "Gene Wolfe - usado"
+    }),
+    [swordCitadel],
+    0.55
+  );
+  assert.equal(urth, null);
+});
+
+test("edição PT não casa com obra inglesa", () => {
+  const memory = matchListing(
+    listing({
+      title: "Uma Memória Chamada Empire Arkady Martine English Tor Books Paper",
+      description: "Arkady Martine - Tor Books"
+    }),
+    [memoryEmpire],
+    0.55
+  );
+  assert.equal(memory, null);
+
+  const carl = matchListing(
+    listing({
+      title: "Cenário Apocalíptico De Carl Matt Dinniman English Ace Books Hard",
+      description: "Matt Dinniman - Ace Books"
+    }),
+    [dungeonCarl],
+    0.55
+  );
+  assert.equal(carl, null);
+});
+
+test("set casa com set da mesma série", () => {
+  const result = matchListing(
+    listing({
+      title: "Of Blood and Bone Series 3 Books Collection Set by John Gwynne",
+      description: "John Gwynne - 3 books collection set - paperback"
+    }),
+    [bloodAndBoneSet],
+    0.55
+  );
+  assert.ok(result);
+  assert.equal(result?.work.key, "of-blood-and-bone-set--john-gwynne");
+});

@@ -17,11 +17,58 @@ function authorScore(haystack: string, author: string): number {
   return Math.max(full, last * 0.9);
 }
 
-function isSet(text: string): boolean {
-  const normalized = normalizeText(text);
-  return ["box", "trilogia", "trilogy", "colecao", "collection", "kit", "lote", "volumes"].some(
-    (word) => normalized.includes(word)
+function hasSingleVolumeMarker(title: string): boolean {
+  const normalized = normalizeText(title);
+  return (
+    /\b(book|livro|volume|vol|trilogy|trilogia|series|serie)\s*#?\d+\b/.test(normalized) ||
+    /\b(book|livro|volume|vol)\s+(one|two|three|four|five|six|seven|eight|nine|ten)\b/.test(
+      normalized
+    ) ||
+    /\b#\d+\b/.test(normalized)
   );
+}
+
+function isStrongSetListing(title: string, haystack: string): boolean {
+  const normalizedTitle = normalizeText(title);
+  const normalizedHaystack = normalizeText(haystack);
+  return (
+    /\b(kit|lote|box|boxed|boxset|colecao completa|complete series|complete set|omnibus)\b/.test(
+      normalizedTitle
+    ) ||
+    /\b\d+\s*(livros?|books?|volumes?)\b/.test(normalizedTitle) ||
+    /\bvolumes?\s*\d+\s*(a|-|ate)\s*\d+\b/.test(normalizedTitle) ||
+    /\b(box set|boxed set|kit|lote|colecao completa|complete series|omnibus)\b/.test(
+      normalizedHaystack
+    )
+  );
+}
+
+function isWeakSetListing(title: string): boolean {
+  if (hasSingleVolumeMarker(title)) return false;
+  const normalized = normalizeText(title);
+  return /\b(trilogy|trilogia|collection)\b/.test(normalized);
+}
+
+function isSetWork(work: Work): boolean {
+  if (work.notes.includes("Keepa set")) return true;
+  const title = normalizeText(work.title);
+  return /\b(box|boxed|boxset|collection|trilogy|trilogia|omnibus|complete|kit|set)\b/.test(title);
+}
+
+function isEditionWork(work: Work): boolean {
+  return /\b(illustrated|deluxe|collector|collectors|anniversary|special|limited|signed)\b/i.test(
+    work.title
+  );
+}
+
+function isGenericWork(work: Work): boolean {
+  const title = normalizeText(work.title).replace(/^by /, "").trim();
+  return title === normalizeText(work.author);
+}
+
+function setCount(title: string): number | null {
+  const match = normalizeText(title).match(/\b(\d+)\s*(books?|livros?|volumes?)\b/);
+  return match?.[1] ? Number(match[1]) : null;
 }
 
 export function matchListing(
@@ -36,8 +83,8 @@ export function matchListing(
   const format = detectFormat(haystack);
   const publisher = detectPublisher(haystack);
   const isbn = extractIsbn(haystack);
-  const set = isSet(haystack);
-  const listingIsSet = /\b(set|boxed|box set|collection|trilogy|complete)\b/i.test(haystack);
+  const listingStrongSet = isStrongSetListing(listing.title, haystack);
+  const listingWeakSet = isWeakSetListing(listing.title);
   const listingIsEdition =
     /\b(illustrated|deluxe|collector|collectors|anniversary|special|limited|signed)\b/i.test(
       haystack
@@ -54,9 +101,18 @@ export function matchListing(
 
   for (const work of works) {
     if (!work.enabled) continue;
-    // Sets e edições específicas do Keepa só casam com anúncios que também são set/edição.
-    if (work.notes.includes("Keepa set") && !listingIsSet) continue;
+    if (isGenericWork(work)) continue;
+    const workIsSet = isSetWork(work);
+    const listingIsSet = listingStrongSet || (listingWeakSet && workIsSet);
+    if (workIsSet !== listingIsSet) continue;
+    if (isEditionWork(work) && !listingIsEdition) continue;
+    // Edições específicas do Keepa só casam com anúncios que também são edição.
     if (work.notes.includes("Keepa edição específica") && !listingIsEdition) continue;
+    if (workIsSet) {
+      const workCount = setCount(work.title);
+      const listingCount = setCount(listing.title);
+      if (workCount !== null && listingCount !== null && workCount !== listingCount) continue;
+    }
 
     const reasons: string[] = [];
     let score = 0;
@@ -83,13 +139,15 @@ export function matchListing(
         const authorTitle = containmentScore(listing.title, work.author);
         if (authorTitle < 0.9) continue;
       }
+      // Título fraco não confirma edição; sets e edições PT já foram cortados.
+      if (title < 0.55) continue;
       const author = authorScore(haystack, work.author);
       const series = work.series ? containmentScore(haystack, work.series) : 0;
 
       // Sem autor não dá para confirmar edição; evita CD, jogo e título genérico.
       if (author < 0.2) continue;
 
-      if (title >= 0.45) reasons.push("título");
+      if (title >= 0.55) reasons.push("título");
       if (author >= 0.6) reasons.push("autor");
       if (series >= 0.6) reasons.push("série");
 
@@ -97,8 +155,6 @@ export function matchListing(
         author > 0 ? 0.55 * title + 0.3 * author + 0.15 * series : 0.85 * title + 0.15 * series;
 
       // Um autor/série sozinho não basta: evita alertar qualquer livro do autor.
-      const weakTitle = title < 0.45;
-
       const publisherKey = publisher?.replace(/\s+/g, "");
       if (
         publisherKey &&
@@ -117,12 +173,10 @@ export function matchListing(
         score += 0.05;
         reasons.push("inglês");
       } else if (language === "pt") {
-        // O radar é para edições originais em inglês. Edição PT não entra no digest.
-        score = Math.min(score - 0.12, 0.45);
-        reasons.push("edição PT (ignorada)");
+        // O radar é para edições originais em inglês. Edição PT não entra.
+        continue;
       }
-      if (weakTitle) score = Math.min(score, 0.55);
-      if (set) reasons.push("conjunto/box");
+      if (listingIsSet) reasons.push("conjunto/box");
     }
 
     score = Math.max(0, Math.min(1, score));
