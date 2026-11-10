@@ -1,4 +1,5 @@
-# Registra a varredura, o digest diário e a varredura semanal de ISBN no Task Scheduler do Windows.
+# Registra a varredura, o digest diário, a varredura semanal de ISBN e o backup
+# diário no Task Scheduler do Windows.
 # Rode no PowerShell do seu usuário. Se falhar por permissão, abra como administrador.
 # A varredura usa LogonType Interactive: o Chromium precisa de uma sessão de desktop
 # para passar pelo Cloudflare da OLX e do Mercado Livre. O digest usa o mesmo
@@ -66,6 +67,20 @@ $sebosTrigger = New-ScheduledTaskTrigger `
   -At $sebosStart `
   -RepetitionInterval (New-TimeSpan -Days 1)
 
+$backupAction = New-ScheduledTaskAction `
+  -Execute "cmd.exe" `
+  -Argument "/c `"$repo\scripts\backup.cmd`"" `
+  -WorkingDirectory $repo
+
+$backupStart = (Get-Date).Date.AddHours(9).AddMinutes(30)
+if ($backupStart -le (Get-Date)) {
+  $backupStart = $backupStart.AddDays(1)
+}
+$backupTrigger = New-ScheduledTaskTrigger `
+  -Once `
+  -At $backupStart `
+  -RepetitionInterval (New-TimeSpan -Days 1)
+
 $principal = New-ScheduledTaskPrincipal `
   -UserId ([System.Security.Principal.WindowsIdentity]::GetCurrent().Name) `
   -LogonType Interactive `
@@ -90,6 +105,11 @@ $sebosSettings = New-ScheduledTaskSettingsSet `
   -StartWhenAvailable `
   -DontStopOnIdleEnd `
   -ExecutionTimeLimit (New-TimeSpan -Hours 1)
+
+$backupSettings = New-ScheduledTaskSettingsSet `
+  -StartWhenAvailable `
+  -DontStopOnIdleEnd `
+  -ExecutionTimeLimit (New-TimeSpan -Minutes 30)
 
 Register-ScheduledTask `
   -TaskName "Collection Radar" `
@@ -127,11 +147,22 @@ Register-ScheduledTask `
   -Description "Sebos independentes via Google Programmable Search" `
   -Force | Out-Null
 
+Register-ScheduledTask `
+  -TaskName "Collection Radar Backup" `
+  -Action $backupAction `
+  -Trigger $backupTrigger `
+  -Principal $principal `
+  -Settings $backupSettings `
+  -Description "Backup diário do SQLite do Collection Radar" `
+  -Force | Out-Null
+
 Write-Host "Tarefa 'Collection Radar': varredura a cada 6 horas, sem e-mail."
 Write-Host "Tarefa 'Collection Radar Digest': todos os dias às 09:00."
 Write-Host "Tarefa 'Collection Radar ISBN': toda segunda-feira às 08:00."
 Write-Host "Tarefa 'Collection Radar Sebos': todos os dias às 08:30."
+Write-Host "Tarefa 'Collection Radar Backup': todos os dias às 09:30."
 Write-Host "Primeira varredura: $($scanStart.ToString('dd/MM/yyyy HH:mm'))."
 Write-Host "Primeiro digest: $($digestStart.ToString('dd/MM/yyyy HH:mm'))."
 Write-Host "Primeira varredura de ISBN: $($isbnStart.ToString('dd/MM/yyyy HH:mm'))."
 Write-Host "Primeira varredura de sebos: $($sebosStart.ToString('dd/MM/yyyy HH:mm'))."
+Write-Host "Primeiro backup: $($backupStart.ToString('dd/MM/yyyy HH:mm'))."

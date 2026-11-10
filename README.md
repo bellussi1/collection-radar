@@ -79,6 +79,7 @@ npm run dashboard                  # dashboard local em http://127.0.0.1:4317
 npm run update                     # scan + rematch + pHash + OCR + digest HTML
 npm run update -- --quick          # pula o scan e atualiza o resto
 npm run rematch                    # recalcula todos os matches com o matcher atual
+npm run backup                     # backup diário do SQLite com retenção
 npm run covers -- --max-score 0.8  # verifica capa do anúncio contra a capa conhecida
 npm run sellers:backfill           # preenche notas de vendedor a partir do raw_json
 npm run isbn-scan -- --limit 5     # varre a AbeBooks por ISBN (semanal no agendador)
@@ -303,11 +304,44 @@ npm run update -- --dry-run # mostra as etapas
 O scan é a parte lenta (~15–20 min). Shopee, sebos e AbeBooks rodam nas tarefas
 separadas; o `update` cobre o scan normal e o pós-processamento.
 
+## Backup
+
+O banco inteiro fica em `data/radar.db`: anúncios, matches, coleção física,
+feedback e histórico de preço. O backup usa a API online do SQLite, então pode
+rodar com o dashboard ou uma varredura em andamento.
+
+```powershell
+npm run backup
+```
+
+O comando grava `data/backups/radar-AAAA-MM-DD.db`, valida o arquivo com
+`PRAGMA integrity_check` e confere a contagem das tabelas antes de substituir o
+backup do dia. A retenção padrão é de 14 dias; os backups mais antigos são
+removidos.
+
+Variáveis e opções:
+
+- `BACKUP_KEEP_DAYS=30` ou `npm run backup -- --keep 30` para mudar a retenção.
+- `BACKUP_DIR=...` ou `--dir ...` para mudar a pasta.
+- `RADAR_DB=...` ou `--db ...` para apontar para outro banco.
+
+O backup diário também é registrado pelo `scripts/install-task.ps1` às 09:30
+(tarefa **Collection Radar Backup**), com log em `logs/backup.log`.
+
+Para restaurar, pare o dashboard, remova os arquivos `-wal`/`-shm` antigos e
+copie o backup escolhido sobre o banco:
+
+```powershell
+Remove-Item data\radar.db-wal, data\radar.db-shm -ErrorAction SilentlyContinue
+Copy-Item data\backups\radar-2026-11-10.db data\radar.db
+```
+
 ## Agendamento
 
 O script `scripts/scan.cmd` roda a varredura com `--no-email` e grava o log em
 `logs/scan.log`. O script `scripts/digest.cmd` roda o digest diário com `--new` e
-grava o log em `logs/digest.log`. Para registrar as duas tarefas:
+grava o log em `logs/digest.log`. O script `scripts/backup.cmd` roda o backup
+diário e grava o log em `logs/backup.log`. Para registrar as tarefas:
 
 ```powershell
 .\scripts\install-task.ps1
@@ -322,6 +356,8 @@ O script cria:
   por ISBN.
 - **Collection Radar Sebos**: todos os dias às 08:30, sebos independentes via
   Google Programmable Search.
+- **Collection Radar Backup**: todos os dias às 09:30, backup do SQLite com
+  retenção de 14 dias.
 
 As tarefas usam **"Run only when user is logged on"** (`LogonType Interactive`).
 Isso é necessário porque OLX e Mercado Livre bloqueiam headless; o Chromium
@@ -334,7 +370,7 @@ match novo, ele não manda e-mail vazio. Para testar sem enviar, rode
 `npm run digest -- --new --no-email` e abra o HTML gerado em `data/outbox`.
 
 Se preferir o Task Scheduler manual, use a mesma condição de logon e aponte para
-`scripts\scan.cmd` e `scripts\digest.cmd`.
+`scripts\scan.cmd`, `scripts\digest.cmd` e `scripts\backup.cmd`.
 
 ## Como editar a watchlist
 

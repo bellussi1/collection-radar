@@ -11,6 +11,7 @@
     "enrich": "tsx src/enrich.ts",
     "dashboard": "tsx src/dashboard.ts",
     "update": "tsx src/update.ts",
+    "backup": "tsx src/backup.ts",
     "rematch": "tsx src/rematch.ts",
     "covers": "tsx src/covers.ts",
     "isbn-scan": "tsx src/isbn-scan.ts",
