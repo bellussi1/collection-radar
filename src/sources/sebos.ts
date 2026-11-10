@@ -172,10 +172,31 @@ function priceFromOffers(offers: unknown): number | null {
   return null;
 }
 
-function priceFromJsonLd(text: string, expectedTitle: string): number | null {
+function availabilityFromOffers(offers: unknown): string | null {
+  if (offers === null || offers === undefined) return null;
+  if (Array.isArray(offers)) {
+    for (const offer of offers) {
+      const availability = availabilityFromOffers(offer);
+      if (availability !== null) return availability;
+    }
+    return null;
+  }
+  if (typeof offers === "object") {
+    const object = offers as Record<string, unknown>;
+    if (typeof object.availability === "string") return object.availability;
+  }
+  return null;
+}
+
+interface ProductInfo {
+  price: number;
+  availability: string | null;
+}
+
+function productInfoFromJsonLd(text: string, expectedTitle: string): ProductInfo | null {
   try {
     const data = JSON.parse(text) as unknown;
-    const products: Array<{ name: string; price: number }> = [];
+    const found: Array<{ name: string; price: number; availability: string | null }> = [];
 
     const walk = (value: unknown): void => {
       if (value === null || value === undefined) return;
@@ -187,30 +208,35 @@ function priceFromJsonLd(text: string, expectedTitle: string): number | null {
         const object = value as Record<string, unknown>;
         const name = typeof object.name === "string" ? object.name : "";
         const price = priceFromOffers(object.offers);
-        if (name && price !== null) products.push({ name, price });
+        if (name && price !== null) {
+          found.push({ name, price, availability: availabilityFromOffers(object.offers) });
+        }
         for (const nested of Object.values(object)) walk(nested);
       }
     };
     walk(data);
 
-    let best: { price: number; score: number } | null = null;
-    for (const product of products) {
+    let best: { info: ProductInfo; score: number } | null = null;
+    for (const product of found) {
       const score = Math.max(
         containmentScore(expectedTitle, product.name),
         containmentScore(product.name, expectedTitle),
         jaccardScore(expectedTitle, product.name)
       );
       if (score >= 0.5 && (!best || score > best.score)) {
-        best = { price: product.price, score };
+        best = {
+          info: { price: product.price, availability: product.availability },
+          score
+        };
       }
     }
-    return best?.price ?? null;
+    return best?.info ?? null;
   } catch {
     return null;
   }
 }
 
-async function fetchPagePrice(url: string, expectedTitle: string): Promise<number | null> {
+async function fetchPageInfo(url: string, expectedTitle: string): Promise<ProductInfo | null> {
   try {
     const response = await fetch(url, {
       headers: {
@@ -228,8 +254,8 @@ async function fetchPagePrice(url: string, expectedTitle: string): Promise<numbe
       ...html.matchAll(/<script[^>]+type=["']application\/ld\+json["'][^>]*>([\s\S]*?)<\/script>/gi)
     ];
     for (const script of scripts) {
-      const price = priceFromJsonLd(script[1] ?? "", expectedTitle);
-      if (price !== null) return price;
+      const info = productInfoFromJsonLd(script[1] ?? "", expectedTitle);
+      if (info) return info;
     }
 
     const titleMeta = html.match(
@@ -248,10 +274,15 @@ async function fetchPagePrice(url: string, expectedTitle: string): Promise<numbe
     const meta = html.match(
       /<meta[^>]+(?:property|name)=["'](?:product:price:amount|og:price:amount|price)["'][^>]+content=["']([^"']+)["']/i
     );
-    return meta?.[1] ? parseMoney(meta[1]) : null;
+    const price = meta?.[1] ? parseMoney(meta[1]) : null;
+    return price === null ? null : { price, availability: null };
   } catch {
     return null;
   }
+}
+
+function isOutOfStock(availability: string | null): boolean {
+  return Boolean(availability && /outofstock|soldout|discontinued|unavailable/i.test(availability));
 }
 
 function isRecommendationUrl(url: string): boolean {
@@ -301,16 +332,19 @@ export class GoogleCseSource implements Source {
     for (const item of items) {
       if (item.link && isRecommendationUrl(item.link)) continue;
       let price = parseCsePrice(item);
+      let pageInfo: ProductInfo | null = null;
       if (
         price === null &&
         (this.options.fetchPages ?? true) &&
         fetched < (this.options.maxPageFetches ?? 5) &&
         item.link
       ) {
-        price = await fetchPagePrice(item.link, item.title ?? "");
+        pageInfo = await fetchPageInfo(item.link, item.title ?? "");
         fetched += 1;
         await sleep(300);
       }
+      if (isOutOfStock(pageInfo?.availability ?? null)) continue;
+      price = price ?? pageInfo?.price ?? null;
       const listing = mapCseItem(item, price);
       if (listing.title && listing.url) listings.push(listing);
     }
@@ -336,17 +370,18 @@ export class GoogleCseSource implements Source {
       let fetched = 0;
       for (const card of cards) {
         if (card.link && isRecommendationUrl(card.link)) continue;
-        let price: number | null = null;
+        let pageInfo: ProductInfo | null = null;
         if (
           (this.options.fetchPages ?? true) &&
           fetched < (this.options.maxPageFetches ?? 5) &&
           card.link
         ) {
-          price = await fetchPagePrice(card.link, card.title ?? "");
+          pageInfo = await fetchPageInfo(card.link, card.title ?? "");
           fetched += 1;
           await sleep(300);
         }
-        const listing = mapCsePageCard(card, price);
+        if (isOutOfStock(pageInfo?.availability ?? null)) continue;
+        const listing = mapCsePageCard(card, pageInfo?.price ?? null);
         if (listing.title && listing.url) listings.push(listing);
       }
       return listings;
