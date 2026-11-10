@@ -128,6 +128,15 @@ O pHash é um sinal, não um veredito: fotos em ângulo, capas de outra edição
 mockups 3D podem dar distância alta mesmo quando o livro é o certo. Confira as
 capas antes de ignorar.
 
+## Deduplicação por obra
+
+O dashboard agrupa os anúncios pela obra. Cada grupo mostra a melhor oferta
+(menor total dentro do teto, preferindo anúncios ativos) e as alternativas com
+fonte, preço, confiança e status. O cabeçalho do grupo traz a quantidade de
+ofertas e a faixa de preço. Os filtros continuam valendo por anúncio; a
+ordenação usa a melhor oferta de cada grupo. O topo mostra anúncios e obras
+separados.
+
 ## Histórico de preço
 
 Cada mudança de preço ou frete é gravada na tabela `price_history`. O dashboard

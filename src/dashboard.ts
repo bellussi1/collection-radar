@@ -76,6 +76,73 @@ function isOver(row: DashboardMatch, work: Work | undefined): boolean {
   return Boolean(total !== null && work && total > work.max_price);
 }
 
+interface WorkGroup {
+  workKey: string;
+  best: DashboardMatch;
+  alternatives: DashboardMatch[];
+  rows: DashboardMatch[];
+}
+
+function bestOffer(rows: DashboardMatch[], work: Work | undefined): DashboardMatch {
+  const active = rows.filter((row) => !row.owned && !row.feedbackStatus);
+  const candidates = active.length > 0 ? active : rows;
+  const withinBudget = work
+    ? candidates.filter((row) => !isOver(row, work))
+    : candidates;
+  const pool = withinBudget.length > 0 ? withinBudget : candidates;
+  return [...pool].sort((a, b) => {
+    const totalA = totalOf(a) ?? Infinity;
+    const totalB = totalOf(b) ?? Infinity;
+    if (totalA !== totalB) return totalA - totalB;
+    return b.score - a.score;
+  })[0]!;
+}
+
+function compareGroups(
+  a: WorkGroup,
+  b: WorkGroup,
+  works: Map<string, Work>,
+  sort: string
+): number {
+  const workA = works.get(a.workKey);
+  const workB = works.get(b.workKey);
+  if (sort === "price") {
+    return (totalOf(a.best) ?? Infinity) - (totalOf(b.best) ?? Infinity);
+  }
+  if (sort === "date") {
+    return b.best.listing.firstSeen.localeCompare(a.best.listing.firstSeen);
+  }
+  if (sort === "confidence") {
+    return b.best.score - a.best.score;
+  }
+  const overA = isOver(a.best, workA) ? 1 : 0;
+  const overB = isOver(b.best, workB) ? 1 : 0;
+  if (overA !== overB) return overA - overB;
+  return discountOf(b.best, workB) - discountOf(a.best, workA) || b.best.score - a.best.score;
+}
+
+function groupRows(
+  rows: DashboardMatch[],
+  works: Map<string, Work>,
+  sort: string
+): WorkGroup[] {
+  const byWork = new Map<string, DashboardMatch[]>();
+  for (const row of rows) {
+    const list = byWork.get(row.workKey) ?? [];
+    list.push(row);
+    byWork.set(row.workKey, list);
+  }
+  const groups: WorkGroup[] = [...byWork.entries()].map(([workKey, group]) => {
+    const best = bestOffer(group, works.get(workKey));
+    const alternatives = group
+      .filter((row) => row !== best)
+      .sort((a, b) => (totalOf(a) ?? Infinity) - (totalOf(b) ?? Infinity));
+    return { workKey, best, alternatives, rows: group };
+  });
+  groups.sort((a, b) => compareGroups(a, b, works, sort));
+  return groups;
+}
+
 function parseFilters(url: URL): Filters {
   const number = Number(url.searchParams.get("page") ?? "1");
   return {
@@ -222,6 +289,46 @@ function rowHtml(row: DashboardMatch, work: Work | undefined, filters: Filters):
     </article>`;
 }
 
+function groupHtml(
+  group: WorkGroup,
+  works: Map<string, Work>,
+  filters: Filters
+): string {
+  const bestHtml = rowHtml(group.best, works.get(group.workKey), filters);
+  if (group.rows.length === 1) return bestHtml;
+
+  const sources = [...new Set(group.rows.map((row) => sourceLabel(row.listing.source)))].join(", ");
+  const totals = group.rows
+    .map(totalOf)
+    .filter((value): value is number => value !== null);
+  const range = totals.length
+    ? `${brl(Math.min(...totals))} – ${brl(Math.max(...totals))}`
+    : "";
+  const alternatives = group.alternatives
+    .map((row) => {
+      const total = totalOf(row);
+      const over = isOver(row, works.get(group.workKey));
+      const status = row.owned
+        ? "comprado"
+        : row.feedbackStatus === "ignored"
+          ? "ignorado"
+          : row.feedbackStatus === "wrong_edition"
+            ? "edição errada"
+            : "";
+      return `<a class="alt${over ? " alt-over" : ""}" href="${esc(row.listing.url)}" target="_blank" rel="noreferrer"><strong>${brl(total)}</strong> · ${esc(sourceLabel(row.listing.source))} · ${Math.round(row.score * 100)}%${status ? ` · ${esc(status)}` : ""}${over ? " · acima do teto" : ""}</a>`;
+    })
+    .join("");
+
+  return `<section class="work-group">
+    <div class="group-head">
+      <span><strong>${group.rows.length} oferta${group.rows.length === 1 ? "" : "s"}</strong> · ${esc(sources)}</span>
+      <span>${range}</span>
+    </div>
+    ${bestHtml}
+    <div class="alternatives"><span class="alt-label">Alternativas</span>${alternatives}</div>
+  </section>`;
+}
+
 function feedbackForm(
   listingId: number,
   workKey: string,
@@ -270,7 +377,7 @@ function workLabel(work: Work): string {
 }
 
 function pageHtml(
-  rows: DashboardMatch[],
+  groups: WorkGroup[],
   works: Map<string, Work>,
   owned: OwnedWork[],
   filters: Filters,
@@ -282,10 +389,12 @@ function pageHtml(
     (row) => !row.owned && !row.feedbackStatus && works.get(row.workKey)?.enabled !== false
   ).length;
   const ignored = allRows.filter((row) => row.feedbackStatus === "ignored").length;
+  const worksCount = new Set(allRows.map((row) => row.workKey)).size;
   const bought = owned.length;
-  const totalPages = Math.max(1, Math.ceil(rows.length / PAGE_SIZE));
+  const totalListings = groups.reduce((sum, group) => sum + group.rows.length, 0);
+  const totalPages = Math.max(1, Math.ceil(groups.length / PAGE_SIZE));
   const page = Math.min(filters.page, totalPages);
-  const pageRows = rows.slice((page - 1) * PAGE_SIZE, page * PAGE_SIZE);
+  const pageGroups = groups.slice((page - 1) * PAGE_SIZE, page * PAGE_SIZE);
   const prev = page > 1 ? `/?${queryString(filters, { page: page - 1 })}` : "";
   const next = page < totalPages ? `/?${queryString(filters, { page: page + 1 })}` : "";
   const ownedKeys = new Set(owned.map((item) => item.workKey));
@@ -369,7 +478,7 @@ function pageHtml(
     .brand { font-family: ui-monospace, SFMono-Regular, Consolas, monospace; font-size: 10px; letter-spacing: .2em; text-transform: uppercase; color: var(--muted); }
     h1 { font-family: Georgia, "Times New Roman", serif; font-weight: 400; font-size: 36px; line-height: 1.05; margin: 8px 0 8px; }
     .lede { color: var(--muted); font-size: 13px; line-height: 1.6; margin: 0 0 18px; max-width: 720px; }
-    .stats { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 10px; margin: 18px 0 24px; }
+    .stats { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 10px; margin: 18px 0 24px; }
     .stat { background: var(--surface); border: 1px solid var(--rule); padding: 12px 14px; }
     .stat strong { display: block; font-family: Georgia, serif; font-size: 24px; font-weight: 400; }
     .stat span { font-family: ui-monospace, monospace; font-size: 10px; text-transform: uppercase; letter-spacing: .12em; color: var(--muted); }
@@ -386,6 +495,18 @@ function pageHtml(
     .results-head span { font-size: 12px; color: var(--muted); }
     .row { display: grid; grid-template-columns: 124px minmax(0, 1fr) 150px 120px; gap: 16px; padding: 16px 0; border-top: 1px solid var(--rule); }
     .row-over { background: linear-gradient(90deg, transparent, var(--ochre-soft)); }
+    .work-group { border-top: 1px solid var(--rule); padding-top: 8px; }
+    .work-group:first-of-type { border-top: 0; padding-top: 0; }
+    .work-group .row { border-top: 0; }
+    .group-head { display: flex; justify-content: space-between; gap: 10px; font-family: ui-monospace, monospace; font-size: 9px; letter-spacing: .1em; text-transform: uppercase; color: var(--muted); padding-top: 2px; }
+    .group-head strong { color: var(--ink); font-weight: 600; }
+    .alternatives { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; padding: 0 0 14px 140px; }
+    .alt-label { font-family: ui-monospace, monospace; font-size: 9px; text-transform: uppercase; letter-spacing: .1em; color: var(--muted); }
+    .alt { font-size: 11px; color: var(--muted); text-decoration: none; border: 1px solid var(--rule); padding: 4px 7px; background: #fff; }
+    .alt strong { color: var(--ink); font-weight: 600; }
+    .alt:hover { border-color: var(--ink); color: var(--ink); }
+    .alt-over { border-color: var(--ochre); color: var(--ochre); }
+    .alt-over strong { color: var(--ochre); }
     .covers { display: flex; flex-direction: column; gap: 5px; align-items: flex-start; }
     .cover-pair { display: flex; gap: 6px; align-items: flex-start; }
     .cover-wrap { position: relative; overflow: hidden; border: 1px solid var(--rule); background: #e9e3d6; flex: 0 0 auto; }
@@ -441,6 +562,7 @@ function pageHtml(
     @media (max-width: 980px) {
       .filters { grid-template-columns: 1fr 1fr; }
       .row { grid-template-columns: 90px minmax(0, 1fr); }
+      .alternatives { padding-left: 0; }
       .price { grid-column: 2; text-align: left; }
       .actions { grid-column: 2; flex-direction: row; flex-wrap: wrap; }
       .actions .button { width: auto; }
@@ -462,7 +584,8 @@ function pageHtml(
     <h1>Acervo de achados</h1>
     <p class="lede">Todos os matches do banco local, com filtros, capa do anúncio ao lado da capa conhecida, distância perceptual e ações de coleção. O e-mail mostra só os 20 melhores; aqui está o resto.</p>
     <div class="stats">
-      <div class="stat"><strong>${allRows.length}</strong><span>matches no banco</span></div>
+      <div class="stat"><strong>${allRows.length}</strong><span>anúncios</span></div>
+      <div class="stat"><strong>${worksCount}</strong><span>obras</span></div>
       <div class="stat"><strong>${active}</strong><span>ativos</span></div>
       <div class="stat"><strong>${ignored}</strong><span>ignorados</span></div>
       <div class="stat"><strong>${bought}</strong><span>na coleção</span></div>
@@ -482,9 +605,9 @@ function pageHtml(
 
     <div class="results-head">
       <h2>Resultados</h2>
-      <span>${rows.length} match${rows.length === 1 ? "" : "es"} · página ${page} de ${totalPages}</span>
+      <span>${groups.length} obra${groups.length === 1 ? "" : "s"} · ${totalListings} anúncio${totalListings === 1 ? "" : "s"} · página ${page} de ${totalPages}</span>
     </div>
-    ${pageRows.length === 0 ? `<p class="muted">Nenhum match com esses filtros.${filters.status === "bought" && owned.length ? ` A coleção física tem ${owned.length} obra${owned.length === 1 ? "" : "s"} logo abaixo.` : ""}</p>` : pageRows.map((row) => rowHtml(row, works.get(row.workKey), filters)).join("")}
+    ${pageGroups.length === 0 ? `<p class="muted">Nenhuma obra com esses filtros.${filters.status === "bought" && owned.length ? ` A coleção física tem ${owned.length} obra${owned.length === 1 ? "" : "s"} logo abaixo.` : ""}</p>` : pageGroups.map((group) => groupHtml(group, works, filters)).join("")}
     <nav class="pagination">
       <div>${prev ? `<a href="${prev}">← anterior</a>` : ""}</div>
       <div>${next ? `<a href="${next}">próxima →</a>` : ""}</div>
@@ -547,24 +670,6 @@ function filterRows(
     return true;
   });
 
-  filtered.sort((a, b) => {
-    const workA = works.get(a.workKey);
-    const workB = works.get(b.workKey);
-    if (filters.sort === "price") {
-      return (totalOf(a) ?? Infinity) - (totalOf(b) ?? Infinity);
-    }
-    if (filters.sort === "date") {
-      return b.listing.firstSeen.localeCompare(a.listing.firstSeen);
-    }
-    if (filters.sort === "confidence") {
-      return b.score - a.score;
-    }
-    const overA = isOver(a, workA) ? 1 : 0;
-    const overB = isOver(b, workB) ? 1 : 0;
-    if (overA !== overB) return overA - overB;
-    return discountOf(b, workB) - discountOf(a, workA) || b.score - a.score;
-  });
-
   return filtered;
 }
 
@@ -604,8 +709,9 @@ function main(): void {
         const allRows = db.listDashboardMatches(5000);
         const filters = parseFilters(url);
         const rows = filterRows(allRows, works, filters);
+        const groups = groupRows(rows, works, filters.sort);
         const owned = db.listOwned();
-        const html = pageHtml(rows, works, owned, filters, allRows);
+        const html = pageHtml(groups, works, owned, filters, allRows);
         res.writeHead(200, { "Content-Type": "text/html; charset=utf-8" });
         res.end(html);
         return;
