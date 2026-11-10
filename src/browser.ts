@@ -48,7 +48,7 @@ export async function getShopeeContext(
   if (shopeeContext) return shopeeContext;
 
   const headless = options.headless ?? process.env.HEADLESS === "true";
-  const offscreen = options.offscreen ?? true;
+  const offscreen = options.offscreen ?? process.env.SHOPEE_VISIBLE !== "true";
   const profileDir = process.env.SHOPEE_PROFILE_DIR?.trim() || "data/shopee-profile";
   const args = ["--disable-blink-features=AutomationControlled", "--disable-dev-shm-usage"];
   if (offscreen) {

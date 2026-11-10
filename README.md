@@ -199,11 +199,11 @@ e não entra no scan normal por título.
 
 ## Shopee
 
-A Shopee exige login e não tem API pública para este caso. O radar usa um
+A Shopee exige login e às vezes pede um quebra-cabeça anti-bot. O radar usa um
 perfil persistente do Chromium:
 
 ```powershell
-npm run shopee:login   # abre uma janela visível; faça login e pressione Enter
+npm run shopee:login   # abre uma janela visível; faça login, resolva o captcha e pressione Enter
 npm run shopee-scan    # 8 autores prioritários, sem e-mail
 ```
 
@@ -212,8 +212,10 @@ uma consulta específica use
 `npm run scan -- --source shopee --queries "Robin Hobb"`. Se você tiver uma
 busca salva, defina `SHOPEE_SEARCH_URL` com `{query}` no lugar do termo.
 
-A Shopee mostra avaliação do produto, não do vendedor; o filtro de vendedor
-fica “sem nota” e a avaliação aparece na nota de preço. O frete é confirmado no
+Com `SHOPEE_VISIBLE=true` no `.env`, o scan abre a janela e espera até 2 minutos
+para você resolver o captcha; sem isso, ele falha com a mensagem de verificação.
+A Shopee mostra avaliação do produto, não do vendedor; o filtro de vendedor fica
+“sem nota” e a avaliação aparece na nota de preço. O frete é confirmado no
 checkout; o total do radar é o preço do item. A condição assume “novo” quando o
 título não diz “usado”.
 

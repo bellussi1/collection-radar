@@ -159,24 +159,75 @@ export class ShopeeSource implements Source {
       }
 
       const apiResponse = await responsePromise;
+      let apiError: number | null = null;
+      let apiCaptcha = false;
       if (apiResponse) {
         try {
           const data = (await apiResponse.json()) as {
             items?: unknown[];
             error?: number;
+            "6"?: unknown;
           };
           if (Array.isArray(data.items) && data.items.length > 0) {
             return parseShopeeResponse(data).slice(0, limit);
           }
-          if (data.error === 90309999) {
-            throw new SourceBlockedError(
-              "shopee",
-              "Shopee exige login. Rode npm run shopee:login e tente de novo."
-            );
-          }
-        } catch (error) {
-          if (error instanceof SourceBlockedError) throw error;
+          if (typeof data.error === "number") apiError = data.error;
+          apiCaptcha = data["6"] !== undefined;
+        } catch {
+          // tenta o DOM abaixo
         }
+      }
+
+      if (apiError === 90309999) {
+        await page.waitForTimeout(2_000);
+        const bodyText = await page
+          .locator("body")
+          .innerText()
+          .catch(() => "");
+        const captcha =
+          apiCaptcha ||
+          bodyText.includes("quebra-cabeça") ||
+          bodyText.includes("Verifique para continuar") ||
+          bodyText.toLowerCase().includes("captcha");
+
+        if (captcha) {
+          if (process.env.SHOPEE_VISIBLE === "true") {
+            console.log(
+              "Shopee pediu captcha. Resolva o quebra-cabeça na janela do Chromium; aguardando até 2 minutos..."
+            );
+            const retry = await page
+              .waitForResponse(
+                (response) =>
+                  response.url().includes("/api/v4/search/search_items") &&
+                  response.status() === 200,
+                { timeout: 120_000 }
+              )
+              .catch(() => null);
+            if (retry) {
+              const retryData = (await retry.json().catch(() => null)) as {
+                items?: unknown[];
+              } | null;
+              if (Array.isArray(retryData?.items) && retryData.items.length > 0) {
+                return parseShopeeResponse(retryData).slice(0, limit);
+              }
+            }
+          }
+          throw new SourceBlockedError(
+            "shopee",
+            "Shopee pediu captcha. Rode npm run shopee:login, resolva o quebra-cabeça e tente de novo."
+          );
+        }
+
+        if (bodyText.includes("ainda não está logado") || bodyText.includes("Faça login")) {
+          throw new SourceBlockedError(
+            "shopee",
+            "Shopee exige login. Rode npm run shopee:login e tente de novo."
+          );
+        }
+        throw new SourceBlockedError(
+          "shopee",
+          "Shopee bloqueou a busca (login/captcha). Rode npm run shopee:login e tente de novo."
+        );
       }
 
       await page
@@ -200,6 +251,12 @@ export class ShopeeSource implements Source {
         .locator("body")
         .innerText()
         .catch(() => "");
+      if (bodyText.includes("quebra-cabeça") || bodyText.includes("Verifique para continuar")) {
+        throw new SourceBlockedError(
+          "shopee",
+          "Shopee pediu captcha. Rode npm run shopee:login, resolva o quebra-cabeça e tente de novo."
+        );
+      }
       if (bodyText.includes("ainda não está logado") || bodyText.includes("Faça login")) {
         throw new SourceBlockedError(
           "shopee",

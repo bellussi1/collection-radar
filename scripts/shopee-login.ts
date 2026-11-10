@@ -8,7 +8,8 @@ const page = context.pages()[0] ?? (await context.newPage());
 await page.goto("https://shopee.com.br/", { waitUntil: "domcontentloaded", timeout: 60_000 });
 
 console.log("Faça login na janela do Chromium que abriu.");
-console.log("Depois de entrar na sua conta, volte aqui e pressione Enter.");
+console.log("Se aparecer o quebra-cabeça, resolva antes de continuar.");
+console.log("Depois de entrar na sua conta e confirmar uma busca, volte aqui e pressione Enter.");
 
 const rl = createInterface({ input, output });
 await rl.question("Enter para salvar o perfil e fechar: ");
