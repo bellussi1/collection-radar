@@ -1,0 +1,19 @@
+{
+  "items": [
+    {
+      "title": "Assassin's Apprentice — Robin Hobb | Sebo do Messias",
+      "link": "https://www.sebodomessias.com.br/produto/assassins-apprentice",
+      "snippet": "Livro usado em bom estado. R$ 49,90.",
+      "pagemap": {
+        "metatags": [{ "product:price:amount": "49.90" }],
+        "cse_image": [{ "src": "https://www.sebodomessias.com.br/img.jpg" }]
+      }
+    },
+    {
+      "title": "Royal Assassin — Robin Hobb",
+      "link": "https://seboexemplo.com.br/royal-assassin",
+      "snippet": "Exemplar usado, capa dura. Consulte o frete.",
+      "pagemap": {}
+    }
+  ]
+}

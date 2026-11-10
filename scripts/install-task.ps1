@@ -52,6 +52,20 @@ $isbnTrigger = New-ScheduledTaskTrigger `
   -At $isbnStart `
   -RepetitionInterval (New-TimeSpan -Days 7)
 
+$sebosAction = New-ScheduledTaskAction `
+  -Execute "cmd.exe" `
+  -Argument "/c `"$repo\scripts\sebos-scan.cmd`"" `
+  -WorkingDirectory $repo
+
+$sebosStart = (Get-Date).Date.AddHours(8).AddMinutes(30)
+if ($sebosStart -le (Get-Date)) {
+  $sebosStart = $sebosStart.AddDays(1)
+}
+$sebosTrigger = New-ScheduledTaskTrigger `
+  -Once `
+  -At $sebosStart `
+  -RepetitionInterval (New-TimeSpan -Days 1)
+
 $principal = New-ScheduledTaskPrincipal `
   -UserId ([System.Security.Principal.WindowsIdentity]::GetCurrent().Name) `
   -LogonType Interactive `
@@ -71,6 +85,11 @@ $isbnSettings = New-ScheduledTaskSettingsSet `
   -StartWhenAvailable `
   -DontStopOnIdleEnd `
   -ExecutionTimeLimit (New-TimeSpan -Hours 2)
+
+$sebosSettings = New-ScheduledTaskSettingsSet `
+  -StartWhenAvailable `
+  -DontStopOnIdleEnd `
+  -ExecutionTimeLimit (New-TimeSpan -Hours 1)
 
 Register-ScheduledTask `
   -TaskName "Collection Radar" `
@@ -99,9 +118,20 @@ Register-ScheduledTask `
   -Description "Varredura semanal da AbeBooks por ISBN" `
   -Force | Out-Null
 
+Register-ScheduledTask `
+  -TaskName "Collection Radar Sebos" `
+  -Action $sebosAction `
+  -Trigger $sebosTrigger `
+  -Principal $principal `
+  -Settings $sebosSettings `
+  -Description "Sebos independentes via Google Programmable Search" `
+  -Force | Out-Null
+
 Write-Host "Tarefa 'Collection Radar': varredura a cada 6 horas, sem e-mail."
 Write-Host "Tarefa 'Collection Radar Digest': todos os dias às 09:00."
 Write-Host "Tarefa 'Collection Radar ISBN': toda segunda-feira às 08:00."
+Write-Host "Tarefa 'Collection Radar Sebos': todos os dias às 08:30."
 Write-Host "Primeira varredura: $($scanStart.ToString('dd/MM/yyyy HH:mm'))."
 Write-Host "Primeiro digest: $($digestStart.ToString('dd/MM/yyyy HH:mm'))."
 Write-Host "Primeira varredura de ISBN: $($isbnStart.ToString('dd/MM/yyyy HH:mm'))."
+Write-Host "Primeira varredura de sebos: $($sebosStart.ToString('dd/MM/yyyy HH:mm'))."

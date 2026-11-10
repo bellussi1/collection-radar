@@ -21,6 +21,8 @@ sources:
   abebooks: false
   # A Shopee exige login e fica fora do scan normal; use --source shopee.
   shopee: true
+  # Sebos independentes via Google CSE; roda no sebos-scan, não no scan normal.
+  sebos: true
 
 currency:
   # Câmbio usado para converter os preços em dólar da AbeBooks.

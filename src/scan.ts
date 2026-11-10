@@ -45,7 +45,9 @@ export async function runScan(options: ScanOptions = {}): Promise<ScanStats> {
   }
 
   const sources = createSources(settings).filter((source) =>
-    options.source ? source.name === options.source : source.name !== "shopee"
+    options.source
+      ? source.name === options.source
+      : source.name !== "shopee" && source.name !== "sebos"
   );
 
   if (sources.length === 0) {

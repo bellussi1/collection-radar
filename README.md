@@ -82,6 +82,7 @@ npm run sellers:backfill           # preenche notas de vendedor a partir do raw_
 npm run isbn-scan -- --limit 5     # varre a AbeBooks por ISBN (semanal no agendador)
 npm run shopee:login               # login único da Shopee no perfil persistente
 npm run shopee-scan                # 8 autores prioritários na Shopee, sem e-mail
+npm run sebos-scan                 # sebos independentes via Google Programmable Search
 npm run fixtures:capture           # atualiza os HTMLs de amostra dos coletores
 npm run email:test                 # testa o SMTP configurado
 npm run enrich -- --limit 50       # propõe ISBNs via Open Library/Google Books
@@ -210,6 +211,32 @@ fica “sem nota” e a avaliação aparece na nota de preço. O frete é confir
 checkout; o total do radar é o preço do item. A condição assume “novo” quando o
 título não diz “usado”.
 
+## Sebos independentes
+
+A Estante Virtual agrega muitos sebos, mas não todos. O radar usa o Google
+Programmable Search (Custom Search API) para varrer os domínios que você
+escolher:
+
+1. Crie um mecanismo em https://programmablesearchengine.google.com/ e adicione
+   os domínios dos sebos que você acompanha.
+2. Ative a Custom Search API no Google Cloud e crie uma chave.
+3. Preencha `GOOGLE_CSE_API_KEY` e `GOOGLE_CSE_CX` no `.env`.
+
+```powershell
+npm run sebos-scan
+```
+
+O comando roda 8 autores prioritários, 10 resultados por consulta, e fica fora
+do scan normal. Para uma consulta específica:
+`npm run scan -- --source sebos --queries "Robin Hobb"`. O plano gratuito do
+Google CSE dá 100 consultas por dia; o comando usa 8.
+
+O preço vem do `pagemap` do resultado, de JSON-LD ou de meta tags da página.
+Quando o site não expõe preço, o anúncio aparece com “—”. O vendedor é o domínio
+do sebo, sem nota numérica; a condição vem do título/trecho (“usado”/“novo”).
+A tarefa **Collection Radar Sebos** roda todos os dias às 08:30 e o digest das
+09:00 consolida os novos matches.
+
 ## Testes de coletor
 
 `tests/fixtures/*.html` guardam amostras dos cards de OLX, Mercado Livre,
@@ -239,6 +266,8 @@ O script cria:
   alertados.
 - **Collection Radar ISBN**: toda segunda-feira às 08:00, varredura da AbeBooks
   por ISBN.
+- **Collection Radar Sebos**: todos os dias às 08:30, sebos independentes via
+  Google Programmable Search.
 
 As tarefas usam **"Run only when user is logged on"** (`LogonType Interactive`).
 Isso é necessário porque OLX e Mercado Livre bloqueiam headless; o Chromium
