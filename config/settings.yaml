@@ -5,7 +5,7 @@ scan:
   # Pausa entre consultas para não irritar os sites.
   delay_ms: 2500
   # Corte de confiança para entrar no digest.
-  min_score: 0.62
+  min_score: 0.55
   # Reservado para alerta imediato (o MVP manda um digest por rodada).
   immediate_score: 0.82
   max_age_days: 30
