@@ -80,6 +80,8 @@ npm run rematch                    # recalcula todos os matches com o matcher at
 npm run covers -- --max-score 0.8  # verifica capa do anúncio contra a capa conhecida
 npm run sellers:backfill           # preenche notas de vendedor a partir do raw_json
 npm run isbn-scan -- --limit 5     # varre a AbeBooks por ISBN (semanal no agendador)
+npm run shopee:login               # login único da Shopee no perfil persistente
+npm run shopee-scan                # 8 autores prioritários na Shopee, sem e-mail
 npm run fixtures:capture           # atualiza os HTMLs de amostra dos coletores
 npm run email:test                 # testa o SMTP configurado
 npm run enrich -- --limit 50       # propõe ISBNs via Open Library/Google Books
@@ -187,6 +189,26 @@ checkout. O radar usa o menor total livro + frete Brasil como estimativa. A
 varredura roda toda segunda às 08:00 e o digest das 09:00 consolida os novos
 matches. `settings.sources.abebooks` fica `false` porque essa fonte é ISBN-only
 e não entra no scan normal por título.
+
+## Shopee
+
+A Shopee exige login e não tem API pública para este caso. O radar usa um
+perfil persistente do Chromium:
+
+```powershell
+npm run shopee:login   # abre uma janela visível; faça login e pressione Enter
+npm run shopee-scan    # 8 autores prioritários, sem e-mail
+```
+
+O perfil fica em `data/shopee-profile`. A fonte fica fora do scan normal; para
+uma consulta específica use
+`npm run scan -- --source shopee --queries "Robin Hobb"`. Se você tiver uma
+busca salva, defina `SHOPEE_SEARCH_URL` com `{query}` no lugar do termo.
+
+A Shopee mostra avaliação do produto, não do vendedor; o filtro de vendedor
+fica “sem nota” e a avaliação aparece na nota de preço. O frete é confirmado no
+checkout; o total do radar é o preço do item. A condição assume “novo” quando o
+título não diz “usado”.
 
 ## Testes de coletor
 

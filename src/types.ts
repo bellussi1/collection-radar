@@ -1,4 +1,4 @@
-export type SourceName = "estante" | "olx" | "mercadolivre" | "enjoei" | "abebooks";
+export type SourceName = "estante" | "olx" | "mercadolivre" | "enjoei" | "abebooks" | "shopee";
 
 export interface RawListing {
   source: SourceName;

@@ -13,6 +13,8 @@
     "rematch": "tsx src/rematch.ts",
     "covers": "tsx src/covers.ts",
     "isbn-scan": "tsx src/isbn-scan.ts",
+    "shopee:login": "tsx scripts/shopee-login.ts",
+    "shopee-scan": "tsx src/shopee-scan.ts",
     "sellers:backfill": "tsx scripts/backfill-seller-ratings.ts",
     "fixtures:capture": "tsx scripts/capture-fixtures.ts",
     "watchlist": "tsx src/index.ts watchlist",

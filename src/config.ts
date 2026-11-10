@@ -19,7 +19,8 @@ const DEFAULT_SETTINGS: Settings = {
     olx: true,
     mercadolivre: true,
     enjoei: true,
-    abebooks: false
+    abebooks: false,
+    shopee: true
   },
   email: {
     enabled: false,

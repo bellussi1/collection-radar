@@ -19,6 +19,8 @@ sources:
   enjoei: true
   # A AbeBooks é usada pelo isbn-scan, não pelo scan normal por título.
   abebooks: false
+  # A Shopee exige login e fica fora do scan normal; use --source shopee.
+  shopee: true
 
 currency:
   # Câmbio usado para converter os preços em dólar da AbeBooks.

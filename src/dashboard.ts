@@ -52,7 +52,8 @@ function sourceLabel(source: string): string {
     olx: "OLX",
     mercadolivre: "Mercado Livre",
     enjoei: "Enjoei",
-    abebooks: "AbeBooks"
+    abebooks: "AbeBooks",
+    shopee: "Shopee"
   };
   return labels[source] ?? source;
 }

@@ -44,8 +44,8 @@ export async function runScan(options: ScanOptions = {}): Promise<ScanStats> {
     queries = queries.slice(0, options.maxQueries);
   }
 
-  const sources = createSources(settings).filter(
-    (source) => !options.source || source.name === options.source
+  const sources = createSources(settings).filter((source) =>
+    options.source ? source.name === options.source : source.name !== "shopee"
   );
 
   if (sources.length === 0) {
