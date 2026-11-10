@@ -128,6 +128,16 @@ O pHash é um sinal, não um veredito: fotos em ângulo, capas de outra edição
 mockups 3D podem dar distância alta mesmo quando o livro é o certo. Confira as
 capas antes de ignorar.
 
+## Coleção física
+
+No dashboard, a seção **Coleção física** lista o que você já comprou e permite
+adicionar uma obra mesmo sem um anúncio ativo. O botão **Comprei** em qualquer
+match marca a obra inteira, não só aquele anúncio. O radar, o digest e os
+filtros de ativos ignoram obras marcadas como compradas; use **Remover** para
+voltar a monitorá-las.
+
+Os 5 volumes de ASOIAF já estão marcados como comprados.
+
 ## Agendamento
 
 O script `scripts/scan.cmd` roda a varredura com `--no-email` e grava o log em

@@ -2,7 +2,7 @@ import "dotenv/config";
 import { createServer, type IncomingMessage, type ServerResponse } from "node:http";
 import { loadWorks } from "./config.js";
 import { RadarDb, type DashboardMatch, type OwnedWork } from "./db.js";
-import { detectFormat, normalizeText } from "./normalize.js";
+import { detectFormat, normalizeText, parsePrice } from "./normalize.js";
 import { classifyDistance } from "./coverhash.js";
 import type { Work } from "./types.js";
 
@@ -248,6 +248,11 @@ function option(value: string, label: string, current: string): string {
   return `<option value="${esc(value)}"${value === current ? " selected" : ""}>${esc(label)}</option>`;
 }
 
+function workLabel(work: Work): string {
+  const series = work.series ? ` · ${work.series} #${work.volume}` : "";
+  return `${work.title} — ${work.author}${series}`;
+}
+
 function pageHtml(
   rows: DashboardMatch[],
   works: Map<string, Work>,
@@ -261,34 +266,73 @@ function pageHtml(
     (row) => !row.owned && !row.feedbackStatus && works.get(row.workKey)?.enabled !== false
   ).length;
   const ignored = allRows.filter((row) => row.feedbackStatus === "ignored").length;
-  const bought = allRows.filter((row) => row.owned).length;
+  const bought = owned.length;
   const totalPages = Math.max(1, Math.ceil(rows.length / PAGE_SIZE));
   const page = Math.min(filters.page, totalPages);
   const pageRows = rows.slice((page - 1) * PAGE_SIZE, page * PAGE_SIZE);
   const prev = page > 1 ? `/?${queryString(filters, { page: page - 1 })}` : "";
   const next = page < totalPages ? `/?${queryString(filters, { page: page + 1 })}` : "";
+  const ownedKeys = new Set(owned.map((item) => item.workKey));
+  const addableWorks = [...works.values()]
+    .filter((work) => !ownedKeys.has(work.key))
+    .sort((a, b) => a.title.localeCompare(b.title, "pt-BR"));
 
-  const ownedHtml = owned.length
-    ? `<section class="owned">
-        <h2>Coleção física</h2>
-        <p class="muted">${owned.length} obra${owned.length === 1 ? "" : "s"} marcada${owned.length === 1 ? "" : "s"} como comprada${owned.length === 1 ? "" : "s"}. O radar não alerta mais essas obras.</p>
-        <div class="owned-list">
-          ${owned
-            .map(
-              (item) => `<div class="owned-item">
-                <div><strong>${esc(item.title)}</strong><div class="muted">${esc(item.format ?? "formato não informado")} · ${brl(item.price)}</div></div>
-                <form method="post" action="/owned">
-                  <input type="hidden" name="action" value="remove" />
-                  <input type="hidden" name="work_key" value="${esc(item.workKey)}" />
-                  <input type="hidden" name="redirect" value="/?${esc(queryString(filters, { status: "bought" }))}" />
-                  <button class="button" type="submit">Remover</button>
-                </form>
-              </div>`
-            )
-            .join("")}
+  const ownedAdd = addableWorks.length
+    ? `<form class="owned-add" method="post" action="/owned">
+        <input type="hidden" name="action" value="add" />
+        <input type="hidden" name="redirect" value="/?${esc(queryString(filters, { status: "bought" }))}" />
+        <div class="field">
+          <label for="owned-work">Obra</label>
+          <select id="owned-work" name="work_key" required>
+            <option value="">Escolha uma obra</option>
+            ${addableWorks.map((work) => `<option value="${esc(work.key)}">${esc(workLabel(work))}</option>`).join("")}
+          </select>
         </div>
-      </section>`
-    : "";
+        <div class="field">
+          <label for="owned-format">Formato</label>
+          <select id="owned-format" name="format">
+            <option value="paperback">paperback</option>
+            <option value="hardcover">hardcover</option>
+            <option value="mass_market">mass market</option>
+            <option value="unknown">não informado</option>
+          </select>
+        </div>
+        <div class="field">
+          <label for="owned-price">Preço</label>
+          <input id="owned-price" name="price" inputmode="decimal" placeholder="opcional" />
+        </div>
+        <button class="button button-primary" type="submit">Adicionar</button>
+      </form>`
+    : `<p class="muted">Todas as obras da watchlist já estão na coleção.</p>`;
+
+  const ownedHtml = `<section class="owned">
+      <h2>Coleção física</h2>
+      <p class="muted">${
+        owned.length
+          ? `${owned.length} obra${owned.length === 1 ? "" : "s"} marcada${owned.length === 1 ? "" : "s"} como comprada${owned.length === 1 ? "" : "s"}. O radar não alerta mais essas obras.`
+          : "Nenhuma obra marcada ainda. Marque o que você já tem para o radar parar de alertar."
+      }</p>
+      ${ownedAdd}
+      ${
+        owned.length
+          ? `<div class="owned-list">
+              ${owned
+                .map(
+                  (item) => `<div class="owned-item">
+                    <div><strong>${esc(item.title)}</strong><div class="muted">${esc(item.format ?? "formato não informado")} · ${brl(item.price)}</div></div>
+                    <form method="post" action="/owned">
+                      <input type="hidden" name="action" value="remove" />
+                      <input type="hidden" name="work_key" value="${esc(item.workKey)}" />
+                      <input type="hidden" name="redirect" value="/?${esc(queryString(filters, { status: "bought" }))}" />
+                      <button class="button" type="submit">Remover</button>
+                    </form>
+                  </div>`
+                )
+                .join("")}
+            </div>`
+          : ""
+      }
+    </section>`;
 
   return `<!doctype html>
 <html lang="pt-BR">
@@ -367,6 +411,9 @@ function pageHtml(
     .owned { margin-top: 36px; border-top: 2px solid var(--ink); padding-top: 14px; }
     .owned h2 { font-family: Georgia, serif; font-size: 22px; font-weight: 400; margin: 0 0 4px; }
     .muted { color: var(--muted); font-size: 12px; line-height: 1.5; }
+    .owned-add { display: grid; grid-template-columns: minmax(0, 2.2fr) minmax(120px, .8fr) minmax(110px, .6fr) auto; gap: 8px; align-items: end; background: var(--surface); border: 1px solid var(--rule); padding: 12px; margin: 12px 0; }
+    .owned-add .field { min-width: 0; }
+    .owned-add .field input, .owned-add .field select { width: 100%; }
     .owned-list { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; margin-top: 10px; }
     .owned-item { background: var(--surface); border: 1px solid var(--rule); padding: 10px 12px; display: flex; justify-content: space-between; gap: 10px; align-items: center; }
     .owned-item strong { font-size: 13px; }
@@ -379,11 +426,13 @@ function pageHtml(
       .actions .button { width: auto; }
       .stats { grid-template-columns: 1fr 1fr; }
       .owned-list { grid-template-columns: 1fr; }
+      .owned-add { grid-template-columns: 1fr 1fr; }
     }
     @media (max-width: 560px) {
       .filters { grid-template-columns: 1fr; }
       .row { grid-template-columns: 70px minmax(0, 1fr); gap: 10px; }
       h1 { font-size: 30px; }
+      .owned-add { grid-template-columns: 1fr; }
     }
   </style>
 </head>
@@ -565,14 +614,23 @@ function main(): void {
           if (action === "remove") {
             db.removeOwned(workKey);
           } else {
-            const price = Number(form.get("price") ?? "");
+            const work = loadWorks().find((item) => item.key === workKey);
+            const listingId = Number(form.get("listing_id") ?? "0");
+            const rawPrice = form.get("price") ?? "";
+            const price =
+              listingId > 0
+                ? Number.isFinite(Number(rawPrice)) && Number(rawPrice) > 0
+                  ? Number(rawPrice)
+                  : null
+                : parsePrice(rawPrice);
+            const title = form.get("title")?.trim() || work?.title || workKey;
+            const format = form.get("format")?.trim() || work?.preferred_formats[0] || null;
             db.addOwned(
               workKey,
-              form.get("title") ?? workKey,
-              form.get("format") ?? null,
-              Number.isFinite(price) && price > 0 ? price : null
+              title,
+              format,
+              price
             );
-            const listingId = Number(form.get("listing_id") ?? "0");
             if (listingId > 0) db.setFeedback(listingId, workKey, "bought");
           }
         }

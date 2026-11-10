@@ -70,3 +70,23 @@ test("cache de capas e resultado da comparação persistem", () => {
     rmSync(dir, { recursive: true, force: true });
   }
 });
+
+test("obra comprada fica suprimida até ser removida da coleção", () => {
+  const dir = mkdtempSync(join(tmpdir(), "radar-db-"));
+  const db = new RadarDb(join(dir, "radar.db"));
+  try {
+    const key = "the-hobbit--j-r-r-tolkien";
+    assert.equal(db.isSuppressed(123, key), false);
+
+    db.addOwned(key, "The Hobbit", "paperback", 42);
+    assert.equal(db.isSuppressed(123, key), true);
+    assert.deepEqual(db.listOwnedKeys(), [key]);
+
+    db.removeOwned(key);
+    assert.equal(db.isSuppressed(123, key), false);
+    assert.deepEqual(db.listOwnedKeys(), []);
+  } finally {
+    db.close();
+    rmSync(dir, { recursive: true, force: true });
+  }
+});
