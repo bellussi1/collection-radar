@@ -125,6 +125,7 @@ async function runDigest(options: CliOptions): Promise<void> {
   for (const row of rows) {
     const work = workMap.get(row.workKey);
     if (!work || !work.enabled) continue;
+    if (db.isSuppressed(row.listing.id, row.workKey)) continue;
     const total = row.listing.price === null ? null : row.listing.price + (row.listing.shipping ?? 0);
     items.push({
       listing: row.listing,
@@ -134,18 +135,22 @@ async function runDigest(options: CliOptions): Promise<void> {
       overBudget: total !== null && total > work.max_price
     });
   }
-  const digest = buildDigest(items, {
-    startedAt: since,
-    finishedAt: new Date().toISOString(),
-    queries: 0,
-    pages: 0,
-    listings: rows.length,
-    newListings: rows.length,
-    matches: rows.length,
-    errors: 0,
-    bySource: {},
-    sourceHealth: {}
-  });
+  const digest = buildDigest(
+    items,
+    {
+      startedAt: since,
+      finishedAt: new Date().toISOString(),
+      queries: 0,
+      pages: 0,
+      listings: rows.length,
+      newListings: rows.length,
+      matches: rows.length,
+      errors: 0,
+      bySource: {},
+      sourceHealth: {}
+    },
+    settings.dashboard.url
+  );
   const result = await sendDigest({
     subject: digest.subject,
     html: digest.html,

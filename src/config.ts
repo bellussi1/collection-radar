@@ -22,6 +22,9 @@ const DEFAULT_SETTINGS: Settings = {
   email: {
     enabled: false,
     to: "enzobellussi3@gmail.com"
+  },
+  dashboard: {
+    url: "http://127.0.0.1:4317"
   }
 };
 
@@ -40,7 +43,8 @@ export function loadSettings(): Settings {
   return {
     scan: { ...DEFAULT_SETTINGS.scan, ...(fileSettings.scan ?? {}) },
     sources: { ...DEFAULT_SETTINGS.sources, ...(fileSettings.sources ?? {}) },
-    email: { ...DEFAULT_SETTINGS.email, ...(fileSettings.email ?? {}) }
+    email: { ...DEFAULT_SETTINGS.email, ...(fileSettings.email ?? {}) },
+    dashboard: { ...DEFAULT_SETTINGS.dashboard, ...(fileSettings.dashboard ?? {}) }
   };
 }
 
@@ -142,7 +146,8 @@ export function loadWorks(): Work[] {
       max_price: override.max_price ?? work.max_price,
       preferred_formats: override.preferred_formats ?? work.preferred_formats,
       priority: override.priority ?? work.priority,
-      enabled: override.enabled ?? work.enabled,
+      // Keepa pode desativar, mas não reativar uma obra desativada de propósito.
+      enabled: work.enabled && (override.enabled ?? true),
       notes: override.notes ? `${work.notes} | ${override.notes}` : work.notes
     };
   });

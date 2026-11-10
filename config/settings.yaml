@@ -19,3 +19,6 @@ sources:
 email:
   enabled: true
   to: enzobellussi3@gmail.com
+
+dashboard:
+  url: http://127.0.0.1:4317

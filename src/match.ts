@@ -72,8 +72,15 @@ export function matchListing(
       }
       // Título no anúncio vale mais; descrição sozinha vale 85%.
       const title = Math.max(titleOnly, titleHaystack * 0.85);
-      // Se o título não ajuda, a descrição precisa ser quase exata.
-      if (titleOnly < 0.3 && titleHaystack < 0.9) continue;
+      // Se o título não ajuda, a descrição precisa ser quase exata e o autor
+      // precisa aparecer no título. Evita blurb que cita outro autor.
+      if (titleOnly < 0.3) {
+        if (titleHaystack < 0.9) continue;
+        // Exige o nome completo do autor no título; "king" de "half a king"
+        // não pode confirmar Stephen King.
+        const authorTitle = containmentScore(listing.title, work.author);
+        if (authorTitle < 0.9) continue;
+      }
       const author = authorScore(haystack, work.author);
       const series = work.series ? containmentScore(haystack, work.series) : 0;
 

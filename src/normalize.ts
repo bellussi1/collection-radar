@@ -12,7 +12,8 @@ const PT_PUBLISHERS = [
   "suma", "aleph", "intrinseca", "trama", "leya", "darkside", "globo alt", "plataforma21",
   "morro branco", "boitempo", "companhia das letras", "record", "sextante", "arqueiro",
   "alta books", "alta novel", "estrada dos livros", "editora planeta", "vestigio",
-  "ediouro", "novo seculo", "faro editorial", "tusquets", "planet", "sextante"
+  "ediouro", "novo seculo", "faro editorial", "tusquets", "planet", "sextante",
+  "harpercollins brasil"
 ];
 
 const EN_PUBLISHERS = [
@@ -87,8 +88,8 @@ const PT_WORDS = new Set([
   "espada", "feiticaria", "curva", "sonho", "silencio", "liga", "lei", "braceletes",
   "perdicao", "ascensao", "primeira", "segunda", "mole", "dura", "comum", "usado",
   "novo", "seminovo", "colecao", "trilogia", "edicao", "traducao", "nacional",
-  "brasileira", "portugues", "uma", "literatura", "cenario", "apocaliptico",
-  "intergalactica", "historia", "secreta"
+  "brasileira", "portugues", "uma", "um", "o", "os", "literatura", "cenario",
+  "apocaliptico", "intergalactica", "historia", "secreta", "capa"
 ]);
 
 function includesPublisher(text: string, publisher: string): boolean {

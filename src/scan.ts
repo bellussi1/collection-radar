@@ -56,6 +56,8 @@ export async function runScan(options: ScanOptions = {}): Promise<ScanStats> {
   }
 
   const db = new RadarDb(options.dbPath ?? "data/radar.db");
+  const ownedKeys = new Set(db.listOwnedKeys());
+  const matchableWorks = enabledWorks.filter((work) => !ownedKeys.has(work.key));
   const explicitFilter = Boolean(options.query || options.queries?.length || options.maxQueries);
   if (!explicitFilter && settings.scan.max_queries > 0 && queries.length > settings.scan.max_queries) {
     const totalQueries = queries.length;
@@ -109,7 +111,7 @@ export async function runScan(options: ScanOptions = {}): Promise<ScanStats> {
               newListings += 1;
               stats.newListings += 1;
             }
-            const match = matchListing(listing, enabledWorks, settings.scan.min_score);
+            const match = matchListing(listing, matchableWorks, settings.scan.min_score);
             if (match) {
               db.recordMatch(stored.id, match);
               stats.matches += 1;
@@ -160,6 +162,7 @@ export async function runScan(options: ScanOptions = {}): Promise<ScanStats> {
   for (const row of recent) {
     const work = workMap.get(row.workKey);
     if (!work || !work.enabled) continue;
+    if (db.isSuppressed(row.listing.id, row.workKey)) continue;
     if (db.wasAlerted(row.listing.id, row.workKey, "email")) continue;
     const total = row.listing.price === null ? null : row.listing.price + (row.listing.shipping ?? 0);
     digestItems.push({
@@ -171,7 +174,7 @@ export async function runScan(options: ScanOptions = {}): Promise<ScanStats> {
     });
   }
 
-  const digest = buildDigest(digestItems, stats);
+  const digest = buildDigest(digestItems, stats, settings.dashboard.url);
   const emailEnabled = settings.email.enabled && !options.noEmail;
   const result = await sendDigest({
     subject: digest.subject,

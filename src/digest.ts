@@ -165,7 +165,8 @@ function groupTitle(priority: number): string {
 
 export function buildDigest(
   items: DigestItem[],
-  stats: ScanStats
+  stats: ScanStats,
+  dashboardUrl = "http://127.0.0.1:4317"
 ): { html: string; text: string; subject: string } {
   const date = new Date().toLocaleDateString("pt-BR", { day: "2-digit", month: "2-digit" });
   const sorted = sortItems(items);
@@ -276,6 +277,10 @@ export function buildDigest(
             }
           </p>
           ${healthHtml}
+          <p style="font-size:12px;line-height:1.6;margin:10px 0 0">
+            <a href="${escapeHtml(dashboardUrl)}" style="color:${COLORS.pine};text-decoration:underline">Abrir o dashboard</a>
+            <span style="color:${COLORS.muted}">· todos os matches, filtros e botões de ignorar/comprei. Rode <span style="font-family:ui-monospace,SFMono-Regular,Consolas,monospace">npm run dashboard</span>.</span>
+          </p>
         </td></tr>
         ${
           picks.length > 0
@@ -309,6 +314,7 @@ export function buildDigest(
     stats.queries > 0
       ? `${stats.queries} consultas · ${stats.pages} páginas · ${stats.errors} erro(s).`
       : "Reenvio manual do banco local.",
+    `Dashboard: ${dashboardUrl}`,
     ...(health ? [health] : []),
     ""
   ];

@@ -55,6 +55,9 @@ export interface Settings {
     enabled: boolean;
     to: string;
   };
+  dashboard: {
+    url: string;
+  };
 }
 
 export interface MatchResult {
