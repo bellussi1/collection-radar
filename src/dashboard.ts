@@ -617,12 +617,13 @@ function main(): void {
             const work = loadWorks().find((item) => item.key === workKey);
             const listingId = Number(form.get("listing_id") ?? "0");
             const rawPrice = form.get("price") ?? "";
+            const priceText = /^(?:R\$|BRL)/i.test(rawPrice) ? rawPrice : `R$ ${rawPrice}`;
             const price =
               listingId > 0
                 ? Number.isFinite(Number(rawPrice)) && Number(rawPrice) > 0
                   ? Number(rawPrice)
                   : null
-                : parsePrice(rawPrice);
+                : parsePrice(priceText);
             const title = form.get("title")?.trim() || work?.title || workKey;
             const format = form.get("format")?.trim() || work?.preferred_formats[0] || null;
             db.addOwned(
