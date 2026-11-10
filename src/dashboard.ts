@@ -34,6 +34,7 @@ interface Filters {
   over: string;
   cover: string;
   seller: string;
+  confidence: string;
   sort: string;
   page: number;
 }
@@ -147,6 +148,7 @@ function parseFilters(url: URL): Filters {
     over: url.searchParams.get("over") ?? "all",
     cover: url.searchParams.get("cover") ?? "all",
     seller: url.searchParams.get("seller") ?? "all",
+    confidence: url.searchParams.get("confidence") ?? "all",
     sort: url.searchParams.get("sort") ?? "discount",
     page: Number.isFinite(number) && number > 0 ? Math.floor(number) : 1
   };
@@ -163,6 +165,7 @@ function queryString(filters: Filters, overrides: Partial<Filters> = {}): string
   if (merged.over !== "all") params.set("over", merged.over);
   if (merged.cover !== "all") params.set("cover", merged.cover);
   if (merged.seller !== "all") params.set("seller", merged.seller);
+  if (merged.confidence !== "all") params.set("confidence", merged.confidence);
   if (merged.sort !== "discount") params.set("sort", merged.sort);
   if (merged.page > 1) params.set("page", String(merged.page));
   return params.toString();
@@ -387,6 +390,13 @@ function workLabel(work: Work): string {
   return `${work.title} — ${work.author}${series}`;
 }
 
+function confidencePill(filters: Filters, value: string, label: string, count: number): string {
+  const sort = value === "review" || value === "mid" ? "confidence" : filters.sort;
+  const href = `/?${queryString(filters, { confidence: value, status: "active", sort, page: 1 })}`;
+  const active = filters.confidence === value;
+  return `<a class="confidence-pill${active ? " active" : ""}" href="${href}">${label} <strong>${count}</strong></a>`;
+}
+
 function pageHtml(
   groups: WorkGroup[],
   works: Map<string, Work>,
@@ -405,6 +415,14 @@ function pageHtml(
   const ignored = allRows.filter((row) => row.feedbackStatus === "ignored").length;
   const worksCount = new Set(allRows.map((row) => row.workKey)).size;
   const bought = owned.length;
+  const confidenceCounts = { review: 0, mid: 0, high: 0 };
+  for (const row of allRows) {
+    const work = works.get(row.workKey);
+    if (row.owned || row.feedbackStatus || (work !== undefined && !work.enabled)) continue;
+    if (row.score >= 0.55 && row.score < 0.65) confidenceCounts.review += 1;
+    else if (row.score < 0.8) confidenceCounts.mid += 1;
+    else confidenceCounts.high += 1;
+  }
   const totalListings = groups.reduce((sum, group) => sum + group.rows.length, 0);
   const totalPages = Math.max(1, Math.ceil(groups.length / PAGE_SIZE));
   const page = Math.min(filters.page, totalPages);
@@ -496,6 +514,12 @@ function pageHtml(
     .stat { background: var(--surface); border: 1px solid var(--rule); padding: 12px 14px; }
     .stat strong { display: block; font-family: Georgia, serif; font-size: 24px; font-weight: 400; }
     .stat span { font-family: ui-monospace, monospace; font-size: 10px; text-transform: uppercase; letter-spacing: .12em; color: var(--muted); }
+    .confidence-bar { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; margin: 0 0 12px; }
+    .confidence-label { font-family: ui-monospace, monospace; font-size: 9px; letter-spacing: .12em; text-transform: uppercase; color: var(--muted); margin-right: 4px; }
+    .confidence-pill { font-size: 11px; text-decoration: none; border: 1px solid var(--rule); background: var(--surface); padding: 4px 8px; color: var(--muted); }
+    .confidence-pill strong { color: var(--ink); font-weight: 600; }
+    .confidence-pill.active { border-color: var(--ink); background: var(--ink); color: #fff; }
+    .confidence-pill.active strong { color: #fff; }
     .filters { display: grid; grid-template-columns: 1.4fr repeat(8, minmax(110px, 1fr)) auto; gap: 8px; align-items: end; background: var(--surface); border: 1px solid var(--rule); padding: 14px; margin-bottom: 18px; }
     .field label { display: block; font-family: ui-monospace, monospace; font-size: 9px; text-transform: uppercase; letter-spacing: .12em; color: var(--muted); margin-bottom: 4px; }
     .field input, .field select { width: 100%; border: 1px solid var(--rule); background: #fff; padding: 8px 9px; font: inherit; font-size: 13px; color: var(--ink); }
@@ -615,7 +639,16 @@ function pageHtml(
       <div class="stat"><strong>${bought}</strong><span>na coleção</span></div>
     </div>
 
+    <div class="confidence-bar">
+      <span class="confidence-label">Confiança</span>
+      ${confidencePill(filters, "all", "Todas", active)}
+      ${confidencePill(filters, "review", "55–65%", confidenceCounts.review)}
+      ${confidencePill(filters, "mid", "65–80%", confidenceCounts.mid)}
+      ${confidencePill(filters, "high", "≥80%", confidenceCounts.high)}
+    </div>
+
     <form class="filters" method="get" action="/">
+      ${filters.confidence !== "all" ? `<input type="hidden" name="confidence" value="${esc(filters.confidence)}" />` : ""}
       <div class="field"><label for="q">Busca</label><input id="q" name="q" value="${esc(filters.q)}" placeholder="título, autor, série, vendedor" /></div>
       <div class="field"><label for="source">Fonte</label><select id="source" name="source">${option("all", "Todas", filters.source)}${sources.map((source) => option(source, sourceLabel(source), filters.source)).join("")}</select></div>
       <div class="field"><label for="series">Série</label><select id="series" name="series">${option("all", "Todas", filters.series)}${series.map((item) => option(item, item, filters.series)).join("")}</select></div>
@@ -683,6 +716,9 @@ function filterRows(
     if (filters.seller === "good" && rating !== null && rating < 4.5) return false;
     if (filters.seller === "low" && (rating === null || rating >= 4.5)) return false;
     if (filters.seller === "none" && rating !== null) return false;
+    if (filters.confidence === "review" && !(row.score >= 0.55 && row.score < 0.65)) return false;
+    if (filters.confidence === "mid" && !(row.score >= 0.65 && row.score < 0.8)) return false;
+    if (filters.confidence === "high" && row.score < 0.8) return false;
     if (needle) {
       const haystack = normalizeText(
         [
