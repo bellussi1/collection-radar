@@ -392,7 +392,8 @@ function pageHtml(
   works: Map<string, Work>,
   owned: OwnedWork[],
   filters: Filters,
-  allRows: DashboardMatch[]
+  allRows: DashboardMatch[],
+  rawListings: number
 ): string {
   const sources = [...new Set(allRows.map((row) => row.listing.source))].sort();
   const series = [
@@ -607,7 +608,7 @@ function pageHtml(
     <h1>Acervo de achados</h1>
     <p class="lede">Todos os matches do banco local, com filtros, capa do anúncio ao lado da capa conhecida, distância perceptual e ações de coleção. O e-mail mostra só os 20 melhores; aqui está o resto.</p>
     <div class="stats">
-      <div class="stat"><strong>${allRows.length}</strong><span>anúncios</span></div>
+      <div class="stat"><strong>${allRows.length}</strong><span>anúncios com match</span></div>
       <div class="stat"><strong>${worksCount}</strong><span>obras</span></div>
       <div class="stat"><strong>${active}</strong><span>ativos</span></div>
       <div class="stat"><strong>${ignored}</strong><span>ignorados</span></div>
@@ -629,7 +630,7 @@ function pageHtml(
 
     <div class="results-head">
       <h2>Resultados</h2>
-      <span>${groups.length} obra${groups.length === 1 ? "" : "s"} no filtro · ${totalListings} anúncio${totalListings === 1 ? "" : "s"} · página ${page} de ${totalPages}</span>
+      <span>${groups.length} obra${groups.length === 1 ? "" : "s"} no filtro · ${totalListings} anúncio${totalListings === 1 ? "" : "s"} com match · página ${page} de ${totalPages}</span>
     </div>
     ${pageGroups.length === 0 ? `<p class="muted">Nenhuma obra com esses filtros.${filters.status === "bought" && owned.length ? ` A coleção física tem ${owned.length} obra${owned.length === 1 ? "" : "s"} logo abaixo.` : ""}</p>` : pageGroups.map((group) => groupHtml(group, works, filters)).join("")}
     <nav class="pagination">
@@ -637,7 +638,7 @@ function pageHtml(
       <div>${next ? `<a href="${next}">próxima →</a>` : ""}</div>
     </nav>
     ${ownedHtml}
-    <footer>127.0.0.1:${PORT} · dados em ${esc(DB_PATH)} · Ctrl+C para parar o servidor</footer>
+    <footer>127.0.0.1:${PORT} · dados em ${esc(DB_PATH)} · ${rawListings} anúncios brutos no banco · Ctrl+C para parar o servidor</footer>
   </div>
 </body>
 </html>`;
@@ -741,7 +742,7 @@ function main(): void {
         const rows = filterRows(allRows, works, filters);
         const groups = groupRows(rows, works, filters.sort);
         const owned = db.listOwned();
-        const html = pageHtml(groups, works, owned, filters, allRows);
+        const html = pageHtml(groups, works, owned, filters, allRows, db.countListings());
         res.writeHead(200, { "Content-Type": "text/html; charset=utf-8" });
         res.end(html);
         return;
