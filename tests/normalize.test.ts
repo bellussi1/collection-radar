@@ -1,6 +1,7 @@
 import assert from "node:assert/strict";
 import test from "node:test";
 import {
+  detectCondition,
   detectFormat,
   detectLanguage,
   detectPublisher,
@@ -29,6 +30,13 @@ test("detectPublisher não confunde editorial com Tor", () => {
   assert.equal(detectPublisher("Editorial Gollancz, capa mole"), "gollancz");
   assert.equal(detectPublisher("Tor Books, hardcover"), "tor");
   assert.equal(detectPublisher("HarperVoyager, paperback"), "harpervoyager");
+});
+
+test("detectCondition separa novo de usado", () => {
+  assert.equal(detectCondition("1 usado"), "usado");
+  assert.equal(detectCondition("Capa dura / Novo"), "novo");
+  assert.equal(detectCondition("Capa dura"), null);
+  assert.equal(detectCondition(null), null);
 });
 
 test("detectFormat entende os termos dos anúncios", () => {

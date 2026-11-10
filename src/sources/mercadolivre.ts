@@ -1,5 +1,6 @@
 import { withPage } from "../browser.js";
 import { cleanText, parsePrice, slugify } from "../normalize.js";
+import { extractSellerRating } from "../seller.js";
 import type { RawListing } from "../types.js";
 import { SourceBlockedError, type Source } from "./types.js";
 
@@ -61,6 +62,7 @@ export class MercadoLivreSource implements Source {
       condition: item.condition === "used" ? "usado" : item.condition === "new" ? "novo" : null,
       description: item.title,
       imageUrl: item.thumbnail ?? null,
+      sellerRating: null,
       raw: item
     }));
   }
@@ -120,6 +122,7 @@ export class MercadoLivreSource implements Source {
         .filter((card) => card.title && card.link)
         .map((card) => {
           const idMatch = card.link?.match(/\/p\/(MLB\d+)/) ?? card.link?.match(/[?&]wid=(MLB\d+)/);
+          const seller = cleanText(card.seller);
           return {
             source: "mercadolivre",
             externalId: idMatch?.[1] ?? card.link ?? "",
@@ -128,11 +131,12 @@ export class MercadoLivreSource implements Source {
             price: card.price ?? (card.text ? parsePrice(card.text) : null),
             shipping: card.shipping,
             currency: "BRL",
-            seller: cleanText(card.seller),
+            seller,
             location: cleanText(card.location),
             condition: card.text.toLowerCase().includes("usado") ? "usado" : null,
             description: cleanText(card.text),
             imageUrl: card.image,
+            sellerRating: extractSellerRating(card.text, seller),
             raw: card
           } satisfies RawListing;
         });

@@ -18,6 +18,7 @@ function listing(partial: Partial<RawListing> & Pick<RawListing, "url" | "extern
     condition: "novo",
     description: "Brandon Sanderson",
     imageUrl: null,
+    sellerRating: null,
     ...partial
   };
 }

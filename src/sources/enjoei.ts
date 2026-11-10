@@ -66,6 +66,7 @@ export class EnjoeiSource implements Source {
             condition: card.text.toLowerCase().includes("novo") ? "novo" : "usado",
             description: cleanText([card.brand, card.text].filter(Boolean).join(" | ")),
             imageUrl: card.image,
+            sellerRating: null,
             raw: card
           } satisfies RawListing;
         });

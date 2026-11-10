@@ -1,5 +1,6 @@
 import { withPage } from "../browser.js";
 import { cleanText, parsePrice } from "../normalize.js";
+import { extractSellerRating } from "../seller.js";
 import type { RawListing } from "../types.js";
 import { SourceBlockedError, type Source } from "./types.js";
 
@@ -77,6 +78,7 @@ export class OlxSource implements Source {
             : normalized.includes("usado")
               ? "usado"
               : null;
+          const seller = cleanText(card.seller);
           return {
             source: "olx",
             externalId: card.link?.split("/").filter(Boolean).at(-1) ?? card.link ?? "",
@@ -85,11 +87,12 @@ export class OlxSource implements Source {
             price: card.priceText ? parsePrice(card.priceText) : null,
             shipping: null,
             currency: "BRL",
-            seller: cleanText(card.seller),
+            seller,
             location: cleanText(card.location),
             condition,
             description: cleanText(card.text),
             imageUrl: card.image,
+            sellerRating: extractSellerRating(card.text, seller),
             raw: card
           } satisfies RawListing;
         });

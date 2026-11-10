@@ -34,6 +34,7 @@ function listing(partial: Partial<RawListing> & Pick<RawListing, "title">): RawL
     condition: null,
     description: null,
     imageUrl: null,
+    sellerRating: null,
     ...partial
   };
 }

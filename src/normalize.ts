@@ -126,6 +126,15 @@ export function detectLanguage(text: string): "en" | "pt" | "unknown" {
   return "unknown";
 }
 
+export function detectCondition(
+  text: string | null | undefined
+): "novo" | "usado" | null {
+  const normalized = normalizeText(text ?? "");
+  if (/\bnovo\b/.test(normalized) || /\bnew\b/.test(normalized)) return "novo";
+  if (/\busado\b/.test(normalized) || /\bused\b/.test(normalized)) return "usado";
+  return null;
+}
+
 export function detectFormat(text: string): "hardcover" | "paperback" | "mass_market" | "unknown" {
   const normalized = normalizeText(text);
   if (normalized.includes("mass market") || normalized.includes("edicao de bolso") || normalized.includes("bolso")) {

@@ -13,6 +13,7 @@ export interface RawListing {
   condition: string | null;
   description: string | null;
   imageUrl: string | null;
+  sellerRating: number | null;
   raw?: unknown;
 }
 

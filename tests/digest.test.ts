@@ -70,6 +70,7 @@ function digestItem(index: number): DigestItem {
     condition: null,
     description: null,
     imageUrl: null,
+    sellerRating: null,
     firstSeen: now,
     lastSeen: now,
     isNew: true

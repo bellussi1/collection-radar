@@ -75,6 +75,7 @@ export class EstanteSource implements Source {
             condition: cleanText(card.variations),
             description: cleanText(description),
             imageUrl: card.image,
+            sellerRating: null,
             raw: card
           } satisfies RawListing;
         });

@@ -12,6 +12,7 @@
     "dashboard": "tsx src/dashboard.ts",
     "rematch": "tsx src/rematch.ts",
     "covers": "tsx src/covers.ts",
+    "sellers:backfill": "tsx scripts/backfill-seller-ratings.ts",
     "watchlist": "tsx src/index.ts watchlist",
     "sources": "tsx src/index.ts sources",
     "test": "tsx --test tests/*.test.ts",

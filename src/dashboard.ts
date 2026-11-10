@@ -2,7 +2,7 @@ import "dotenv/config";
 import { createServer, type IncomingMessage, type ServerResponse } from "node:http";
 import { loadWorks } from "./config.js";
 import { RadarDb, type DashboardMatch, type OwnedWork } from "./db.js";
-import { detectFormat, normalizeText, parsePrice } from "./normalize.js";
+import { detectCondition, detectFormat, normalizeText, parsePrice } from "./normalize.js";
 import { classifyDistance } from "./coverhash.js";
 import { priceChangeLabel } from "./price.js";
 import type { Work } from "./types.js";
@@ -33,6 +33,7 @@ interface Filters {
   status: string;
   over: string;
   cover: string;
+  seller: string;
   sort: string;
   page: number;
 }
@@ -153,6 +154,7 @@ function parseFilters(url: URL): Filters {
     status: url.searchParams.get("status") ?? "active",
     over: url.searchParams.get("over") ?? "all",
     cover: url.searchParams.get("cover") ?? "all",
+    seller: url.searchParams.get("seller") ?? "all",
     sort: url.searchParams.get("sort") ?? "discount",
     page: Number.isFinite(number) && number > 0 ? Math.floor(number) : 1
   };
@@ -168,6 +170,7 @@ function queryString(filters: Filters, overrides: Partial<Filters> = {}): string
   if (merged.status !== "active") params.set("status", merged.status);
   if (merged.over !== "all") params.set("over", merged.over);
   if (merged.cover !== "all") params.set("cover", merged.cover);
+  if (merged.seller !== "all") params.set("seller", merged.seller);
   if (merged.sort !== "discount") params.set("sort", merged.sort);
   if (merged.page > 1) params.set("page", String(merged.page));
   return params.toString();
@@ -251,6 +254,15 @@ function rowHtml(row: DashboardMatch, work: Work | undefined, filters: Filters):
     row.minTotal !== null && total !== null && row.minTotal < total
       ? `mínimo ${brl(row.minTotal)}`
       : "";
+  const condition =
+    detectCondition(row.listing.condition) ??
+    row.listing.condition?.trim() ??
+    "condição não informada";
+  const rating = row.listing.sellerRating;
+  const ratingLabel =
+    rating === null ? "sem nota" : `vendedor ${rating.toFixed(1).replace(".", ",")}`;
+  const ratingClass =
+    rating === null ? "rating-none" : rating < 4.5 ? "rating-low" : "rating-good";
 
   return `
     <article class="row ${over ? "row-over" : ""}">
@@ -270,7 +282,7 @@ function rowHtml(row: DashboardMatch, work: Work | undefined, filters: Filters):
           ${esc(sourceLabel(row.listing.source))}${row.listing.location ? ` · ${esc(row.listing.location)}` : ""}${row.listing.seller ? ` · ${esc(row.listing.seller)}` : ""}
           · confiança ${Math.round(row.score * 100)}% · ${language}
         </div>
-        <div class="chips">${row.reasons.split(",").map((reason) => `<span>${esc(reason.trim())}</span>`).join("")}</div>
+        <div class="chips"><span class="chip-condition">${esc(condition)}</span><span class="${ratingClass}">${esc(ratingLabel)}</span>${row.reasons.split(",").map((reason) => `<span>${esc(reason.trim())}</span>`).join("")}</div>
       </div>
       <div class="price">
         <div class="total">${brl(total)}</div>
@@ -315,7 +327,14 @@ function groupHtml(
           : row.feedbackStatus === "wrong_edition"
             ? "edição errada"
             : "";
-      return `<a class="alt${over ? " alt-over" : ""}" href="${esc(row.listing.url)}" target="_blank" rel="noreferrer"><strong>${brl(total)}</strong> · ${esc(sourceLabel(row.listing.source))} · ${Math.round(row.score * 100)}%${status ? ` · ${esc(status)}` : ""}${over ? " · acima do teto" : ""}</a>`;
+      const rating = row.listing.sellerRating;
+      const low = rating !== null && rating < 4.5;
+      const ratingLabel = rating === null ? "sem nota" : rating.toFixed(1).replace(".", ",");
+      const condition =
+        detectCondition(row.listing.condition) ??
+        row.listing.condition?.trim() ??
+        "condição não informada";
+      return `<a class="alt${over ? " alt-over" : ""}${low ? " alt-low" : ""}" href="${esc(row.listing.url)}" target="_blank" rel="noreferrer"><strong>${brl(total)}</strong> · ${esc(sourceLabel(row.listing.source))} · ${Math.round(row.score * 100)}% · ${esc(condition)} · ${esc(ratingLabel)}${status ? ` · ${esc(status)}` : ""}${over ? " · acima do teto" : ""}</a>`;
     })
     .join("");
 
@@ -482,7 +501,7 @@ function pageHtml(
     .stat { background: var(--surface); border: 1px solid var(--rule); padding: 12px 14px; }
     .stat strong { display: block; font-family: Georgia, serif; font-size: 24px; font-weight: 400; }
     .stat span { font-family: ui-monospace, monospace; font-size: 10px; text-transform: uppercase; letter-spacing: .12em; color: var(--muted); }
-    .filters { display: grid; grid-template-columns: 1.4fr repeat(7, minmax(110px, 1fr)) auto; gap: 8px; align-items: end; background: var(--surface); border: 1px solid var(--rule); padding: 14px; margin-bottom: 18px; }
+    .filters { display: grid; grid-template-columns: 1.4fr repeat(8, minmax(110px, 1fr)) auto; gap: 8px; align-items: end; background: var(--surface); border: 1px solid var(--rule); padding: 14px; margin-bottom: 18px; }
     .field label { display: block; font-family: ui-monospace, monospace; font-size: 9px; text-transform: uppercase; letter-spacing: .12em; color: var(--muted); margin-bottom: 4px; }
     .field input, .field select { width: 100%; border: 1px solid var(--rule); background: #fff; padding: 8px 9px; font: inherit; font-size: 13px; color: var(--ink); }
     .field input:focus, .field select:focus { outline: 2px solid var(--pine); outline-offset: 1px; }
@@ -507,6 +526,8 @@ function pageHtml(
     .alt:hover { border-color: var(--ink); color: var(--ink); }
     .alt-over { border-color: var(--ochre); color: var(--ochre); }
     .alt-over strong { color: var(--ochre); }
+    .alt-low { border-color: var(--red); color: var(--red); }
+    .alt-low strong { color: var(--red); }
     .covers { display: flex; flex-direction: column; gap: 5px; align-items: flex-start; }
     .cover-pair { display: flex; gap: 6px; align-items: flex-start; }
     .cover-wrap { position: relative; overflow: hidden; border: 1px solid var(--rule); background: #e9e3d6; flex: 0 0 auto; }
@@ -534,6 +555,10 @@ function pageHtml(
     .meta { font-size: 11px; color: var(--muted); line-height: 1.45; }
     .chips { display: flex; flex-wrap: wrap; gap: 4px; margin-top: 6px; }
     .chips span { background: #f0ece2; color: var(--muted); font-size: 9px; padding: 2px 5px; border-radius: 2px; }
+    .chips .chip-condition { background: var(--surface); border: 1px solid var(--rule); color: var(--ink); }
+    .chips .rating-good { background: var(--pine-soft); color: var(--pine); }
+    .chips .rating-low { background: var(--red-soft); color: var(--red); }
+    .chips .rating-none { background: #f0ece2; color: var(--muted); }
     .price { text-align: right; }
     .total { font-family: Georgia, serif; font-size: 20px; }
     .target { font-size: 10px; color: var(--muted); margin-top: 2px; }
@@ -599,6 +624,7 @@ function pageHtml(
       <div class="field"><label for="status">Status</label><select id="status" name="status">${option("active", "Ativos", filters.status)}${option("ignored", "Ignorados", filters.status)}${option("wrong_edition", "Edição errada", filters.status)}${option("bought", "Comprados", filters.status)}${option("all", "Todos", filters.status)}</select></div>
       <div class="field"><label for="over">Teto</label><select id="over" name="over">${option("all", "Todos", filters.over)}${option("under", "Dentro do teto", filters.over)}${option("over", "Acima do teto", filters.over)}</select></div>
       <div class="field"><label for="cover">Capa</label><select id="cover" name="cover">${option("all", "Todas", filters.cover)}${option("same", "Igual", filters.cover)}${option("likely", "Provável", filters.cover)}${option("inconclusive", "Inconclusiva", filters.cover)}${option("different", "Diferente", filters.cover)}${option("unchecked", "Não verificada", filters.cover)}</select></div>
+      <div class="field"><label for="seller">Vendedor</label><select id="seller" name="seller">${option("all", "Todos", filters.seller)}${option("good", "Ocultar < 4,5", filters.seller)}${option("low", "Abaixo de 4,5", filters.seller)}${option("none", "Sem nota", filters.seller)}</select></div>
       <div class="field"><label for="sort">Ordem</label><select id="sort" name="sort">${option("discount", "Desconto", filters.sort)}${option("price", "Preço", filters.sort)}${option("date", "Data", filters.sort)}${option("confidence", "Confiança", filters.sort)}</select></div>
       <button class="button button-primary" type="submit">Filtrar</button>
     </form>
@@ -652,6 +678,10 @@ function filterRows(
       const verdict = row.coverDistance === null ? "unchecked" : classifyDistance(row.coverDistance);
       if (filters.cover !== verdict) return false;
     }
+    const rating = row.listing.sellerRating;
+    if (filters.seller === "good" && rating !== null && rating < 4.5) return false;
+    if (filters.seller === "low" && (rating === null || rating >= 4.5)) return false;
+    if (filters.seller === "none" && rating !== null) return false;
     if (needle) {
       const haystack = normalizeText(
         [

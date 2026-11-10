@@ -78,6 +78,7 @@ npm run digest -- --new --no-email # dry-run do digest diário
 npm run dashboard                  # dashboard local em http://127.0.0.1:4317
 npm run rematch                    # recalcula todos os matches com o matcher atual
 npm run covers -- --max-score 0.8  # verifica capa do anúncio contra a capa conhecida
+npm run sellers:backfill           # preenche notas de vendedor a partir do raw_json
 npm run email:test                 # testa o SMTP configurado
 npm run enrich -- --limit 50       # propõe ISBNs via Open Library/Google Books
 npm test
@@ -136,6 +137,22 @@ fonte, preço, confiança e status. O cabeçalho do grupo traz a quantidade de
 ofertas e a faixa de preço. Os filtros continuam valendo por anúncio; a
 ordenação usa a melhor oferta de cada grupo. O topo mostra anúncios e obras
 separados.
+
+## Vendedor e condição
+
+OLX e Mercado Livre trazem a nota do vendedor no card de busca (0–5). O radar
+guarda em `listings.seller_rating` e mostra a nota junto da condição do livro.
+Enjoei e Estante não têm nota numérica; a condição aparece como `usado` ou
+`novo` quando detectável.
+
+O filtro **Vendedor** tem três modos:
+
+- `Ocultar < 4,5`: esconde notas abaixo de 4,5, mas mantém anúncios sem nota.
+- `Abaixo de 4,5`: mostra só notas baixas.
+- `Sem nota`: mostra só anúncios sem nota.
+
+`npm run sellers:backfill` reprocessa o `raw_json` antigo e preenche as notas.
+As próximas varreduras já gravam a nota direto do card.
 
 ## Histórico de preço
 
