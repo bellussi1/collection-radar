@@ -605,7 +605,7 @@ function pageHtml(
 
     <div class="results-head">
       <h2>Resultados</h2>
-      <span>${groups.length} obra${groups.length === 1 ? "" : "s"} · ${totalListings} anúncio${totalListings === 1 ? "" : "s"} · página ${page} de ${totalPages}</span>
+      <span>${groups.length} obra${groups.length === 1 ? "" : "s"} no filtro · ${totalListings} anúncio${totalListings === 1 ? "" : "s"} · página ${page} de ${totalPages}</span>
     </div>
     ${pageGroups.length === 0 ? `<p class="muted">Nenhuma obra com esses filtros.${filters.status === "bought" && owned.length ? ` A coleção física tem ${owned.length} obra${owned.length === 1 ? "" : "s"} logo abaixo.` : ""}</p>` : pageGroups.map((group) => groupHtml(group, works, filters)).join("")}
     <nav class="pagination">
