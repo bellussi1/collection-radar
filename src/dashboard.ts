@@ -445,7 +445,7 @@ function pageHtml(
       <div class="stat"><strong>${allRows.length}</strong><span>matches no banco</span></div>
       <div class="stat"><strong>${active}</strong><span>ativos</span></div>
       <div class="stat"><strong>${ignored}</strong><span>ignorados</span></div>
-      <div class="stat"><strong>${bought}</strong><span>comprados</span></div>
+      <div class="stat"><strong>${bought}</strong><span>na coleção</span></div>
     </div>
 
     <form class="filters" method="get" action="/">
