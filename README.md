@@ -92,8 +92,8 @@ Opções do scan:
 - `--headless` (só use se a fonte aceitar; OLX/ML costumam bloquear)
 
 Com `scan.max_queries: 40` no `settings.yaml`, cada rodada pega 40 consultas e
-retoma da próxima; assim as 111 consultas são cobertas em três rodadas sem
-sobrecarregar os sites.
+retoma da próxima; assim a watchlist é coberta em rodadas sem sobrecarregar os
+sites.
 
 ## Verificação de capa (pHash)
 
