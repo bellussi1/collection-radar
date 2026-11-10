@@ -1,10 +1,11 @@
 import "dotenv/config";
-import sharp from "sharp";
-import { createWorker } from "tesseract.js";
+import { createWorker, PSM } from "tesseract.js";
 import { loadWorks } from "./config.js";
 import { fetchImage } from "./coverhash.js";
 import { RadarDb } from "./db.js";
+import { preprocessCoverImage } from "./ocr-image.js";
 import { scoreOcrText } from "./ocr-score.js";
+import { OCR_CACHE_LABEL } from "./ocr-version.js";
 
 const sleep = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
 
@@ -47,13 +48,14 @@ async function main(): Promise<void> {
     .slice(0, limit);
 
   console.log(
-    `OCR: ${candidates.length} imagens · idioma ${lang}${allMatches ? " · todos os matches" : ""}`
+    `OCR: ${candidates.length} imagens · idioma ${lang} · cache ${OCR_CACHE_LABEL}${allMatches ? " · todos os matches" : ""}`
   );
 
   const worker = await createWorker(lang, 1, {
     cachePath: "data/tesseract",
     logger: () => undefined
   });
+  await worker.setParameters({ tessedit_pageseg_mode: PSM.AUTO });
 
   let confirmed = 0;
   let weak = 0;
@@ -69,6 +71,7 @@ async function main(): Promise<void> {
       try {
         let text: string;
         let confidence: number | null;
+        let prep: string | null = null;
         const cached = db.getImageOcr(row.listing.imageUrl);
         if (cached) {
           text = cached.text;
@@ -80,15 +83,9 @@ async function main(): Promise<void> {
             console.log(`${label} ${work.title} — imagem indisponível`);
             continue;
           }
-          const processed = await sharp(buffer, { failOn: "none" })
-            .rotate()
-            .grayscale()
-            .normalize()
-            .resize({ width: 1200, withoutEnlargement: true })
-            .sharpen()
-            .png()
-            .toBuffer();
-          const result = await worker.recognize(processed);
+          const processed = await preprocessCoverImage(buffer);
+          prep = `${processed.cropped ? "crop" : "full"}${processed.angle !== 0 ? ` ${processed.angle}°` : ""}`;
+          const result = await worker.recognize(processed.buffer);
           text = result.data.text.trim();
           confidence = result.data.confidence ?? null;
           db.saveImageOcr(row.listing.imageUrl, text, confidence);
@@ -100,7 +97,7 @@ async function main(): Promise<void> {
         const titlePct = Math.round(scored.titleScore * 100);
         const confPct = confidence === null ? "?" : Math.round(confidence);
         console.log(
-          `${label} ${work.title} — OCR ${confPct}% · título ${titlePct}% · ${clean.slice(0, 90) || "(sem texto)"}`
+          `${label} ${work.title} — OCR ${confPct}% · título ${titlePct}% · ${prep ?? "cache"} · ${clean.slice(0, 90) || "(sem texto)"}`
         );
         if (scored.titleScore >= 0.7) confirmed += 1;
         else if (clean.length >= 5) weak += 1;

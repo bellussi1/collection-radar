@@ -2,6 +2,7 @@ import { mkdirSync } from "node:fs";
 import { dirname } from "node:path";
 import { DatabaseSync } from "node:sqlite";
 import type { ImageHashes } from "./coverhash.js";
+import { OCR_CACHE_VERSION } from "./ocr-version.js";
 import type { MatchResult, RawListing, StoredListing } from "./types.js";
 
 interface ListingRow {
@@ -202,7 +203,8 @@ export class RadarDb {
         url TEXT PRIMARY KEY,
         text TEXT NOT NULL,
         confidence REAL,
-        fetched_at TEXT NOT NULL
+        fetched_at TEXT NOT NULL,
+        version INTEGER DEFAULT 1
       );
       CREATE TABLE IF NOT EXISTS ocr_checks (
         listing_id INTEGER NOT NULL,
@@ -211,6 +213,7 @@ export class RadarDb {
         score REAL NOT NULL,
         confidence REAL,
         checked_at TEXT NOT NULL,
+        version INTEGER DEFAULT 1,
         PRIMARY KEY (listing_id, work_key)
       );
       CREATE TABLE IF NOT EXISTS source_health (
@@ -277,6 +280,20 @@ export class RadarDb {
     }
     if (!listingColumns.some((column) => column.name === "price_note")) {
       this.db.exec("ALTER TABLE listings ADD COLUMN price_note TEXT");
+    }
+
+    const imageOcrColumns = this.db
+      .prepare("PRAGMA table_info(image_ocr)")
+      .all() as unknown as Array<{ name: string }>;
+    if (!imageOcrColumns.some((column) => column.name === "version")) {
+      this.db.exec("ALTER TABLE image_ocr ADD COLUMN version INTEGER DEFAULT 1");
+    }
+
+    const ocrCheckColumns = this.db
+      .prepare("PRAGMA table_info(ocr_checks)")
+      .all() as unknown as Array<{ name: string }>;
+    if (!ocrCheckColumns.some((column) => column.name === "version")) {
+      this.db.exec("ALTER TABLE ocr_checks ADD COLUMN version INTEGER DEFAULT 1");
     }
     this.db.exec(`
       UPDATE alerts
@@ -565,10 +582,11 @@ export class RadarDb {
         LEFT JOIN owned o ON o.work_key = m.work_key
         LEFT JOIN cover_checks cc ON cc.listing_id = m.listing_id AND cc.work_key = m.work_key
         LEFT JOIN ocr_checks oc ON oc.listing_id = m.listing_id AND oc.work_key = m.work_key
+          AND oc.version = ?
         ORDER BY l.first_seen DESC, m.score DESC
         LIMIT ?
       `)
-      .all(limit) as unknown as Array<
+      .all(OCR_CACHE_VERSION, limit) as unknown as Array<
       ListingRow & {
         match_work_key: string;
         match_score: number;
@@ -671,23 +689,24 @@ export class RadarDb {
   }
 
   getImageOcr(url: string): { text: string; confidence: number | null } | null {
-    const row = this.db.prepare("SELECT text, confidence FROM image_ocr WHERE url = ?").get(url) as
-      | { text: string; confidence: number | null }
-      | undefined;
+    const row = this.db
+      .prepare("SELECT text, confidence FROM image_ocr WHERE url = ? AND version = ?")
+      .get(url, OCR_CACHE_VERSION) as { text: string; confidence: number | null } | undefined;
     return row ? { text: row.text, confidence: row.confidence } : null;
   }
 
   saveImageOcr(url: string, text: string, confidence: number | null): void {
     this.db
       .prepare(`
-        INSERT INTO image_ocr (url, text, confidence, fetched_at)
-        VALUES (?, ?, ?, ?)
+        INSERT INTO image_ocr (url, text, confidence, fetched_at, version)
+        VALUES (?, ?, ?, ?, ?)
         ON CONFLICT(url) DO UPDATE SET
           text = excluded.text,
           confidence = excluded.confidence,
-          fetched_at = excluded.fetched_at
+          fetched_at = excluded.fetched_at,
+          version = excluded.version
       `)
-      .run(url, text, confidence, new Date().toISOString());
+      .run(url, text, confidence, new Date().toISOString(), OCR_CACHE_VERSION);
   }
 
   getOcrCheck(
@@ -696,9 +715,9 @@ export class RadarDb {
   ): { text: string; score: number; confidence: number | null } | null {
     const row = this.db
       .prepare(
-        "SELECT text, score, confidence FROM ocr_checks WHERE listing_id = ? AND work_key = ?"
+        "SELECT text, score, confidence FROM ocr_checks WHERE listing_id = ? AND work_key = ? AND version = ?"
       )
-      .get(listingId, workKey) as
+      .get(listingId, workKey, OCR_CACHE_VERSION) as
       | { text: string; score: number; confidence: number | null }
       | undefined;
     return row ? { text: row.text, score: row.score, confidence: row.confidence } : null;
@@ -713,15 +732,24 @@ export class RadarDb {
   ): void {
     this.db
       .prepare(`
-        INSERT INTO ocr_checks (listing_id, work_key, text, score, confidence, checked_at)
-        VALUES (?, ?, ?, ?, ?, ?)
+        INSERT INTO ocr_checks (listing_id, work_key, text, score, confidence, checked_at, version)
+        VALUES (?, ?, ?, ?, ?, ?, ?)
         ON CONFLICT(listing_id, work_key) DO UPDATE SET
           text = excluded.text,
           score = excluded.score,
           confidence = excluded.confidence,
-          checked_at = excluded.checked_at
+          checked_at = excluded.checked_at,
+          version = excluded.version
       `)
-      .run(listingId, workKey, text, score, confidence, new Date().toISOString());
+      .run(
+        listingId,
+        workKey,
+        text,
+        score,
+        confidence,
+        new Date().toISOString(),
+        OCR_CACHE_VERSION
+      );
   }
 
   setFeedback(

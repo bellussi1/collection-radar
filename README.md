@@ -293,10 +293,17 @@ anúncios. Por padrão roda em matches de baixa confiança ou com capa
 diferente/inconclusiva; use `--all` para todos, `--limit 50` para limitar e
 `--force` para refazer.
 
+O pipeline v3 faz upscale antes do Tesseract. O benchmark com 50 imagens fracas
+mostrou que o upscale ajuda (0 → 3 títulos confirmados, média 0,077 → 0,11);
+crop, threshold e deskew ficam como opções, fora do padrão, porque pioraram a
+média ou geraram falsos positivos em capas upright. Muitas fotos são contracapas
+ou não têm o título legível, então o OCR continua complementar.
+
 O texto e o score ficam em `image_ocr`/`ocr_checks`; o dashboard mostra
-`OCR título X% · confiança Y%: “texto lido”`. O OCR é um sinal complementar ao
+`OCR título X% · confiança Y%: "texto lido"`. O OCR é um sinal complementar ao
 pHash e não altera o score do matcher. A primeira execução baixa os dados de
-idioma para `data/tesseract`.
+idioma para `data/tesseract`. O cache é versionado; rodar o comando reprocessa
+as imagens antigas sem precisar de `--force`.
 
 ## Testes de coletor
 
