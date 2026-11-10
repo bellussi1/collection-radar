@@ -88,6 +88,16 @@ function verifyBackup(path: string, expected: Map<string, number>): void {
   }
 }
 
+function makeSelfContained(path: string): void {
+  const db = new DatabaseSync(path);
+  try {
+    db.exec("PRAGMA journal_mode = DELETE;");
+  } finally {
+    db.close();
+  }
+  removeSidecars(path);
+}
+
 export async function runBackup(options: BackupOptions): Promise<BackupResult> {
   const dbPath = resolve(options.dbPath);
   const backupDir = resolve(options.backupDir);
@@ -111,6 +121,7 @@ export async function runBackup(options: BackupOptions): Promise<BackupResult> {
 
   try {
     verifyBackup(tempPath, expected);
+    makeSelfContained(tempPath);
     renameSync(tempPath, finalPath);
   } finally {
     if (existsSync(tempPath)) unlinkSync(tempPath);

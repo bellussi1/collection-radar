@@ -58,10 +58,7 @@ test("backup copia o banco aberto, valida as contagens e não duplica no mesmo d
 
     const second = await runBackup(options);
     assert.equal(second.path, first.path);
-    assert.deepEqual(
-      readdirSync(join(root, "backups")).filter((name) => name.endsWith(".db")),
-      ["radar-2026-11-09.db"]
-    );
+    assert.deepEqual(readdirSync(join(root, "backups")).sort(), ["radar-2026-11-09.db"]);
   } finally {
     source.close();
     rmSync(root, { recursive: true, force: true });
