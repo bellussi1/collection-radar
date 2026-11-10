@@ -1,36 +1,75 @@
-# Registra a varredura no Task Scheduler do Windows.
+# Registra a varredura e o digest diário no Task Scheduler do Windows.
 # Rode no PowerShell do seu usuário. Se falhar por permissão, abra como administrador.
-# A tarefa usa LogonType Interactive: o Chromium precisa de uma sessão de desktop
-# para passar pelo Cloudflare da OLX e do Mercado Livre.
+# A varredura usa LogonType Interactive: o Chromium precisa de uma sessão de desktop
+# para passar pelo Cloudflare da OLX e do Mercado Livre. O digest usa o mesmo
+# contexto para ler o banco local e enviar o e-mail.
+
+$ErrorActionPreference = "Stop"
 
 $repo = "C:\Users\Bellussi\Documents\Workspace\collection-radar"
-$action = New-ScheduledTaskAction `
+
+$scanAction = New-ScheduledTaskAction `
   -Execute "cmd.exe" `
   -Argument "/c `"$repo\scripts\scan.cmd`"" `
   -WorkingDirectory $repo
 
-$trigger = New-ScheduledTaskTrigger `
+$scanStart = (Get-Date).Date.AddHours(7)
+if ($scanStart -le (Get-Date)) {
+  $scanStart = $scanStart.AddDays(1)
+}
+$scanTrigger = New-ScheduledTaskTrigger `
   -Once `
-  -At (Get-Date).AddMinutes(5) `
+  -At $scanStart `
   -RepetitionInterval (New-TimeSpan -Hours 6)
 
+$digestAction = New-ScheduledTaskAction `
+  -Execute "cmd.exe" `
+  -Argument "/c `"$repo\scripts\digest.cmd`"" `
+  -WorkingDirectory $repo
+
+$digestStart = (Get-Date).Date.AddHours(9)
+if ($digestStart -le (Get-Date)) {
+  $digestStart = $digestStart.AddDays(1)
+}
+$digestTrigger = New-ScheduledTaskTrigger `
+  -Once `
+  -At $digestStart `
+  -RepetitionInterval (New-TimeSpan -Days 1)
+
 $principal = New-ScheduledTaskPrincipal `
-  -UserId $env:USERNAME `
+  -UserId ([System.Security.Principal.WindowsIdentity]::GetCurrent().Name) `
   -LogonType Interactive `
   -RunLevel Limited
 
-$settings = New-ScheduledTaskSettingsSet `
+$scanSettings = New-ScheduledTaskSettingsSet `
   -StartWhenAvailable `
   -DontStopOnIdleEnd `
   -ExecutionTimeLimit (New-TimeSpan -Hours 2)
 
+$digestSettings = New-ScheduledTaskSettingsSet `
+  -StartWhenAvailable `
+  -DontStopOnIdleEnd `
+  -ExecutionTimeLimit (New-TimeSpan -Minutes 30)
+
 Register-ScheduledTask `
   -TaskName "Collection Radar" `
-  -Action $action `
-  -Trigger $trigger `
+  -Action $scanAction `
+  -Trigger $scanTrigger `
   -Principal $principal `
-  -Settings $settings `
-  -Description "Radar local de livros usados e importados" `
-  -Force
+  -Settings $scanSettings `
+  -Description "Radar local de livros usados e importados (scan sem e-mail)" `
+  -Force | Out-Null
 
-Write-Host "Tarefa 'Collection Radar' registrada. Próxima execução em ~5 minutos, depois a cada 6 horas."
+Register-ScheduledTask `
+  -TaskName "Collection Radar Digest" `
+  -Action $digestAction `
+  -Trigger $digestTrigger `
+  -Principal $principal `
+  -Settings $digestSettings `
+  -Description "Digest diário do Collection Radar" `
+  -Force | Out-Null
+
+Write-Host "Tarefa 'Collection Radar': varredura a cada 6 horas, sem e-mail."
+Write-Host "Tarefa 'Collection Radar Digest': todos os dias às 09:00."
+Write-Host "Primeira varredura: $($scanStart.ToString('dd/MM/yyyy HH:mm'))."
+Write-Host "Primeiro digest: $($digestStart.ToString('dd/MM/yyyy HH:mm'))."

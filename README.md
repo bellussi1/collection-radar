@@ -70,8 +70,11 @@ antes de confiar: a API não sabe distinguir com perfeição hardcover de paperb
 npm run watchlist                  # resumo da watchlist e das fontes
 npm run sources -- --query "robin hobb" --limit 5
 npm run scan -- --max-queries 10 --no-email
-npm run scan                       # varredura completa + e-mail
+npm run scan                       # varredura completa + e-mail (manual)
+npm run scan -- --no-email         # varredura sem e-mail (agendada)
 npm run digest                     # reenvia os matches dos últimos 7 dias
+npm run digest -- --new            # digest diário: só o que ainda não foi alertado
+npm run digest -- --new --no-email # dry-run do digest diário
 npm run dashboard                  # dashboard local em http://127.0.0.1:4317
 npm run rematch                    # recalcula todos os matches com o matcher atual
 npm run covers -- --max-score 0.8  # verifica capa do anúncio contra a capa conhecida
@@ -94,6 +97,15 @@ Opções do scan:
 Com `scan.max_queries: 40` no `settings.yaml`, cada rodada pega 40 consultas e
 retoma da próxima; assim a watchlist é coberta em rodadas sem sobrecarregar os
 sites.
+
+Opções do digest:
+
+- `--new`: envia só matches que ainda não foram alertados por e-mail, olhando os
+  últimos 30 dias. Depois do envio, marca como alertados apenas os 20 que
+  entraram no e-mail; o resto fica para o dia seguinte.
+- `--no-email`: gera o HTML em `data/outbox` sem enviar.
+- Sem `--new`, o comando reenvia os matches dos últimos 7 dias, mesmo os já
+  alertados.
 
 ## Verificação de capa (pHash)
 
@@ -118,20 +130,32 @@ capas antes de ignorar.
 
 ## Agendamento
 
-O script `scripts/scan.cmd` roda a varredura e grava o log em `logs/scan.log`.
-Para registrar a tarefa a cada 6 horas:
+O script `scripts/scan.cmd` roda a varredura com `--no-email` e grava o log em
+`logs/scan.log`. O script `scripts/digest.cmd` roda o digest diário com `--new` e
+grava o log em `logs/digest.log`. Para registrar as duas tarefas:
 
 ```powershell
 .\scripts\install-task.ps1
 ```
 
-A tarefa é criada com **"Run only when user is logged on"** (`LogonType
-Interactive`). Isso é necessário porque OLX e Mercado Livre bloqueiam headless;
-o Chromium precisa de uma sessão de desktop. O navegador abre fora da tela; se
-você estiver usando o PC, pode ver o processo no gerenciador de tarefas.
+O script cria:
+
+- **Collection Radar**: varredura a cada 6 horas, começando às 07:00, sem e-mail.
+- **Collection Radar Digest**: todos os dias às 09:00, só matches ainda não
+  alertados.
+
+As tarefas usam **"Run only when user is logged on"** (`LogonType Interactive`).
+Isso é necessário porque OLX e Mercado Livre bloqueiam headless; o Chromium
+precisa de uma sessão de desktop. O digest também roda nesse contexto para ler o
+banco local. O navegador abre fora da tela; se você estiver usando o PC, pode
+ver o processo no gerenciador de tarefas.
+
+O digest só envia se `email.enabled: true` no `settings.yaml`. Se não houver
+match novo, ele não manda e-mail vazio. Para testar sem enviar, rode
+`npm run digest -- --new --no-email` e abra o HTML gerado em `data/outbox`.
 
 Se preferir o Task Scheduler manual, use a mesma condição de logon e aponte para
-`scripts\scan.cmd`.
+`scripts\scan.cmd` e `scripts\digest.cmd`.
 
 ## Como editar a watchlist
 

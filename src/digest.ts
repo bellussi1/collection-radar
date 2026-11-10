@@ -166,8 +166,9 @@ function groupTitle(priority: number): string {
 export function buildDigest(
   items: DigestItem[],
   stats: ScanStats,
-  dashboardUrl = "http://127.0.0.1:4317"
-): { html: string; text: string; subject: string } {
+  dashboardUrl = "http://127.0.0.1:4317",
+  note?: string
+): { html: string; text: string; subject: string; displayed: DigestItem[] } {
   const date = new Date().toLocaleDateString("pt-BR", { day: "2-digit", month: "2-digit" });
   const sorted = sortItems(items);
   const MAX_EMAIL_ITEMS = 20;
@@ -271,9 +272,10 @@ export function buildDigest(
             ${items.length} anúncio${items.length === 1 ? "" : "s"} novo${items.length === 1 ? "" : "s"} com match.
             ${displayed.length} melhores no e-mail${hidden > 0 ? ` · +${hidden} no banco` : ""}.
             ${
-              stats.queries > 0
+              note ??
+              (stats.queries > 0
                 ? `${stats.queries} consultas · ${stats.pages} páginas · ${stats.errors} erro${stats.errors === 1 ? "" : "s"}.`
-                : "Reenvio manual do banco local."
+                : "Reenvio manual do banco local.")
             }
           </p>
           ${healthHtml}
@@ -313,7 +315,7 @@ export function buildDigest(
     `${items.length} anúncio(s) novo(s) com match. ${displayed.length} melhores no e-mail${hidden > 0 ? `; +${hidden} no banco` : ""}.`,
     stats.queries > 0
       ? `${stats.queries} consultas · ${stats.pages} páginas · ${stats.errors} erro(s).`
-      : "Reenvio manual do banco local.",
+      : note ?? "Reenvio manual do banco local.",
     `Dashboard: ${dashboardUrl}`,
     ...(health ? [health] : []),
     ""
@@ -350,5 +352,5 @@ export function buildDigest(
 
   textLines.push("Confirme edição e estado antes de comprar.");
 
-  return { html, text: textLines.join("\n"), subject };
+  return { html, text: textLines.join("\n"), subject, displayed };
 }

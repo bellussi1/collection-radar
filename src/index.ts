@@ -17,6 +17,7 @@ interface CliOptions {
   maxQueries?: number;
   noEmail?: boolean;
   headless?: boolean;
+  newOnly?: boolean;
 }
 
 function parseArgs(argv: string[]): CliOptions {
@@ -60,6 +61,9 @@ function parseArgs(argv: string[]): CliOptions {
       case "--no-email":
         options.noEmail = true;
         break;
+      case "--new":
+        options.newOnly = true;
+        break;
       case "--headless":
         options.headless = true;
         break;
@@ -75,7 +79,7 @@ function printHelp(): void {
 
 Uso:
   npm run scan -- [opções]
-  npm run digest
+  npm run digest -- [--new] [--no-email]
   npm run watchlist
   npm run sources -- --query "robin hobb"
 
@@ -118,7 +122,8 @@ async function runDigest(options: CliOptions): Promise<void> {
   const settings = loadSettings();
   const works = loadWorks();
   const db = new RadarDb("data/radar.db");
-  const since = new Date(Date.now() - 7 * 24 * 60 * 60 * 1000).toISOString();
+  const days = options.newOnly ? 30 : 7;
+  const since = new Date(Date.now() - days * 24 * 60 * 60 * 1000).toISOString();
   const rows = db.listRecentMatches(since, settings.scan.min_score);
   const workMap = new Map(works.map((work) => [work.key, work]));
   const items: DigestItem[] = [];
@@ -126,6 +131,7 @@ async function runDigest(options: CliOptions): Promise<void> {
     const work = workMap.get(row.workKey);
     if (!work || !work.enabled) continue;
     if (db.isSuppressed(row.listing.id, row.workKey)) continue;
+    if (options.newOnly && db.wasAlerted(row.listing.id, row.workKey, "email")) continue;
     const total = row.listing.price === null ? null : row.listing.price + (row.listing.shipping ?? 0);
     items.push({
       listing: row.listing,
@@ -135,6 +141,13 @@ async function runDigest(options: CliOptions): Promise<void> {
       overBudget: total !== null && total > work.max_price
     });
   }
+
+  if (options.newOnly && items.length === 0) {
+    console.log("Digest diário: nada novo desde o último e-mail.");
+    db.close();
+    return;
+  }
+
   const digest = buildDigest(
     items,
     {
@@ -142,14 +155,15 @@ async function runDigest(options: CliOptions): Promise<void> {
       finishedAt: new Date().toISOString(),
       queries: 0,
       pages: 0,
-      listings: rows.length,
-      newListings: rows.length,
-      matches: rows.length,
+      listings: items.length,
+      newListings: items.length,
+      matches: items.length,
       errors: 0,
       bySource: {},
       sourceHealth: {}
     },
-    settings.dashboard.url
+    settings.dashboard.url,
+    options.newOnly ? "Digest diário: novos matches desde o último e-mail." : undefined
   );
   const result = await sendDigest({
     subject: digest.subject,
@@ -158,8 +172,16 @@ async function runDigest(options: CliOptions): Promise<void> {
     to: settings.email.to,
     enabled: settings.email.enabled && !options.noEmail
   });
+  if (result.sent && options.newOnly) {
+    for (const item of digest.displayed) {
+      db.markAlerted(item.listing.id, item.work.key, "email");
+    }
+  }
   console.log(`Digest: ${result.path}.html`);
   console.log(result.sent ? `E-mail enviado para ${settings.email.to}.` : `Não enviado: ${result.reason}`);
+  if (options.newOnly && result.sent) {
+    console.log(`${digest.displayed.length} match(es) marcados como alertados.`);
+  }
   db.close();
 }
 
