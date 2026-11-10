@@ -1,0 +1,1555 @@
+generated_at: 2026-11-10T04:29:39.359Z
+summary:
+  total: 54
+  ok: 50
+  review: 4
+  divergent: 0
+  missing: 0
+items:
+  - work_key: assassin-s-fate--robin-hobb
+    title: Assassin's Fate
+    author: Robin Hobb
+    isbn13: "9780007444281"
+    preferred_publishers:
+      - HarperVoyager
+    sources:
+      openlibrary:
+        found: true
+        metadata:
+          source: openlibrary
+          title: Assassin's Fate
+          authors:
+            - Robin Hobb
+          publisher: Fiction
+          publishedDate: May 4th, 2017
+          language: ""
+        error: null
+      googlebooks:
+        found: false
+        metadata: null
+        error: fonte desabilitada após HTTP 429
+    status: review
+    issues:
+      - "Google Books: fonte desabilitada após HTTP 429"
+      - "editora: esperada HarperVoyager, encontrada Fiction"
+    title_score: 1
+    author_score: 1
+    publisher_match: false
+  - work_key: death-s-end--cixin-liu
+    title: Death's End
+    author: Cixin Liu
+    isbn13: "9781784971625"
+    preferred_publishers:
+      - Tor
+      - Head of Zeus
+    sources:
+      openlibrary:
+        found: true
+        metadata:
+          source: openlibrary
+          title: Death's End
+          authors:
+            - 刘慈欣
+          publisher: Head of Zeus
+          publishedDate: "2016"
+          language: ""
+        error: null
+      googlebooks:
+        found: false
+        metadata: null
+        error: fonte desabilitada após HTTP 429
+    status: review
+    issues:
+      - "Google Books: fonte desabilitada após HTTP 429"
+      - "autor em outro alfabeto: 刘慈欣"
+    title_score: 1
+    author_score: 0
+    publisher_match: true
+  - work_key: no-country-for-old-men--cormac-mccarthy
+    title: No Country for Old Men
+    author: Cormac McCarthy
+    isbn13: "9780330440103"
+    preferred_publishers:
+      - Knopf
+      - Picador
+    sources:
+      openlibrary:
+        found: true
+        metadata:
+          source: openlibrary
+          title: No Country for Old Men Cormac McCarthy
+          authors:
+            - Cormac McCarthy
+          publisher: Picador USA
+          publishedDate: ""
+          language: ""
+        error: null
+      googlebooks:
+        found: false
+        metadata: null
+        error: fonte desabilitada após HTTP 429
+    status: review
+    issues:
+      - "Google Books: fonte desabilitada após HTTP 429"
+      - 'título parcial: "No Country for Old Men" vs "No Country for Old Men
+        Cormac McCarthy"'
+    title_score: 0.6
+    author_score: 1
+    publisher_match: true
+  - work_key: the-dark-forest--cixin-liu
+    title: The Dark Forest
+    author: Cixin Liu
+    isbn13: "9781788543019"
+    preferred_publishers:
+      - Tor
+      - Head of Zeus
+    sources:
+      openlibrary:
+        found: true
+        metadata:
+          source: openlibrary
+          title: Dark Forest
+          authors:
+            - 刘慈欣
+          publisher: Head of Zeus
+          publishedDate: ""
+          language: ""
+        error: null
+      googlebooks:
+        found: false
+        metadata: null
+        error: fonte desabilitada após HTTP 429
+    status: review
+    issues:
+      - "Google Books: fonte desabilitada após HTTP 429"
+      - "autor em outro alfabeto: 刘慈欣"
+    title_score: 1
+    author_score: 0
+    publisher_match: true
+  - work_key: a-desolation-called-peace--arkady-martine
+    title: A Desolation Called Peace
+    author: Arkady Martine
+    isbn13: "9781529001631"
+    preferred_publishers:
+      - Tor
+    sources:
+      openlibrary:
+        found: true
+        metadata:
+          source: openlibrary
+          title: A Desolation Called Peace
+          authors:
+            - Arkady Martine
+          publisher: Tor
+          publishedDate: 2021-03-04
+          language: ""
+        error: null
+      googlebooks:
+        found: false
+        metadata: null
+        error: fonte desabilitada após HTTP 429
+    status: ok
+    issues:
+      - "Google Books: fonte desabilitada após HTTP 429"
+    title_score: 1
+    author_score: 1
+    publisher_match: true
+  - work_key: a-memory-called-empire--arkady-martine
+    title: A Memory Called Empire
+    author: Arkady Martine
+    isbn13: "9781529001570"
+    preferred_publishers:
+      - Tor
+    sources:
+      openlibrary:
+        found: true
+        metadata:
+          source: openlibrary
+          title: A Memory Called Empire
+          authors:
+            - Arkady Martine
+          publisher: Tor
+          publishedDate: Apr 04, 2019
+          language: ""
+        error: null
+      googlebooks:
+        found: false
+        metadata: null
+        error: fonte desabilitada após HTTP 429
+    status: ok
+    issues:
+      - "Google Books: fonte desabilitada após HTTP 429"
+    title_score: 1
+    author_score: 1
+    publisher_match: true
+  - work_key: a-psalm-for-the-wild-built--becky-chambers
+    title: A Psalm for the Wild-Built
+    author: Becky Chambers
+    isbn13: "9781250320216"
+    preferred_publishers: []
+    sources:
+      openlibrary:
+        found: true
+        metadata:
+          source: openlibrary
+          title: A Psalm for the Wild-Built
+          authors:
+            - Becky Chambers
+          publisher: Tor
+          publishedDate: "2021"
+          language: ""
+        error: null
+      googlebooks:
+        found: false
+        metadata: null
+        error: fonte desabilitada após HTTP 429
+    status: ok
+    issues:
+      - "Google Books: fonte desabilitada após HTTP 429"
+    title_score: 1
+    author_score: 1
+    publisher_match: null
+  - work_key: ashes-of-man--christopher-ruocchio
+    title: Ashes of Man
+    author: Christopher Ruocchio
+    isbn13: "9780756416614"
+    preferred_publishers:
+      - DAW
+      - Baen
+    sources:
+      openlibrary:
+        found: true
+        metadata:
+          source: openlibrary
+          title: Ashes of Man
+          authors:
+            - Christopher Ruocchio
+          publisher: DAW
+          publishedDate: "2023"
+          language: ""
+        error: null
+      googlebooks:
+        found: false
+        metadata: null
+        error: fonte desabilitada após HTTP 429
+    status: ok
+    issues:
+      - "Google Books: fonte desabilitada após HTTP 429"
+    title_score: 1
+    author_score: 1
+    publisher_match: true
+  - work_key: assassin-s-apprentice--robin-hobb
+    title: Assassin's Apprentice
+    author: Robin Hobb
+    isbn13: "9780007562251"
+    preferred_publishers:
+      - HarperVoyager
+    sources:
+      openlibrary:
+        found: true
+        metadata:
+          source: openlibrary
+          title: Assassin's Apprentice
+          authors:
+            - Robin Hobb
+          publisher: Harper Voyager
+          publishedDate: "2014"
+          language: ""
+        error: null
+      googlebooks:
+        found: false
+        metadata: null
+        error: fonte desabilitada após HTTP 429
+    status: ok
+    issues:
+      - "Google Books: fonte desabilitada após HTTP 429"
+    title_score: 1
+    author_score: 1
+    publisher_match: true
+  - work_key: assassin-s-quest--robin-hobb
+    title: Assassin's Quest
+    author: Robin Hobb
+    isbn13: "9780007562275"
+    preferred_publishers:
+      - HarperVoyager
+    sources:
+      openlibrary:
+        found: true
+        metadata:
+          source: openlibrary
+          title: Assassin's Quest
+          authors:
+            - Robin Hobb
+          publisher: Harper Voyager
+          publishedDate: March 27, 2014
+          language: ""
+        error: null
+      googlebooks:
+        found: false
+        metadata: null
+        error: fonte desabilitada após HTTP 429
+    status: ok
+    issues:
+      - "Google Books: fonte desabilitada após HTTP 429"
+    title_score: 1
+    author_score: 1
+    publisher_match: true
+  - work_key: blood-of-dragons--robin-hobb
+    title: Blood of Dragons
+    author: Robin Hobb
+    isbn13: "9780008154462"
+    preferred_publishers:
+      - HarperVoyager
+    sources:
+      openlibrary:
+        found: true
+        metadata:
+          source: openlibrary
+          title: Blood of Dragons
+          authors:
+            - Robin Hobb
+          publisher: imusti HARPER COLLINS PUBLISHERS
+          publishedDate: Jun 30, 2016
+          language: ""
+        error: null
+      googlebooks:
+        found: false
+        metadata: null
+        error: fonte desabilitada após HTTP 429
+    status: ok
+    issues:
+      - "Google Books: fonte desabilitada após HTTP 429"
+    title_score: 1
+    author_score: 1
+    publisher_match: true
+  - work_key: children-of-dune--frank-herbert
+    title: Children of Dune
+    author: Frank Herbert
+    isbn13: "9780425053157"
+    preferred_publishers:
+      - Ace
+      - Berkley
+    sources:
+      openlibrary:
+        found: true
+        metadata:
+          source: openlibrary
+          title: Children of Dune (Dune Chronicles, Book 3)
+          authors:
+            - Frank Herbert
+          publisher: Berkley Trade
+          publishedDate: April 1, 1982
+          language: ""
+        error: null
+      googlebooks:
+        found: false
+        metadata: null
+        error: fonte desabilitada após HTTP 429
+    status: ok
+    issues:
+      - "Google Books: fonte desabilitada após HTTP 429"
+    title_score: 1
+    author_score: 1
+    publisher_match: true
+  - work_key: city-of-dragons--robin-hobb
+    title: City of Dragons
+    author: Robin Hobb
+    isbn13: "9780008154417"
+    preferred_publishers:
+      - HarperVoyager
+    sources:
+      openlibrary:
+        found: true
+        metadata:
+          source: openlibrary
+          title: City of Dragons
+          authors:
+            - Robin Hobb
+          publisher: HARPER COLLINS imusti
+          publishedDate: Apr 07, 2016
+          language: ""
+        error: null
+      googlebooks:
+        found: false
+        metadata: null
+        error: fonte desabilitada após HTTP 429
+    status: ok
+    issues:
+      - "Google Books: fonte desabilitada após HTTP 429"
+    title_score: 1
+    author_score: 1
+    publisher_match: true
+  - work_key: dark-matter--blake-crouch
+    title: Dark Matter
+    author: Blake Crouch
+    isbn13: "9781447297574"
+    preferred_publishers: []
+    sources:
+      openlibrary:
+        found: true
+        metadata:
+          source: openlibrary
+          title: Dark Matter
+          authors:
+            - Blake Crouch
+          publisher: Macmillan
+          publishedDate: ""
+          language: ""
+        error: null
+      googlebooks:
+        found: false
+        metadata: null
+        error: fonte desabilitada após HTTP 429
+    status: ok
+    issues:
+      - "Google Books: fonte desabilitada após HTTP 429"
+    title_score: 1
+    author_score: 1
+    publisher_match: null
+  - work_key: demon-in-white--christopher-ruocchio
+    title: Demon in White
+    author: Christopher Ruocchio
+    isbn13: "9780756413064"
+    preferred_publishers:
+      - DAW
+      - Baen
+    sources:
+      openlibrary:
+        found: true
+        metadata:
+          source: openlibrary
+          title: Demon in White
+          authors:
+            - Christopher Ruocchio
+          publisher: DAW
+          publishedDate: "2020"
+          language: ""
+        error: null
+      googlebooks:
+        found: false
+        metadata: null
+        error: fonte desabilitada após HTTP 429
+    status: ok
+    issues:
+      - "Google Books: fonte desabilitada após HTTP 429"
+    title_score: 1
+    author_score: 1
+    publisher_match: true
+  - work_key: disquiet-gods--christopher-ruocchio
+    title: Disquiet Gods
+    author: Christopher Ruocchio
+    isbn13: "9780756419936"
+    preferred_publishers:
+      - DAW
+      - Baen
+    sources:
+      openlibrary:
+        found: true
+        metadata:
+          source: openlibrary
+          title: "Disquiet Gods : The Sun Eater: Book Six"
+          authors:
+            - Christopher Ruocchio
+          publisher: DAW
+          publishedDate: "2024"
+          language: ""
+        error: null
+      googlebooks:
+        found: false
+        metadata: null
+        error: fonte desabilitada após HTTP 429
+    status: ok
+    issues:
+      - "Google Books: fonte desabilitada após HTTP 429"
+    title_score: 1
+    author_score: 1
+    publisher_match: true
+  - work_key: dragon-haven--robin-hobb
+    title: Dragon Haven
+    author: Robin Hobb
+    isbn13: "9780008154400"
+    preferred_publishers:
+      - HarperVoyager
+    sources:
+      openlibrary:
+        found: true
+        metadata:
+          source: openlibrary
+          title: Dragon Haven
+          authors:
+            - Robin Hobb
+          publisher: HarperVoyager
+          publishedDate: Dec 17, 2015
+          language: ""
+        error: null
+      googlebooks:
+        found: false
+        metadata: null
+        error: fonte desabilitada após HTTP 429
+    status: ok
+    issues:
+      - "Google Books: fonte desabilitada após HTTP 429"
+    title_score: 1
+    author_score: 1
+    publisher_match: true
+  - work_key: dragon-keeper--robin-hobb
+    title: Dragon Keeper
+    author: Robin Hobb
+    isbn13: "9780008154394"
+    preferred_publishers:
+      - HarperVoyager
+    sources:
+      openlibrary:
+        found: true
+        metadata:
+          source: openlibrary
+          title: Dragon Keeper
+          authors:
+            - Robin Hobb
+          publisher: HarperCollins
+          publishedDate: 2012-01-03
+          language: ""
+        error: null
+      googlebooks:
+        found: false
+        metadata: null
+        error: fonte desabilitada após HTTP 429
+    status: ok
+    issues:
+      - "Google Books: fonte desabilitada após HTTP 429"
+    title_score: 1
+    author_score: 1
+    publisher_match: true
+  - work_key: dune--frank-herbert
+    title: Dune
+    author: Frank Herbert
+    isbn13: "9780425038918"
+    preferred_publishers:
+      - Ace
+      - Berkley
+    sources:
+      openlibrary:
+        found: true
+        metadata:
+          source: openlibrary
+          title: Dune
+          authors:
+            - Frank Herbert
+          publisher: Berkley
+          publishedDate: August 1, 1978
+          language: ""
+        error: null
+      googlebooks:
+        found: false
+        metadata: null
+        error: fonte desabilitada após HTTP 429
+    status: ok
+    issues:
+      - "Google Books: fonte desabilitada após HTTP 429"
+    title_score: 1
+    author_score: 1
+    publisher_match: true
+  - work_key: dune-messiah--frank-herbert
+    title: Dune Messiah
+    author: Frank Herbert
+    isbn13: "9780425074985"
+    preferred_publishers:
+      - Ace
+      - Berkley
+    sources:
+      openlibrary:
+        found: true
+        metadata:
+          source: openlibrary
+          title: "Dune Messiah: book two in the Dune chronicles"
+          authors:
+            - Frank Herbert
+          publisher: Berkley Books Berkley
+          publishedDate: "1975"
+          language: ""
+        error: null
+      googlebooks:
+        found: false
+        metadata: null
+        error: fonte desabilitada após HTTP 429
+    status: ok
+    issues:
+      - "Google Books: fonte desabilitada após HTTP 429"
+    title_score: 1
+    author_score: 1
+    publisher_match: true
+  - work_key: empire-of-silence--christopher-ruocchio
+    title: Empire of Silence
+    author: Christopher Ruocchio
+    isbn13: "9780756419264"
+    preferred_publishers:
+      - DAW
+      - Baen
+    sources:
+      openlibrary:
+        found: true
+        metadata:
+          source: openlibrary
+          title: Empire of Silence
+          authors:
+            - Christopher Ruocchio
+          publisher: DAW
+          publishedDate: "2023"
+          language: ""
+        error: null
+      googlebooks:
+        found: false
+        metadata: null
+        error: fonte desabilitada após HTTP 429
+    status: ok
+    issues:
+      - "Google Books: fonte desabilitada após HTTP 429"
+    title_score: 1
+    author_score: 1
+    publisher_match: true
+  - work_key: fool-s-assassin--robin-hobb
+    title: Fool's Assassin
+    author: Robin Hobb
+    isbn13: "9780007444205"
+    preferred_publishers:
+      - HarperVoyager
+    sources:
+      openlibrary:
+        found: true
+        metadata:
+          source: openlibrary
+          title: Fool's Assassin
+          authors:
+            - Robin Hobb
+          publisher: HarperCollins Publishers Limited
+          publishedDate: "2018"
+          language: ""
+        error: null
+      googlebooks:
+        found: false
+        metadata: null
+        error: fonte desabilitada após HTTP 429
+    status: ok
+    issues:
+      - "Google Books: fonte desabilitada após HTTP 429"
+    title_score: 1
+    author_score: 1
+    publisher_match: true
+  - work_key: fool-s-errand--robin-hobb
+    title: Fool's Errand
+    author: Robin Hobb
+    isbn13: "9780007585892"
+    preferred_publishers:
+      - HarperVoyager
+    sources:
+      openlibrary:
+        found: true
+        metadata:
+          source: openlibrary
+          title: Fool's Errand
+          authors:
+            - Robin Hobb
+          publisher: HarperCollins Publishers
+          publishedDate: "2014"
+          language: ""
+        error: null
+      googlebooks:
+        found: false
+        metadata: null
+        error: fonte desabilitada após HTTP 429
+    status: ok
+    issues:
+      - "Google Books: fonte desabilitada após HTTP 429"
+    title_score: 1
+    author_score: 1
+    publisher_match: true
+  - work_key: fool-s-fate--robin-hobb
+    title: Fool's Fate
+    author: Robin Hobb
+    isbn13: "9780007588978"
+    preferred_publishers:
+      - HarperVoyager
+    sources:
+      openlibrary:
+        found: true
+        metadata:
+          source: openlibrary
+          title: Fool's Fate
+          authors:
+            - Robin Hobb
+          publisher: HarperCollins Publishers
+          publishedDate: "2014"
+          language: ""
+        error: null
+      googlebooks:
+        found: false
+        metadata: null
+        error: fonte desabilitada após HTTP 429
+    status: ok
+    issues:
+      - "Google Books: fonte desabilitada após HTTP 429"
+    title_score: 1
+    author_score: 1
+    publisher_match: true
+  - work_key: fool-s-quest--robin-hobb
+    title: Fool's Quest
+    author: Robin Hobb
+    isbn13: "9780007444243"
+    preferred_publishers:
+      - HarperVoyager
+    sources:
+      openlibrary:
+        found: true
+        metadata:
+          source: openlibrary
+          title: Fool's Quest
+          authors:
+            - Robin Hobb
+          publisher: HarperVoyager
+          publishedDate: 2001-06-14
+          language: ""
+        error: null
+      googlebooks:
+        found: false
+        metadata: null
+        error: fonte desabilitada após HTTP 429
+    status: ok
+    issues:
+      - "Google Books: fonte desabilitada após HTTP 429"
+    title_score: 1
+    author_score: 1
+    publisher_match: true
+  - work_key: god-emperor-of-dune--frank-herbert
+    title: God Emperor of Dune
+    author: Frank Herbert
+    isbn13: "9780441016310"
+    preferred_publishers:
+      - Ace
+      - Berkley
+    sources:
+      openlibrary:
+        found: true
+        metadata:
+          source: openlibrary
+          title: God Emperor of Dune
+          authors:
+            - Frank Herbert
+          publisher: Ace Books Ace
+          publishedDate: "2008"
+          language: ""
+        error: null
+      googlebooks:
+        found: false
+        metadata: null
+        error: fonte desabilitada após HTTP 429
+    status: ok
+    issues:
+      - "Google Books: fonte desabilitada após HTTP 429"
+    title_score: 1
+    author_score: 1
+    publisher_match: true
+  - work_key: howling-dark--christopher-ruocchio
+    title: Howling Dark
+    author: Christopher Ruocchio
+    isbn13: "9780756413033"
+    preferred_publishers:
+      - DAW
+      - Baen
+    sources:
+      openlibrary:
+        found: true
+        metadata:
+          source: openlibrary
+          title: Howling Dark
+          authors:
+            - Christopher Ruocchio
+          publisher: DAW
+          publishedDate: "2019"
+          language: ""
+        error: null
+      googlebooks:
+        found: false
+        metadata: null
+        error: fonte desabilitada após HTTP 429
+    status: ok
+    issues:
+      - "Google Books: fonte desabilitada após HTTP 429"
+    title_score: 1
+    author_score: 1
+    publisher_match: true
+  - work_key: hyperion--dan-simmons
+    title: Hyperion
+    author: Dan Simmons
+    isbn13: "9780553283686"
+    preferred_publishers:
+      - Bantam
+      - Gollancz
+    sources:
+      openlibrary:
+        found: true
+        metadata:
+          source: openlibrary
+          title: Hypérion
+          authors:
+            - Dan Simmons
+          publisher: Bantam Books
+          publishedDate: "1990"
+          language: ""
+        error: null
+      googlebooks:
+        found: false
+        metadata: null
+        error: fonte desabilitada após HTTP 429
+    status: ok
+    issues:
+      - "Google Books: fonte desabilitada após HTTP 429"
+    title_score: 1
+    author_score: 1
+    publisher_match: true
+  - work_key: jade-city--fonda-lee
+    title: Jade City
+    author: Fonda Lee
+    isbn13: "9780316440899"
+    preferred_publishers:
+      - Orbit
+    sources:
+      openlibrary:
+        found: true
+        metadata:
+          source: openlibrary
+          title: Jade City
+          authors:
+            - Fonda Lee
+          publisher: Orbit
+          publishedDate: "2017"
+          language: ""
+        error: null
+      googlebooks:
+        found: false
+        metadata: null
+        error: fonte desabilitada após HTTP 429
+    status: ok
+    issues:
+      - "Google Books: fonte desabilitada após HTTP 429"
+    title_score: 1
+    author_score: 1
+    publisher_match: true
+  - work_key: jade-legacy--fonda-lee
+    title: Jade Legacy
+    author: Fonda Lee
+    isbn13: "9780316440950"
+    preferred_publishers:
+      - Orbit
+    sources:
+      openlibrary:
+        found: true
+        metadata:
+          source: openlibrary
+          title: Jade Legacy
+          authors:
+            - Fonda Lee
+          publisher: Orbit
+          publishedDate: "2021"
+          language: ""
+        error: null
+      googlebooks:
+        found: false
+        metadata: null
+        error: fonte desabilitada após HTTP 429
+    status: ok
+    issues:
+      - "Google Books: fonte desabilitada após HTTP 429"
+    title_score: 1
+    author_score: 1
+    publisher_match: true
+  - work_key: jade-war--fonda-lee
+    title: Jade War
+    author: Fonda Lee
+    isbn13: "9780316440905"
+    preferred_publishers:
+      - Orbit
+    sources:
+      openlibrary:
+        found: true
+        metadata:
+          source: openlibrary
+          title: Jade War
+          authors:
+            - Fonda Lee
+          publisher: Orbit
+          publishedDate: "2020"
+          language: ""
+        error: null
+      googlebooks:
+        found: false
+        metadata: null
+        error: fonte desabilitada após HTTP 429
+    status: ok
+    issues:
+      - "Google Books: fonte desabilitada após HTTP 429"
+    title_score: 1
+    author_score: 1
+    publisher_match: true
+  - work_key: kingdoms-of-death--christopher-ruocchio
+    title: Kingdoms of Death
+    author: Christopher Ruocchio
+    isbn13: "9780756413095"
+    preferred_publishers:
+      - DAW
+      - Baen
+    sources:
+      openlibrary:
+        found: true
+        metadata:
+          source: openlibrary
+          title: Kingdoms of Death
+          authors:
+            - Christopher Ruocchio
+          publisher: DAW
+          publishedDate: "2022"
+          language: ""
+        error: null
+      googlebooks:
+        found: false
+        metadata: null
+        error: fonte desabilitada após HTTP 429
+    status: ok
+    issues:
+      - "Google Books: fonte desabilitada após HTTP 429"
+    title_score: 1
+    author_score: 1
+    publisher_match: true
+  - work_key: oathbringer--brandon-sanderson
+    title: Oathbringer
+    author: Brandon Sanderson
+    isbn13: "9780765326379"
+    preferred_publishers:
+      - Tor
+      - Gollancz
+    sources:
+      openlibrary:
+        found: true
+        metadata:
+          source: openlibrary
+          title: "Oathbringer: Book Three of the Stormlight Archive"
+          authors:
+            - Brandon Sanderson
+          publisher: Tor Fantasy
+          publishedDate: "2017"
+          language: ""
+        error: null
+      googlebooks:
+        found: false
+        metadata: null
+        error: fonte desabilitada após HTTP 429
+    status: ok
+    issues:
+      - "Google Books: fonte desabilitada após HTTP 429"
+    title_score: 1
+    author_score: 1
+    publisher_match: true
+  - work_key: perdido-street-station--china-mieville
+    title: Perdido Street Station
+    author: China Miéville
+    isbn13: "9780345459404"
+    preferred_publishers:
+      - Del Rey
+      - Pan Macmillan
+    sources:
+      openlibrary:
+        found: true
+        metadata:
+          source: openlibrary
+          title: Perdido Street Station
+          authors:
+            - China Miéville
+          publisher: Del Rey
+          publishedDate: "2003"
+          language: ""
+        error: null
+      googlebooks:
+        found: false
+        metadata: null
+        error: fonte desabilitada após HTTP 429
+    status: ok
+    issues:
+      - "Google Books: fonte desabilitada após HTTP 429"
+    title_score: 1
+    author_score: 1
+    publisher_match: true
+  - work_key: rhythm-of-war--brandon-sanderson
+    title: Rhythm of War
+    author: Brandon Sanderson
+    isbn13: "9780765326386"
+    preferred_publishers:
+      - Tor
+      - Gollancz
+    sources:
+      openlibrary:
+        found: true
+        metadata:
+          source: openlibrary
+          title: "Rhythm of War: Book Four of the Stormlight Archive"
+          authors:
+            - Brandon Sanderson
+          publisher: Tor Fantasy
+          publishedDate: "2020"
+          language: ""
+        error: null
+      googlebooks:
+        found: false
+        metadata: null
+        error: fonte desabilitada após HTTP 429
+    status: ok
+    issues:
+      - "Google Books: fonte desabilitada após HTTP 429"
+    title_score: 1
+    author_score: 1
+    publisher_match: true
+  - work_key: royal-assassin--robin-hobb
+    title: Royal Assassin
+    author: Robin Hobb
+    isbn13: "9780007562268"
+    preferred_publishers:
+      - HarperVoyager
+    sources:
+      openlibrary:
+        found: true
+        metadata:
+          source: openlibrary
+          title: Royal Assassin
+          authors:
+            - Robin Hobb
+            - Arnaud Mousnier-Lompré
+          publisher: Harper Voyager
+          publishedDate: "2014"
+          language: ""
+        error: null
+      googlebooks:
+        found: false
+        metadata: null
+        error: fonte desabilitada após HTTP 429
+    status: ok
+    issues:
+      - "Google Books: fonte desabilitada após HTTP 429"
+    title_score: 1
+    author_score: 1
+    publisher_match: true
+  - work_key: shadows-linger--glen-cook
+    title: Shadows Linger
+    author: Glen Cook
+    isbn13: "9780812533729"
+    preferred_publishers:
+      - Tor
+      - Roc
+    sources:
+      openlibrary:
+        found: true
+        metadata:
+          source: openlibrary
+          title: Shadows Linger
+          authors:
+            - Glen Cook
+          publisher: Tor
+          publishedDate: 1984-10
+          language: ""
+        error: null
+      googlebooks:
+        found: false
+        metadata: null
+        error: fonte desabilitada após HTTP 429
+    status: ok
+    issues:
+      - "Google Books: fonte desabilitada após HTTP 429"
+    title_score: 1
+    author_score: 1
+    publisher_match: true
+  - work_key: ship-of-destiny--robin-hobb
+    title: Ship of Destiny
+    author: Robin Hobb
+    isbn13: "9780008117474"
+    preferred_publishers:
+      - HarperVoyager
+    sources:
+      openlibrary:
+        found: true
+        metadata:
+          source: openlibrary
+          title: Ship of Destiny
+          authors:
+            - Robin Hobb
+          publisher: Harper Voyager
+          publishedDate: Sep 10, 2015
+          language: ""
+        error: null
+      googlebooks:
+        found: false
+        metadata: null
+        error: fonte desabilitada após HTTP 429
+    status: ok
+    issues:
+      - "Google Books: fonte desabilitada após HTTP 429"
+    title_score: 1
+    author_score: 1
+    publisher_match: true
+  - work_key: ship-of-magic--robin-hobb
+    title: Ship of Magic
+    author: Robin Hobb
+    isbn13: "9780008117450"
+    preferred_publishers:
+      - HarperVoyager
+    sources:
+      openlibrary:
+        found: true
+        metadata:
+          source: openlibrary
+          title: Ship of Magic
+          authors:
+            - Robin Hobb
+          publisher: Harper Voyager
+          publishedDate: September 10, 2015
+          language: ""
+        error: null
+      googlebooks:
+        found: false
+        metadata: null
+        error: fonte desabilitada após HTTP 429
+    status: ok
+    issues:
+      - "Google Books: fonte desabilitada após HTTP 429"
+    title_score: 1
+    author_score: 1
+    publisher_match: true
+  - work_key: the-black-company--glen-cook
+    title: The Black Company
+    author: Glen Cook
+    isbn13: "9780812533705"
+    preferred_publishers:
+      - Tor
+      - Roc
+    sources:
+      openlibrary:
+        found: true
+        metadata:
+          source: openlibrary
+          title: The Black Company
+          authors:
+            - Glen Cook
+          publisher: Tor
+          publishedDate: 1984-05
+          language: ""
+        error: null
+      googlebooks:
+        found: false
+        metadata: null
+        error: fonte desabilitada após HTTP 429
+    status: ok
+    issues:
+      - "Google Books: fonte desabilitada após HTTP 429"
+    title_score: 1
+    author_score: 1
+    publisher_match: true
+  - work_key: the-city-the-city--china-mieville
+    title: The City & the City
+    author: China Miéville
+    isbn13: "9780230741911"
+    preferred_publishers:
+      - Del Rey
+      - Pan Macmillan
+    sources:
+      openlibrary:
+        found: true
+        metadata:
+          source: openlibrary
+          title: The City and the City
+          authors:
+            - China Miéville
+          publisher: Pan MacMillan
+          publishedDate: ""
+          language: ""
+        error: null
+      googlebooks:
+        found: false
+        metadata: null
+        error: fonte desabilitada após HTTP 429
+    status: ok
+    issues:
+      - "Google Books: fonte desabilitada após HTTP 429"
+    title_score: 1
+    author_score: 1
+    publisher_match: true
+  - work_key: the-final-empire--brandon-sanderson
+    title: The Final Empire
+    author: Brandon Sanderson
+    isbn13: "9780575089914"
+    preferred_publishers:
+      - Tor
+      - Gollancz
+    sources:
+      openlibrary:
+        found: true
+        metadata:
+          source: openlibrary
+          title: "The Final Empire: Mistborn Book One"
+          authors:
+            - Brandon Sanderson
+          publisher: Gollancz
+          publishedDate: "2009"
+          language: ""
+        error: null
+      googlebooks:
+        found: false
+        metadata: null
+        error: fonte desabilitada após HTTP 429
+    status: ok
+    issues:
+      - "Google Books: fonte desabilitada após HTTP 429"
+    title_score: 1
+    author_score: 1
+    publisher_match: true
+  - work_key: the-golden-fool--robin-hobb
+    title: The Golden Fool
+    author: Robin Hobb
+    isbn13: "9780007585908"
+    preferred_publishers:
+      - HarperVoyager
+    sources:
+      openlibrary:
+        found: true
+        metadata:
+          source: openlibrary
+          title: The Golden Fool
+          authors:
+            - Robin Hobb
+          publisher: HarperCollins Publishers HarperVoyager
+          publishedDate: 2014-07-31
+          language: ""
+        error: null
+      googlebooks:
+        found: false
+        metadata: null
+        error: fonte desabilitada após HTTP 429
+    status: ok
+    issues:
+      - "Google Books: fonte desabilitada após HTTP 429"
+    title_score: 1
+    author_score: 1
+    publisher_match: true
+  - work_key: the-hero-of-ages--brandon-sanderson
+    title: The Hero of Ages
+    author: Brandon Sanderson
+    isbn13: "9780765316899"
+    preferred_publishers:
+      - Tor
+      - Gollancz
+    sources:
+      openlibrary:
+        found: true
+        metadata:
+          source: openlibrary
+          title: The hero of ages
+          authors:
+            - Brandon Sanderson
+          publisher: Tor
+          publishedDate: "2008"
+          language: ""
+        error: null
+      googlebooks:
+        found: false
+        metadata: null
+        error: fonte desabilitada após HTTP 429
+    status: ok
+    issues:
+      - "Google Books: fonte desabilitada após HTTP 429"
+    title_score: 1
+    author_score: 1
+    publisher_match: true
+  - work_key: the-mad-ship--robin-hobb
+    title: The Mad Ship
+    author: Robin Hobb
+    isbn13: "9780008117467"
+    preferred_publishers:
+      - HarperVoyager
+    sources:
+      openlibrary:
+        found: true
+        metadata:
+          source: openlibrary
+          title: The Mad Ship
+          authors:
+            - Robin Hobb
+          publisher: Harper Voyager
+          publishedDate: Sep 10, 2015
+          language: ""
+        error: null
+      googlebooks:
+        found: false
+        metadata: null
+        error: fonte desabilitada após HTTP 429
+    status: ok
+    issues:
+      - "Google Books: fonte desabilitada após HTTP 429"
+    title_score: 1
+    author_score: 1
+    publisher_match: true
+  - work_key: the-martian--andy-weir
+    title: The Martian
+    author: Andy Weir
+    isbn13: "9780804139021"
+    preferred_publishers:
+      - Crown
+      - Broadway
+    sources:
+      openlibrary:
+        found: true
+        metadata:
+          source: openlibrary
+          title: The Martian
+          authors:
+            - Andy Weir
+          publisher: Crown Publishers
+          publishedDate: "2014"
+          language: ""
+        error: null
+      googlebooks:
+        found: false
+        metadata: null
+        error: HTTP 429
+    status: ok
+    issues:
+      - "Google Books: HTTP 429"
+    title_score: 1
+    author_score: 1
+    publisher_match: true
+  - work_key: the-road--cormac-mccarthy
+    title: The Road
+    author: Cormac McCarthy
+    isbn13: "9780330447539"
+    preferred_publishers:
+      - Knopf
+      - Picador
+    sources:
+      openlibrary:
+        found: true
+        metadata:
+          source: openlibrary
+          title: The Road
+          authors:
+            - Cormac McCarthy
+          publisher: Picador
+          publishedDate: "2006"
+          language: ""
+        error: null
+      googlebooks:
+        found: false
+        metadata: null
+        error: fonte desabilitada após HTTP 429
+    status: ok
+    issues:
+      - "Google Books: fonte desabilitada após HTTP 429"
+    title_score: 1
+    author_score: 1
+    publisher_match: true
+  - work_key: the-sunlit-man--brandon-sanderson
+    title: The Sunlit Man
+    author: Brandon Sanderson
+    isbn13: "9781250899712"
+    preferred_publishers:
+      - Tor
+      - Gollancz
+    sources:
+      openlibrary:
+        found: true
+        metadata:
+          source: openlibrary
+          title: The Sunlit Man
+          authors:
+            - Brandon Sanderson
+          publisher: Doherty Associates, LLC, Tom Tor Books
+          publishedDate: "2024"
+          language: ""
+        error: null
+      googlebooks:
+        found: false
+        metadata: null
+        error: fonte desabilitada após HTTP 429
+    status: ok
+    issues:
+      - "Google Books: fonte desabilitada após HTTP 429"
+    title_score: 1
+    author_score: 1
+    publisher_match: true
+  - work_key: the-way-of-kings--brandon-sanderson
+    title: The Way of Kings
+    author: Brandon Sanderson
+    isbn13: "9780765326355"
+    preferred_publishers:
+      - Tor
+      - Gollancz
+    sources:
+      openlibrary:
+        found: true
+        metadata:
+          source: openlibrary
+          title: "The Way of Kings: Book One of the Stormlight Archive"
+          authors:
+            - Brandon Sanderson
+          publisher: Tor
+          publishedDate: August 31st 2010
+          language: ""
+        error: null
+      googlebooks:
+        found: false
+        metadata: null
+        error: fonte desabilitada após HTTP 429
+    status: ok
+    issues:
+      - "Google Books: fonte desabilitada após HTTP 429"
+    title_score: 1
+    author_score: 1
+    publisher_match: true
+  - work_key: the-well-of-ascension--brandon-sanderson
+    title: The Well of Ascension
+    author: Brandon Sanderson
+    isbn13: "9780765316882"
+    preferred_publishers:
+      - Tor
+      - Gollancz
+    sources:
+      openlibrary:
+        found: true
+        metadata:
+          source: openlibrary
+          title: The Well of Ascension
+          authors:
+            - Brandon Sanderson
+          publisher: Tor
+          publishedDate: "2007"
+          language: ""
+        error: null
+      googlebooks:
+        found: false
+        metadata: null
+        error: fonte desabilitada após HTTP 429
+    status: ok
+    issues:
+      - "Google Books: fonte desabilitada após HTTP 429"
+    title_score: 1
+    author_score: 1
+    publisher_match: true
+  - work_key: the-white-rose--glen-cook
+    title: The White Rose
+    author: Glen Cook
+    isbn13: "9780812533743"
+    preferred_publishers:
+      - Tor
+      - Roc
+    sources:
+      openlibrary:
+        found: true
+        metadata:
+          source: openlibrary
+          title: The White Rose
+          authors:
+            - Glen Cook
+          publisher: Tor
+          publishedDate: 1985-04
+          language: ""
+        error: null
+      googlebooks:
+        found: false
+        metadata: null
+        error: fonte desabilitada após HTTP 429
+    status: ok
+    issues:
+      - "Google Books: fonte desabilitada após HTTP 429"
+    title_score: 1
+    author_score: 1
+    publisher_match: true
+  - work_key: tress-of-the-emerald-sea--brandon-sanderson
+    title: Tress of the Emerald Sea
+    author: Brandon Sanderson
+    isbn13: "9781399613392"
+    preferred_publishers:
+      - Tor
+      - Gollancz
+    sources:
+      openlibrary:
+        found: true
+        metadata:
+          source: openlibrary
+          title: Tress of the Emerald Sea
+          authors:
+            - Brandon Sanderson
+          publisher: Gollancz
+          publishedDate: 2 April 2024
+          language: ""
+        error: null
+      googlebooks:
+        found: false
+        metadata: null
+        error: fonte desabilitada após HTTP 429
+    status: ok
+    issues:
+      - "Google Books: fonte desabilitada após HTTP 429"
+    title_score: 1
+    author_score: 1
+    publisher_match: true
+  - work_key: warbreaker--brandon-sanderson
+    title: Warbreaker
+    author: Brandon Sanderson
+    isbn13: "9780765320308"
+    preferred_publishers:
+      - Tor
+      - Gollancz
+    sources:
+      openlibrary:
+        found: true
+        metadata:
+          source: openlibrary
+          title: Warbreaker
+          authors:
+            - Brandon Sanderson
+          publisher: Tor
+          publishedDate: "2009"
+          language: ""
+        error: null
+      googlebooks:
+        found: false
+        metadata: null
+        error: fonte desabilitada após HTTP 429
+    status: ok
+    issues:
+      - "Google Books: fonte desabilitada após HTTP 429"
+    title_score: 1
+    author_score: 1
+    publisher_match: true
+  - work_key: words-of-radiance--brandon-sanderson
+    title: Words of Radiance
+    author: Brandon Sanderson
+    isbn13: "9781473208995"
+    preferred_publishers:
+      - Tor
+      - Gollancz
+    sources:
+      openlibrary:
+        found: true
+        metadata:
+          source: openlibrary
+          title: Words of Radiance
+          authors:
+            - Brandon Sanderson
+          publisher: Gollancz
+          publishedDate: "2014"
+          language: ""
+        error: null
+      googlebooks:
+        found: false
+        metadata: null
+        error: fonte desabilitada após HTTP 429
+    status: ok
+    issues:
+      - "Google Books: fonte desabilitada após HTTP 429"
+    title_score: 1
+    author_score: 1
+    publisher_match: true

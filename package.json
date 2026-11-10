@@ -15,6 +15,7 @@
     "rematch": "tsx src/rematch.ts",
     "covers": "tsx src/covers.ts",
     "isbn-scan": "tsx src/isbn-scan.ts",
+    "isbn-validate": "tsx src/isbn-validate.ts",
     "ocr": "tsx src/ocr.ts",
     "shopee:login": "tsx scripts/shopee-login.ts",
     "shopee-scan": "tsx src/shopee-scan.ts",

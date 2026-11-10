@@ -83,6 +83,7 @@ npm run backup                     # backup diário do SQLite com retenção
 npm run covers -- --max-score 0.8  # verifica capa do anúncio contra a capa conhecida
 npm run sellers:backfill           # preenche notas de vendedor a partir do raw_json
 npm run isbn-scan -- --limit 5     # varre a AbeBooks por ISBN (semanal no agendador)
+npm run isbn-validate              # confere os ISBNs contra Open Library/Google Books
 npm run ocr -- --limit 20          # lê o título nas fotos dos anúncios (Tesseract)
 npm run shopee:login               # login único da Shopee no perfil persistente
 npm run shopee-scan                # 8 autores prioritários na Shopee, sem e-mail
@@ -197,6 +198,30 @@ checkout. O radar usa o menor total livro + frete Brasil como estimativa. A
 varredura roda toda segunda às 08:00 e o digest das 09:00 consolida os novos
 matches. `settings.sources.abebooks` fica `false` porque essa fonte é ISBN-only
 e não entra no scan normal por título.
+
+## Validação de ISBN
+
+Os ISBNs dos overrides e da watchlist podem envelhecer ou apontar para a edição
+errada. `npm run isbn-validate` confere cada ISBN-13 contra Open Library e
+Google Books e grava o relatório em `config/isbn-validation.yaml`:
+
+```powershell
+npm run isbn-validate
+npm run isbn-validate -- --limit 10 --delay 500
+```
+
+Cada item recebe um status:
+
+- `ok`: título, autor e editora batem.
+- `review`: título/autor limítrofes, editora de outro selo, autor em outro
+  alfabeto ou uma fonte indisponível.
+- `divergent`: título ou autor apontam para outro livro.
+- `missing`: nenhuma fonte encontrou o ISBN.
+
+O comando não altera `config/watchlist.yaml` nem `config/isbn-overrides.yaml`;
+o relatório é para revisão manual. O Google Books pode responder 429 por quota;
+quando isso acontece, o comando segue só com Open Library e registra o erro no
+relatório.
 
 ## Shopee
 
