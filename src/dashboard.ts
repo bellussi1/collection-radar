@@ -2,7 +2,7 @@ import "dotenv/config";
 import { createServer, type IncomingMessage, type ServerResponse } from "node:http";
 import { loadWorks } from "./config.js";
 import { classifyDistance } from "./coverhash.js";
-import { type DashboardMatch, type OwnedWork, RadarDb } from "./db.js";
+import { type DashboardMatch, type OwnedWork, RadarDb, type SourceHealth } from "./db.js";
 import { detectCondition, detectFormat, normalizeText, parsePrice } from "./normalize.js";
 import { priceChangeLabel } from "./price.js";
 import type { Work } from "./types.js";
@@ -58,6 +58,68 @@ function sourceLabel(source: string): string {
     sebos: "Sebos independentes"
   };
   return labels[source] ?? source;
+}
+
+function formatWhen(value: string | null): string {
+  if (!value) return "—";
+  const date = new Date(value);
+  if (Number.isNaN(date.getTime())) return "—";
+  return date.toLocaleString("pt-BR", {
+    day: "2-digit",
+    month: "2-digit",
+    hour: "2-digit",
+    minute: "2-digit"
+  });
+}
+
+function relativeAge(value: string | null): string {
+  if (!value) return "";
+  const time = new Date(value).getTime();
+  if (Number.isNaN(time)) return "";
+  const hours = Math.floor((Date.now() - time) / 3_600_000);
+  if (hours < 1) return "agora";
+  if (hours < 24) return `há ${hours}h`;
+  return `há ${Math.floor(hours / 24)}d`;
+}
+
+function healthState(item: SourceHealth | undefined): {
+  label: string;
+  className: string;
+  detail: string;
+} {
+  if (!item) {
+    return {
+      label: "sem execução",
+      className: "health-idle",
+      detail: "Nenhuma rodada registrada."
+    };
+  }
+  if (item.blocked) {
+    return {
+      label: "bloqueada",
+      className: "health-blocked",
+      detail: item.note ?? "A fonte bloqueou a rodada."
+    };
+  }
+  if (item.queries > 0 && item.listings === 0) {
+    return {
+      label: "zero",
+      className: "health-zero",
+      detail: item.note ?? `0 anúncios em ${item.queries} consultas.`
+    };
+  }
+  if (item.errors > 0) {
+    return {
+      label: "com erros",
+      className: "health-errors",
+      detail: item.note ?? `${item.errors} erro(s) na última rodada.`
+    };
+  }
+  return {
+    label: "ok",
+    className: "health-ok",
+    detail: item.note ?? "Última rodada sem erros."
+  };
 }
 
 function brl(value: number | null): string {
@@ -403,7 +465,8 @@ function pageHtml(
   owned: OwnedWork[],
   filters: Filters,
   allRows: DashboardMatch[],
-  rawListings: number
+  rawListings: number,
+  health: SourceHealth[]
 ): string {
   const sources = [...new Set(allRows.map((row) => row.listing.source))].sort();
   const series = [
@@ -433,6 +496,36 @@ function pageHtml(
   const addableWorks = [...works.values()]
     .filter((work) => !ownedKeys.has(work.key))
     .sort((a, b) => a.title.localeCompare(b.title, "pt-BR"));
+
+  const healthBySource = new Map(health.map((item) => [item.source, item]));
+  const healthSources = [
+    ...new Set([
+      "estante",
+      "olx",
+      "mercadolivre",
+      "enjoei",
+      "abebooks",
+      "shopee",
+      "sebos",
+      ...health.map((item) => item.source)
+    ])
+  ];
+  const healthRows = healthSources
+    .map((source) => {
+      const item = healthBySource.get(source);
+      const state = healthState(item);
+      const when = item?.finishedAt ?? item?.lastRunAt ?? null;
+      return `<tr>
+        <td><div class="health-source">${esc(sourceLabel(source))}</div><div class="health-note">${esc(state.detail)}</div></td>
+        <td><div>${formatWhen(when)}</div><div class="health-age">${relativeAge(when)}</div></td>
+        <td>${item ? item.queries : "—"}</td>
+        <td>${item ? item.listings : "—"}</td>
+        <td>${item ? item.newListings : "—"}</td>
+        <td class="${item && item.errors > 0 ? "health-errors-text" : ""}">${item ? item.errors : "—"}</td>
+        <td><span class="health-badge ${state.className}">${state.label}</span></td>
+      </tr>`;
+    })
+    .join("");
 
   const ownedAdd = addableWorks.length
     ? `<form class="owned-add" method="post" action="/owned">
@@ -520,6 +613,24 @@ function pageHtml(
     .confidence-pill strong { color: var(--ink); font-weight: 600; }
     .confidence-pill.active { border-color: var(--ink); background: var(--ink); color: #fff; }
     .confidence-pill.active strong { color: #fff; }
+    .health { margin: 0 0 18px; }
+    .health-head { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; margin: 0 0 8px; }
+    .health-head h2 { font-family: ui-monospace, monospace; font-size: 10px; letter-spacing: .16em; text-transform: uppercase; color: var(--muted); margin: 0; }
+    .health-head span { font-size: 12px; color: var(--muted); }
+    .health-table-wrap { overflow-x: auto; border: 1px solid var(--rule); background: var(--surface); }
+    .health-table { width: 100%; border-collapse: collapse; font-size: 12px; }
+    .health-table th { text-align: left; font-family: ui-monospace, monospace; font-size: 9px; text-transform: uppercase; letter-spacing: .12em; color: var(--muted); padding: 8px 10px; border-bottom: 1px solid var(--rule); white-space: nowrap; }
+    .health-table td { padding: 9px 10px; border-bottom: 1px solid var(--rule); vertical-align: top; }
+    .health-table tr:last-child td { border-bottom: 0; }
+    .health-source { font-weight: 600; }
+    .health-note { color: var(--muted); font-size: 11px; line-height: 1.4; margin-top: 2px; max-width: 300px; }
+    .health-age { color: var(--muted); font-size: 10px; margin-top: 2px; }
+    .health-badge { display: inline-block; font-family: ui-monospace, monospace; font-size: 9px; text-transform: uppercase; letter-spacing: .08em; padding: 2px 6px; border: 1px solid; white-space: nowrap; }
+    .health-ok { background: var(--pine-soft); color: var(--pine); border-color: var(--pine); }
+    .health-zero { background: var(--ochre-soft); color: var(--ochre); border-color: var(--ochre); }
+    .health-blocked, .health-errors { background: var(--red-soft); color: var(--red); border-color: var(--red); }
+    .health-idle { background: #f0ece2; color: var(--muted); border-color: var(--rule); }
+    .health-errors-text { color: var(--red); font-weight: 600; }
     .filters { display: grid; grid-template-columns: 1.4fr repeat(8, minmax(110px, 1fr)) auto; gap: 8px; align-items: end; background: var(--surface); border: 1px solid var(--rule); padding: 14px; margin-bottom: 18px; }
     .field label { display: block; font-family: ui-monospace, monospace; font-size: 9px; text-transform: uppercase; letter-spacing: .12em; color: var(--muted); margin-bottom: 4px; }
     .field input, .field select { width: 100%; border: 1px solid var(--rule); background: #fff; padding: 8px 9px; font: inherit; font-size: 13px; color: var(--ink); }
@@ -646,6 +757,29 @@ function pageHtml(
       ${confidencePill(filters, "mid", "65–80%", confidenceCounts.mid)}
       ${confidencePill(filters, "high", "≥80%", confidenceCounts.high)}
     </div>
+
+    <section class="health">
+      <div class="health-head">
+        <h2>Saúde das fontes</h2>
+        <span>Última rodada registrada por fonte</span>
+      </div>
+      <div class="health-table-wrap">
+        <table class="health-table">
+          <thead>
+            <tr>
+              <th scope="col">Fonte</th>
+              <th scope="col">Última execução</th>
+              <th scope="col">Consultas</th>
+              <th scope="col">Anúncios</th>
+              <th scope="col">Novos</th>
+              <th scope="col">Erros</th>
+              <th scope="col">Estado</th>
+            </tr>
+          </thead>
+          <tbody>${healthRows}</tbody>
+        </table>
+      </div>
+    </section>
 
     <form class="filters" method="get" action="/">
       ${filters.confidence !== "all" ? `<input type="hidden" name="confidence" value="${esc(filters.confidence)}" />` : ""}
@@ -778,7 +912,8 @@ function main(): void {
         const rows = filterRows(allRows, works, filters);
         const groups = groupRows(rows, works, filters.sort);
         const owned = db.listOwned();
-        const html = pageHtml(groups, works, owned, filters, allRows, db.countListings());
+        const health = db.listSourceHealth();
+        const html = pageHtml(groups, works, owned, filters, allRows, db.countListings(), health);
         res.writeHead(200, { "Content-Type": "text/html; charset=utf-8" });
         res.end(html);
         return;

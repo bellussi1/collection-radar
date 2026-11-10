@@ -76,7 +76,14 @@ export async function runScan(options: ScanOptions = {}): Promise<ScanStats> {
   const startedAt = new Date().toISOString();
   const sourceHealth: ScanStats["sourceHealth"] = {};
   for (const source of sources) {
-    sourceHealth[source.name] = { queries: 0, listings: 0, errors: 0, blocked: false };
+    sourceHealth[source.name] = {
+      queries: 0,
+      listings: 0,
+      newListings: 0,
+      errors: 0,
+      blocked: false,
+      note: null
+    };
   }
   const stats: ScanStats = {
     startedAt,
@@ -128,6 +135,8 @@ export async function runScan(options: ScanOptions = {}): Promise<ScanStats> {
           }
           sourceCount += found;
           stats.bySource[source.name] = (stats.bySource[source.name] ?? 0) + found;
+          sourceHealth[source.name]!.newListings =
+            (sourceHealth[source.name]!.newListings ?? 0) + newListings;
           console.log(
             `  ${source.name.padEnd(13)} ${query.term.slice(0, 42).padEnd(44)} ${found} anúncios (${newListings} novos)`
           );
@@ -136,6 +145,7 @@ export async function runScan(options: ScanOptions = {}): Promise<ScanStats> {
           stats.errors += 1;
           sourceHealth[source.name]!.errors += 1;
           const message = error instanceof Error ? error.message : String(error);
+          sourceHealth[source.name]!.note = message;
           if (error instanceof SourceBlockedError) {
             sourceHealth[source.name]!.blocked = true;
             console.warn(`  ${source.name.padEnd(13)} bloqueado: ${message}`);
@@ -154,10 +164,22 @@ export async function runScan(options: ScanOptions = {}): Promise<ScanStats> {
       if (health.blocked) {
         console.warn(`  atenção: ${source.name} foi bloqueado nesta rodada`);
       } else if (health.queries >= 2 && health.listings === 0) {
+        health.note = `0 anúncios em ${health.queries} consultas`;
         console.warn(
           `  atenção: ${source.name} retornou 0 anúncios em ${health.queries} consultas — possível bloqueio ou mudança de layout`
         );
       }
+      db.recordSourceHealth({
+        source: source.name,
+        lastRunAt: startedAt,
+        finishedAt: new Date().toISOString(),
+        queries: health.queries,
+        listings: health.listings,
+        newListings: health.newListings ?? 0,
+        errors: health.errors,
+        blocked: health.blocked,
+        note: health.note ?? null
+      });
     }
   } finally {
     await closeBrowser();

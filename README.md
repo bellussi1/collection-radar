@@ -326,6 +326,13 @@ HTML. Depois é só recarregar `http://127.0.0.1:4317`.
 O servidor lê o SQLite a cada request; não precisa reiniciar quando entram dados
 novos, só se você mudar código em `src/`.
 
+A seção **Saúde das fontes** no topo do dashboard mostra a última rodada de cada
+fonte, com consultas, anúncios, novos, erros e um estado (`ok`, `zero`,
+`bloqueada`, `com erros` ou `sem execução`). O `scan` grava esse resumo ao final
+de cada fonte; o `isbn-scan` grava o da AbeBooks. Na primeira abertura, o resumo
+é preenchido a partir dos `runs` já existentes, então o Mercado Livre zerado
+aparece sem precisar abrir log.
+
 ```powershell
 npm run update              # scan + rematch + pHash + OCR + digest
 npm run update -- --quick   # pula o scan; só rematch/pHash/OCR/digest

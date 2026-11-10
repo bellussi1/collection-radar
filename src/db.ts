@@ -56,6 +56,18 @@ export interface OwnedWork {
   notes: string | null;
 }
 
+export interface SourceHealth {
+  source: string;
+  lastRunAt: string;
+  finishedAt: string | null;
+  queries: number;
+  listings: number;
+  newListings: number;
+  errors: number;
+  blocked: boolean;
+  note: string | null;
+}
+
 function mapListing(row: ListingRow): StoredListing {
   return {
     id: row.id,
@@ -201,11 +213,54 @@ export class RadarDb {
         checked_at TEXT NOT NULL,
         PRIMARY KEY (listing_id, work_key)
       );
+      CREATE TABLE IF NOT EXISTS source_health (
+        source TEXT PRIMARY KEY,
+        last_run_at TEXT NOT NULL,
+        finished_at TEXT,
+        queries INTEGER DEFAULT 0,
+        listings INTEGER DEFAULT 0,
+        new_listings INTEGER DEFAULT 0,
+        errors INTEGER DEFAULT 0,
+        blocked INTEGER DEFAULT 0,
+        note TEXT
+      );
       CREATE INDEX IF NOT EXISTS idx_listings_first_seen ON listings(first_seen);
       CREATE INDEX IF NOT EXISTS idx_matches_work_key ON matches(work_key);
       CREATE INDEX IF NOT EXISTS idx_feedback_status ON feedback(status);
       CREATE INDEX IF NOT EXISTS idx_price_history_listing ON price_history(listing_id, seen_at);
     `);
+
+    // Primeira abertura depois da tabela nova: resume a última rodada de cada
+    // fonte a partir dos runs já gravados. A janela de 2h agrupa as consultas
+    // da mesma execução sem precisar de um id de lote no histórico antigo.
+    const healthCount = this.db
+      .prepare("SELECT COUNT(*) AS count FROM source_health")
+      .get() as unknown as { count: number };
+    if (Number(healthCount.count) === 0) {
+      this.db.exec(`
+        INSERT INTO source_health
+          (source, last_run_at, finished_at, queries, listings, new_listings, errors, blocked, note)
+        SELECT
+          r.source,
+          l.last_started,
+          MAX(r.finished_at),
+          COUNT(*),
+          COALESCE(SUM(r.found), 0),
+          COALESCE(SUM(r.new_listings), 0),
+          COALESCE(SUM(r.errors), 0),
+          0,
+          NULL
+        FROM runs r
+        JOIN (
+          SELECT source, MAX(started_at) AS last_started
+          FROM runs
+          WHERE source IS NOT NULL
+          GROUP BY source
+        ) l ON l.source = r.source
+        WHERE julianday(r.started_at) >= julianday(l.last_started) - (2.0 / 24.0)
+        GROUP BY r.source, l.last_started
+      `);
+    }
 
     const alertColumns = this.db.prepare("PRAGMA table_info(alerts)").all() as unknown as Array<{
       name: string;
@@ -387,6 +442,62 @@ export class RadarDb {
         UPDATE runs SET finished_at = ?, found = ?, new_listings = ?, errors = ? WHERE id = ?
       `)
       .run(new Date().toISOString(), found, newListings, errors, runId);
+  }
+
+  recordSourceHealth(health: SourceHealth): void {
+    this.db
+      .prepare(`
+        INSERT INTO source_health
+          (source, last_run_at, finished_at, queries, listings, new_listings, errors, blocked, note)
+        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
+        ON CONFLICT(source) DO UPDATE SET
+          last_run_at = excluded.last_run_at,
+          finished_at = excluded.finished_at,
+          queries = excluded.queries,
+          listings = excluded.listings,
+          new_listings = excluded.new_listings,
+          errors = excluded.errors,
+          blocked = excluded.blocked,
+          note = excluded.note
+      `)
+      .run(
+        health.source,
+        health.lastRunAt,
+        health.finishedAt,
+        health.queries,
+        health.listings,
+        health.newListings,
+        health.errors,
+        health.blocked ? 1 : 0,
+        health.note
+      );
+  }
+
+  listSourceHealth(): SourceHealth[] {
+    const rows = this.db
+      .prepare("SELECT * FROM source_health ORDER BY source")
+      .all() as unknown as Array<{
+      source: string;
+      last_run_at: string;
+      finished_at: string | null;
+      queries: number | null;
+      listings: number | null;
+      new_listings: number | null;
+      errors: number | null;
+      blocked: number | null;
+      note: string | null;
+    }>;
+    return rows.map((row) => ({
+      source: row.source,
+      lastRunAt: row.last_run_at,
+      finishedAt: row.finished_at,
+      queries: Number(row.queries ?? 0),
+      listings: Number(row.listings ?? 0),
+      newListings: Number(row.new_listings ?? 0),
+      errors: Number(row.errors ?? 0),
+      blocked: Boolean(row.blocked),
+      note: row.note
+    }));
   }
 
   listRecentMatches(

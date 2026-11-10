@@ -107,6 +107,13 @@ export interface ScanStats {
   bySource: Record<string, number>;
   sourceHealth: Record<
     string,
-    { queries: number; listings: number; errors: number; blocked: boolean }
+    {
+      queries: number;
+      listings: number;
+      newListings?: number;
+      errors: number;
+      blocked: boolean;
+      note?: string | null;
+    }
   >;
 }

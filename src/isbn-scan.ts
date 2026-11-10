@@ -6,6 +6,7 @@ import { RadarDb } from "./db.js";
 import { matchListing } from "./match.js";
 import { isValidIsbn13 } from "./normalize.js";
 import { AbeBooksSource } from "./sources/abebooks.js";
+import { SourceBlockedError } from "./sources/index.js";
 
 const sleep = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
 
@@ -45,6 +46,10 @@ async function main(): Promise<void> {
   let newListings = 0;
   let matches = 0;
   let errors = 0;
+  let attempted = 0;
+  let blocked = false;
+  let note: string | null = null;
+  const startedAt = new Date().toISOString();
 
   for (const [index, work] of selected.entries()) {
     const label = `${String(index + 1).padStart(2)}/${selected.length}`;
@@ -52,6 +57,7 @@ async function main(): Promise<void> {
       console.log(`${label} ${work.title} — já na coleção`);
       continue;
     }
+    attempted += 1;
 
     const runId = db.startRun("abebooks", work.isbn13);
     let found = 0;
@@ -83,15 +89,39 @@ async function main(): Promise<void> {
     } catch (error) {
       runErrors += 1;
       errors += 1;
-      console.warn(
-        `${label} ${work.title} — erro: ${error instanceof Error ? error.message : String(error)}`
-      );
+      const message = error instanceof Error ? error.message : String(error);
+      if (error instanceof SourceBlockedError) {
+        blocked = true;
+        note = message;
+        console.warn(`${label} ${work.title} — bloqueado: ${message}`);
+        break;
+      }
+      if (!note) note = message;
+      console.warn(`${label} ${work.title} — erro: ${message}`);
     } finally {
       db.finishRun(runId, found, created, runErrors);
     }
 
     await sleep(settings.scan.delay_ms);
   }
+
+  const emptyNote =
+    selected.length === 0
+      ? "nenhuma obra com ISBN"
+      : attempted === 0
+        ? "todas as obras já estão na coleção"
+        : null;
+  db.recordSourceHealth({
+    source: "abebooks",
+    lastRunAt: startedAt,
+    finishedAt: new Date().toISOString(),
+    queries: attempted,
+    listings: totalListings,
+    newListings,
+    errors,
+    blocked,
+    note: blocked || errors > 0 ? note : emptyNote
+  });
 
   await closeBrowser();
   db.close();

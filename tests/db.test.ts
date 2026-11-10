@@ -211,3 +211,69 @@ test("cache de OCR e resultado por obra persistem", () => {
     rmSync(dir, { recursive: true, force: true });
   }
 });
+
+test("saúde das fontes guarda a última rodada e o bloqueio", () => {
+  const dir = mkdtempSync(join(tmpdir(), "radar-db-"));
+  const db = new RadarDb(join(dir, "radar.db"));
+  try {
+    db.recordSourceHealth({
+      source: "estante",
+      lastRunAt: "2026-11-10T08:00:00.000Z",
+      finishedAt: "2026-11-10T08:05:00.000Z",
+      queries: 3,
+      listings: 10,
+      newListings: 2,
+      errors: 0,
+      blocked: false,
+      note: null
+    });
+    db.recordSourceHealth({
+      source: "estante",
+      lastRunAt: "2026-11-10T09:00:00.000Z",
+      finishedAt: "2026-11-10T09:02:00.000Z",
+      queries: 4,
+      listings: 0,
+      newListings: 0,
+      errors: 1,
+      blocked: true,
+      note: "bloqueada pelo site"
+    });
+
+    const health = db.listSourceHealth();
+    assert.equal(health.length, 1);
+    assert.equal(health[0]?.source, "estante");
+    assert.equal(health[0]?.queries, 4);
+    assert.equal(health[0]?.listings, 0);
+    assert.equal(health[0]?.newListings, 0);
+    assert.equal(health[0]?.errors, 1);
+    assert.equal(health[0]?.blocked, true);
+    assert.equal(health[0]?.note, "bloqueada pelo site");
+  } finally {
+    db.close();
+    rmSync(dir, { recursive: true, force: true });
+  }
+});
+
+test("saúde das fontes é preenchida a partir dos runs antigos", () => {
+  const dir = mkdtempSync(join(tmpdir(), "radar-db-"));
+  const path = join(dir, "radar.db");
+  const db = new RadarDb(path);
+  const run1 = db.startRun("mercadolivre", "consulta 1");
+  db.finishRun(run1, 0, 0, 0);
+  const run2 = db.startRun("mercadolivre", "consulta 2");
+  db.finishRun(run2, 0, 0, 0);
+  db.close();
+
+  const reopened = new RadarDb(path);
+  try {
+    const health = reopened.listSourceHealth();
+    assert.equal(health.length, 1);
+    assert.equal(health[0]?.source, "mercadolivre");
+    assert.equal(health[0]?.queries, 2);
+    assert.equal(health[0]?.listings, 0);
+    assert.equal(health[0]?.blocked, false);
+  } finally {
+    reopened.close();
+    rmSync(dir, { recursive: true, force: true });
+  }
+});
