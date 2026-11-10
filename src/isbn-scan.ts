@@ -6,6 +6,7 @@ import { RadarDb } from "./db.js";
 import { matchListing } from "./match.js";
 import { isValidIsbn13 } from "./normalize.js";
 import { AbeBooksSource } from "./sources/abebooks.js";
+import { BookfinderSource } from "./sources/bookfinder.js";
 import { SourceBlockedError } from "./sources/index.js";
 
 const sleep = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
@@ -22,6 +23,11 @@ async function main(): Promise<void> {
   const perIsbn = Number(argValue("--per-isbn", "3"));
   const priority = argValue("--priority", "all");
   const isbnFilter = argValue("--isbn", "").replace(/\D/g, "");
+  const sourceName = argValue("--source", "abebooks");
+  if (sourceName !== "abebooks" && sourceName !== "bookfinder") {
+    throw new Error("Fonte inválida: use abebooks ou bookfinder.");
+  }
+  const sourceLabel = sourceName === "bookfinder" ? "Bookfinder" : "AbeBooks";
 
   const allWorks = loadWorks().filter((work) => work.enabled && isValidIsbn13(work.isbn13));
   const filtered = allWorks
@@ -36,10 +42,13 @@ async function main(): Promise<void> {
     fallback: settings.currency.usd_brl,
     cacheHours: settings.currency.cache_hours
   });
-  const source = new AbeBooksSource(currency.rate);
+  const source =
+    sourceName === "bookfinder"
+      ? new BookfinderSource(currency.rate)
+      : new AbeBooksSource(currency.rate);
 
   console.log(
-    `AbeBooks ISBN: ${selected.length} obras · câmbio ${currency.rate.toFixed(2).replace(".", ",")} (${currency.detail}) · até ${perIsbn} ofertas por ISBN`
+    `${sourceLabel} ISBN: ${selected.length} obras · câmbio ${currency.rate.toFixed(2).replace(".", ",")} (${currency.detail}) · até ${perIsbn} ofertas por ISBN`
   );
 
   let totalListings = 0;
@@ -112,7 +121,7 @@ async function main(): Promise<void> {
         ? "todas as obras já estão na coleção"
         : null;
   db.recordSourceHealth({
-    source: "abebooks",
+    source: source.name,
     lastRunAt: startedAt,
     finishedAt: new Date().toISOString(),
     queries: attempted,
@@ -127,7 +136,7 @@ async function main(): Promise<void> {
   db.close();
   console.log("");
   console.log(
-    `AbeBooks: ${selected.length} ISBNs · ${totalListings} anúncios · ${newListings} novos · ${matches} matches · ${errors} erros`
+    `${sourceLabel}: ${selected.length} ISBNs · ${totalListings} anúncios · ${newListings} novos · ${matches} matches · ${errors} erros`
   );
 }
 

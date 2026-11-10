@@ -20,6 +20,7 @@ const DEFAULT_SETTINGS: Settings = {
     mercadolivre: true,
     enjoei: true,
     abebooks: false,
+    bookfinder: false,
     shopee: true,
     sebos: true
   },

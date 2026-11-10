@@ -83,6 +83,7 @@ npm run backup                     # backup diário do SQLite com retenção
 npm run covers -- --max-score 0.8  # verifica capa do anúncio contra a capa conhecida
 npm run sellers:backfill           # preenche notas de vendedor a partir do raw_json
 npm run isbn-scan -- --limit 5     # varre a AbeBooks por ISBN (semanal no agendador)
+npm run bookfinder-scan            # ISBNs na Bookfinder (sebos internacionais)
 npm run isbn-validate              # confere os ISBNs contra Open Library/Google Books
 npm run ocr -- --limit 20          # lê o título nas fotos dos anúncios (Tesseract)
 npm run shopee:login               # login único da Shopee no perfil persistente
@@ -186,7 +187,7 @@ voltar a monitorá-las.
 
 Os 5 volumes de ASOIAF já estão marcados como comprados.
 
-## AbeBooks por ISBN
+## AbeBooks e Bookfinder por ISBN
 
 `npm run isbn-scan` percorre as obras com ISBN-13 válido, consulta a AbeBooks
 por ISBN (ordenado por menor total), pega até 3 ofertas por obra e grava no
@@ -194,6 +195,13 @@ radar. Os preços vêm em dólar e são convertidos pela PTAX do Banco Central
 (cotação de venda do último dia útil), com cache de 12h em
 `data/currency-cache.json`; o dashboard mostra o total em BRL e a nota
 `US$ ... · câmbio ...`.
+
+`npm run bookfinder-scan` usa a mesma varredura por ISBN, mas consulta a
+Bookfinder com destino Brasil e preços em dólar. A fonte agrega sebos
+internacionais (Alibris, GreatBookPrices, Amazon etc.) e lê os atributos
+`data-csa-c-*` dos cards; o frete vem separado do preço e a conversão usa a
+mesma PTAX do `isbn-scan`. O comando roda sob demanda e grava a saúde da fonte
+no dashboard.
 
 Se a PTAX falhar e não houver cache, o comando usa `currency.usd_brl` (padrão
 5,52). O `currency.cache_hours` controla a validade do cache; um cache antigo

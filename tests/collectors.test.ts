@@ -3,6 +3,7 @@ import { readFileSync } from "node:fs";
 import { after, before, test } from "node:test";
 import { type Browser, chromium, type Page } from "playwright";
 import { mapAbeBooksCard, parseAbeBooksCards } from "../src/sources/abebooks.js";
+import { mapBookfinderCard, parseBookfinderCards } from "../src/sources/bookfinder.js";
 import { mapEnjoeiCard, parseEnjoeiCards } from "../src/sources/enjoei.js";
 import { mapEstanteCard, parseEstanteCards } from "../src/sources/estante.js";
 import { mapMlCard, parseMlCards } from "../src/sources/mercadolivre.js";
@@ -123,4 +124,35 @@ test("parser da página pública do CSE lê os sebos", async () => {
   assert.equal(first.seller, "sebonovafloresta.com.br");
   assert.equal(first.condition, "usado");
   assert.match(first.description ?? "", /Robin Hobb/);
+});
+
+test("parser da Bookfinder lê ofertas e converte o dólar", async () => {
+  await page.setContent(fixture("bookfinder-search.html"), { waitUntil: "domcontentloaded" });
+  const cards = await page.$$eval('[data-csa-c-item-type="search-offer"]', parseBookfinderCards);
+  assert.equal(cards.length, 2);
+
+  const first = mapBookfinderCard(
+    cards[0]!,
+    5.52,
+    "https://pictures.abebooks.com/isbn/9780765326355-us-300.jpg"
+  );
+  assert.equal(first.source, "bookfinder");
+  assert.equal(first.externalId, "ALIBRIS:19133721437");
+  assert.match(first.title, /The Way of Kings/);
+  assert.equal(first.price, 110.34);
+  assert.equal(first.shipping, 93.78);
+  assert.equal(first.condition, "usado");
+  assert.equal(first.seller, "HPB-Diamond");
+  assert.equal(first.location, "United States");
+  assert.match(first.description ?? "", /9780765326355/);
+  assert.match(first.description ?? "", /HARDCOVER/);
+  assert.match(first.priceNote ?? "", /US\$ 36\.98/);
+  assert.match(first.priceNote ?? "", /5,52/);
+  assert.equal(first.url.includes("_ptid"), false);
+  assert.equal(first.url.includes("utm_"), false);
+
+  const second = mapBookfinderCard(cards[1]!, 5.52, null);
+  assert.equal(second.condition, "novo");
+  assert.equal(second.seller, "GreatBookPrices");
+  assert.equal(second.externalId, "ALIBRIS:17289913063");
 });

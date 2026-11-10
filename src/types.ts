@@ -4,6 +4,7 @@ export type SourceName =
   | "mercadolivre"
   | "enjoei"
   | "abebooks"
+  | "bookfinder"
   | "shopee"
   | "sebos";
 

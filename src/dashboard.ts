@@ -54,6 +54,7 @@ function sourceLabel(source: string): string {
     mercadolivre: "Mercado Livre",
     enjoei: "Enjoei",
     abebooks: "AbeBooks",
+    bookfinder: "Bookfinder",
     shopee: "Shopee",
     sebos: "Sebos independentes"
   };
@@ -505,6 +506,7 @@ function pageHtml(
       "mercadolivre",
       "enjoei",
       "abebooks",
+      "bookfinder",
       "shopee",
       "sebos",
       ...health.map((item) => item.source)

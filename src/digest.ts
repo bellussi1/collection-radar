@@ -41,6 +41,7 @@ function sourceLabel(source: string): string {
     mercadolivre: "Mercado Livre",
     enjoei: "Enjoei",
     abebooks: "AbeBooks",
+    bookfinder: "Bookfinder",
     shopee: "Shopee",
     sebos: "Sebos independentes"
   };
