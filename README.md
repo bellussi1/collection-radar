@@ -79,6 +79,7 @@ npm run dashboard                  # dashboard local em http://127.0.0.1:4317
 npm run rematch                    # recalcula todos os matches com o matcher atual
 npm run covers -- --max-score 0.8  # verifica capa do anúncio contra a capa conhecida
 npm run sellers:backfill           # preenche notas de vendedor a partir do raw_json
+npm run fixtures:capture           # atualiza os HTMLs de amostra dos coletores
 npm run email:test                 # testa o SMTP configurado
 npm run enrich -- --limit 50       # propõe ISBNs via Open Library/Google Books
 npm test
@@ -172,6 +173,18 @@ filtros de ativos ignoram obras marcadas como compradas; use **Remover** para
 voltar a monitorá-las.
 
 Os 5 volumes de ASOIAF já estão marcados como comprados.
+
+## Testes de coletor
+
+`tests/fixtures/*.html` guardam amostras dos cards de OLX, Mercado Livre,
+Enjoei e Estante. `npm test` carrega esse HTML no Chromium e roda o mesmo parser
+usado em produção, incluindo preço, vendedor, nota e condição. Se o layout
+mudar, rode `npm run fixtures:capture` para atualizar as amostras e ajuste o
+parser; o teste falha quando um seletor deixa de encontrar os campos.
+
+A amostra do Mercado Livre foi montada a partir da estrutura real porque a
+captura ao vivo estava bloqueada; atualize com `fixtures:capture` quando a
+página voltar a responder.
 
 ## Agendamento
 

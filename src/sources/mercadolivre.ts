@@ -1,6 +1,6 @@
 import { withPage } from "../browser.js";
 import { cleanText, parsePrice, slugify } from "../normalize.js";
-import { extractSellerRating } from "../seller.js";
+import { extractSellerRating, parseSellerScore } from "../seller.js";
 import type { RawListing } from "../types.js";
 import { SourceBlockedError, type Source } from "./types.js";
 
@@ -16,15 +16,77 @@ interface MlApiItem {
   shipping?: { free_shipping?: boolean };
 }
 
-interface MlCard {
+export interface MlCard {
   title: string | null;
   link: string | null;
   price: number | null;
   seller: string | null;
+  sellerScoreText: string | null;
   location: string | null;
   shipping: number | null;
   text: string;
   image: string | null;
+}
+
+export function parseMlCards(elements: Element[], max: number): MlCard[] {
+  return elements.slice(0, max).map((element) => {
+    const text = (element as HTMLElement).innerText ?? "";
+    const titleNode = element.querySelector("a.poly-component__title") as HTMLAnchorElement | null;
+    const fraction = element.querySelector(".poly-price__current .andes-money-amount__fraction")?.textContent ?? "";
+    const cents = element.querySelector(".poly-price__current .andes-money-amount__cents")?.textContent ?? "";
+    const numeric = fraction ? Number(fraction.replace(/\./g, "")) : NaN;
+    const price = Number.isFinite(numeric)
+      ? numeric + (cents ? Number(cents) / 100 : 0)
+      : null;
+    const seller =
+      (element.querySelector(".poly-component__seller") as HTMLElement | null)?.innerText.trim() ?? null;
+    const sellerScoreText = (() => {
+      if (!seller) return null;
+      const index = text.lastIndexOf(seller);
+      if (index < 0) return null;
+      const after = text.slice(index + seller.length, index + seller.length + 24);
+      const match = after.match(/\b([0-5][.,]\d)\b/);
+      return match?.[1] ?? null;
+    })();
+    const locationNode =
+      (element.querySelector('[class*="location"]') as HTMLElement | null) ??
+      (element.querySelector('[class*="ubication"]') as HTMLElement | null);
+    const image = (element.querySelector("img.poly-component__picture") as HTMLImageElement | null)?.src ?? null;
+    const shipping = text.toLowerCase().includes("grátis") || text.toLowerCase().includes("gratis") ? 0 : null;
+    return {
+      title: titleNode?.innerText.trim() ?? null,
+      link: titleNode?.href ?? null,
+      price,
+      seller,
+      sellerScoreText,
+      location: locationNode?.innerText.trim() ?? null,
+      shipping,
+      text,
+      image
+    } satisfies MlCard;
+  });
+}
+
+export function mapMlCard(card: MlCard): RawListing {
+  const idMatch = card.link?.match(/\/p\/(MLB\d+)/) ?? card.link?.match(/[?&]wid=(MLB\d+)/);
+  const seller = cleanText(card.seller);
+  return {
+    source: "mercadolivre",
+    externalId: idMatch?.[1] ?? card.link ?? "",
+    url: card.link ?? "",
+    title: card.title ?? "",
+    price: card.price ?? (card.text ? parsePrice(card.text) : null),
+    shipping: card.shipping,
+    currency: "BRL",
+    seller,
+    location: cleanText(card.location),
+    condition: card.text.toLowerCase().includes("usado") ? "usado" : null,
+    description: cleanText(card.text),
+    imageUrl: card.image,
+    sellerRating:
+      parseSellerScore(card.sellerScoreText) ?? extractSellerRating(card.text, seller),
+    raw: card
+  } satisfies RawListing;
 }
 
 export class MercadoLivreSource implements Source {
@@ -88,58 +150,9 @@ export class MercadoLivreSource implements Source {
         throw new SourceBlockedError("mercadolivre", "Mercado Livre retornou erro de acesso/bloqueio");
       }
 
-      const cards = (await page.$$eval("li.ui-search-layout__item", (elements, max) => {
-        return elements.slice(0, max).map((element) => {
-          const text = (element as HTMLElement).innerText ?? "";
-          const titleNode = element.querySelector("a.poly-component__title") as HTMLAnchorElement | null;
-          const fraction = element.querySelector(".poly-price__current .andes-money-amount__fraction")?.textContent ?? "";
-          const cents = element.querySelector(".poly-price__current .andes-money-amount__cents")?.textContent ?? "";
-          const numeric = fraction ? Number(fraction.replace(/\./g, "")) : NaN;
-          const price = Number.isFinite(numeric)
-            ? numeric + (cents ? Number(cents) / 100 : 0)
-            : null;
-          const seller =
-            (element.querySelector(".poly-component__seller") as HTMLElement | null)?.innerText.trim() ?? null;
-          const locationNode =
-            (element.querySelector('[class*="location"]') as HTMLElement | null) ??
-            (element.querySelector('[class*="ubication"]') as HTMLElement | null);
-          const image = (element.querySelector("img.poly-component__picture") as HTMLImageElement | null)?.src ?? null;
-          const shipping = text.toLowerCase().includes("grátis") || text.toLowerCase().includes("gratis") ? 0 : null;
-          return {
-            title: titleNode?.innerText.trim() ?? null,
-            link: titleNode?.href ?? null,
-            price,
-            seller,
-            location: locationNode?.innerText.trim() ?? null,
-            shipping,
-            text,
-            image
-          } satisfies MlCard;
-        });
-      }, limit)) as MlCard[];
+      const cards = (await page.$$eval("li.ui-search-layout__item", parseMlCards, limit)) as MlCard[];
 
-      return cards
-        .filter((card) => card.title && card.link)
-        .map((card) => {
-          const idMatch = card.link?.match(/\/p\/(MLB\d+)/) ?? card.link?.match(/[?&]wid=(MLB\d+)/);
-          const seller = cleanText(card.seller);
-          return {
-            source: "mercadolivre",
-            externalId: idMatch?.[1] ?? card.link ?? "",
-            url: card.link ?? "",
-            title: card.title ?? "",
-            price: card.price ?? (card.text ? parsePrice(card.text) : null),
-            shipping: card.shipping,
-            currency: "BRL",
-            seller,
-            location: cleanText(card.location),
-            condition: card.text.toLowerCase().includes("usado") ? "usado" : null,
-            description: cleanText(card.text),
-            imageUrl: card.image,
-            sellerRating: extractSellerRating(card.text, seller),
-            raw: card
-          } satisfies RawListing;
-        });
+      return cards.filter((card) => card.title && card.link).map(mapMlCard);
     });
   }
 }

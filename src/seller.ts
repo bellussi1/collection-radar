@@ -20,3 +20,11 @@ export function extractSellerRating(text: string, seller: string | null): number
   const rating = Number(match[1].replace(",", "."));
   return Number.isFinite(rating) && rating >= 0 && rating <= 5 ? rating : null;
 }
+
+/** Nota no formato 4.8/4,8, sem confundir com preço. */
+export function parseSellerScore(text: string | null | undefined): number | null {
+  const match = (text ?? "").match(/\b([0-5][.,]\d)\b/);
+  if (!match?.[1]) return null;
+  const rating = Number(match[1].replace(",", "."));
+  return Number.isFinite(rating) && rating >= 0 && rating <= 5 ? rating : null;
+}
