@@ -18,7 +18,8 @@ const DEFAULT_SETTINGS: Settings = {
     estante: true,
     olx: true,
     mercadolivre: true,
-    enjoei: true
+    enjoei: true,
+    abebooks: false
   },
   email: {
     enabled: false,
@@ -26,6 +27,9 @@ const DEFAULT_SETTINGS: Settings = {
   },
   dashboard: {
     url: "http://127.0.0.1:4317"
+  },
+  currency: {
+    usd_brl: 5.52
   }
 };
 
@@ -45,7 +49,8 @@ export function loadSettings(): Settings {
     scan: { ...DEFAULT_SETTINGS.scan, ...(fileSettings.scan ?? {}) },
     sources: { ...DEFAULT_SETTINGS.sources, ...(fileSettings.sources ?? {}) },
     email: { ...DEFAULT_SETTINGS.email, ...(fileSettings.email ?? {}) },
-    dashboard: { ...DEFAULT_SETTINGS.dashboard, ...(fileSettings.dashboard ?? {}) }
+    dashboard: { ...DEFAULT_SETTINGS.dashboard, ...(fileSettings.dashboard ?? {}) },
+    currency: { ...DEFAULT_SETTINGS.currency, ...(fileSettings.currency ?? {}) }
   };
 }
 

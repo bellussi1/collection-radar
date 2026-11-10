@@ -51,7 +51,8 @@ function sourceLabel(source: string): string {
     estante: "Estante Virtual",
     olx: "OLX",
     mercadolivre: "Mercado Livre",
-    enjoei: "Enjoei"
+    enjoei: "Enjoei",
+    abebooks: "AbeBooks"
   };
   return labels[source] ?? source;
 }
@@ -289,6 +290,7 @@ function rowHtml(row: DashboardMatch, work: Work | undefined, filters: Filters):
         <div class="target">${work ? `teto ${brl(work.max_price)}` : "sem teto"}</div>
         <div class="discount ${over ? "discount-over" : ""}">${over ? "acima do teto" : discount > 0 ? `${discount}% abaixo` : "no teto"}</div>
         ${row.listing.shipping && row.listing.shipping > 0 ? `<div class="shipping">inclui ${brl(row.listing.shipping)} frete</div>` : ""}
+        ${row.listing.priceNote ? `<div class="price-note">${esc(row.listing.priceNote)}</div>` : ""}
         ${history ? `<div class="history ${historyClass}">${esc(history)}${minNote ? ` · ${esc(minNote)}` : ""}</div>` : ""}
       </div>
       <div class="actions">
@@ -565,6 +567,7 @@ function pageHtml(
     .discount { font-size: 11px; color: var(--pine); margin-top: 3px; }
     .discount-over { color: var(--ochre); }
     .shipping { font-size: 10px; color: var(--muted); margin-top: 2px; }
+    .price-note { font-size: 9px; color: var(--muted); line-height: 1.35; margin-top: 2px; }
     .history { font-size: 10px; line-height: 1.4; margin-top: 3px; }
     .history-down { color: var(--pine); }
     .history-up { color: var(--ochre); }

@@ -20,6 +20,7 @@ interface ListingRow {
   description: string | null;
   image_url: string | null;
   seller_rating: number | null;
+  price_note: string | null;
   first_seen: string;
   last_seen: string;
 }
@@ -68,6 +69,7 @@ function mapListing(row: ListingRow): StoredListing {
     description: row.description,
     imageUrl: row.image_url,
     sellerRating: row.seller_rating,
+    priceNote: row.price_note,
     firstSeen: row.first_seen,
     lastSeen: row.last_seen,
     isNew: row.first_seen === row.last_seen
@@ -98,6 +100,7 @@ export class RadarDb {
         description TEXT,
         image_url TEXT,
         seller_rating REAL,
+        price_note TEXT,
         first_seen TEXT NOT NULL,
         last_seen TEXT NOT NULL,
         raw_json TEXT,
@@ -199,6 +202,9 @@ export class RadarDb {
     if (!listingColumns.some((column) => column.name === "seller_rating")) {
       this.db.exec("ALTER TABLE listings ADD COLUMN seller_rating REAL");
     }
+    if (!listingColumns.some((column) => column.name === "price_note")) {
+      this.db.exec("ALTER TABLE listings ADD COLUMN price_note TEXT");
+    }
     this.db.exec(`
       UPDATE alerts
       SET total = (SELECT l.total FROM listings l WHERE l.id = alerts.listing_id)
@@ -231,7 +237,7 @@ export class RadarDb {
           UPDATE listings
           SET source = ?, external_id = ?, url = ?, title = ?, price = ?, shipping = ?,
               total = ?, seller = ?, location = ?, condition = ?, description = ?,
-              image_url = ?, seller_rating = ?, last_seen = ?, raw_json = ?
+              image_url = ?, seller_rating = ?, price_note = ?, last_seen = ?, raw_json = ?
           WHERE id = ?
         `)
         .run(
@@ -248,6 +254,7 @@ export class RadarDb {
           listing.description,
           listing.imageUrl,
           listing.sellerRating,
+          listing.priceNote ?? null,
           now,
           listing.raw ? JSON.stringify(listing.raw) : null,
           existing.id
@@ -262,8 +269,9 @@ export class RadarDb {
       .prepare(`
         INSERT INTO listings
           (source, external_id, url, title, price, shipping, total, currency, seller,
-           location, condition, description, image_url, seller_rating, first_seen, last_seen, raw_json)
-        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+           location, condition, description, image_url, seller_rating, price_note,
+           first_seen, last_seen, raw_json)
+        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
       `)
       .run(
         listing.source,
@@ -280,6 +288,7 @@ export class RadarDb {
         listing.description,
         listing.imageUrl,
         listing.sellerRating,
+        listing.priceNote ?? null,
         now,
         now,
         listing.raw ? JSON.stringify(listing.raw) : null

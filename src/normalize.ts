@@ -82,6 +82,19 @@ export function parsePrice(value: string): number | null {
   return Number.isFinite(parsed) ? parsed : null;
 }
 
+export function parseUsd(value: string): number | null {
+  const match = value.match(/US\$\s*([0-9][0-9.,]*)/i);
+  if (!match?.[1]) return null;
+  let raw = match[1].trim();
+  if (raw.includes(",") && raw.includes(".")) {
+    raw = raw.replace(/,/g, "");
+  } else if (raw.includes(",")) {
+    raw = raw.replace(",", ".");
+  }
+  const parsed = Number(raw);
+  return Number.isFinite(parsed) ? parsed : null;
+}
+
 const PT_WORDS = new Set([
   "imperio", "poco", "heroi", "furia", "assassino", "aprendiz",
   "rei", "navio", "arcano", "bobo", "destino", "santuario", "ventos", "cronicas",

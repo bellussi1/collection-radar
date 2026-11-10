@@ -2,6 +2,7 @@ import assert from "node:assert/strict";
 import { readFileSync } from "node:fs";
 import { after, before, test } from "node:test";
 import { chromium, type Browser, type Page } from "playwright";
+import { mapAbeBooksCard, parseAbeBooksCards } from "../src/sources/abebooks.js";
 import { mapEnjoeiCard, parseEnjoeiCards } from "../src/sources/enjoei.js";
 import { mapEstanteCard, parseEstanteCards } from "../src/sources/estante.js";
 import { mapMlCard, parseMlCards } from "../src/sources/mercadolivre.js";
@@ -89,4 +90,22 @@ test("parser da Estante Virtual lê cards salvos", async () => {
   assert.ok(first.url.startsWith("https://"));
   assert.ok(first.price !== null);
   assert.equal(first.sellerRating, null);
+});
+
+test("parser da AbeBooks lê cards salvos e converte o dólar", async () => {
+  await page.setContent(fixture("abebooks-search.html"), { waitUntil: "domcontentloaded" });
+  const cards = await page.$$eval('[data-srp-item-role="listing"]', parseAbeBooksCards, 3);
+  assert.ok(cards.length > 0);
+
+  const first = mapAbeBooksCard(cards[0]!, 5.52);
+  assert.equal(first.source, "abebooks");
+  assert.match(first.title, /Assassin's Apprentice/i);
+  assert.ok(first.url.startsWith("https://"));
+  assert.ok(first.price !== null && first.price > 0);
+  assert.ok(first.shipping !== null && first.shipping > 0);
+  assert.match(first.description ?? "", /9780007562251/);
+  assert.match(first.priceNote ?? "", /US\$/);
+  assert.match(first.priceNote ?? "", /5,52/);
+  assert.ok(first.sellerRating === null || first.sellerRating >= 4);
+  assert.ok(first.condition === "novo" || first.condition === "usado");
 });

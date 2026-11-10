@@ -1,6 +1,6 @@
 import assert from "node:assert/strict";
 import test from "node:test";
-import { extractSellerRating, parseSellerScore } from "../src/seller.js";
+import { extractSellerRating, parseSellerScore, parseStarRating } from "../src/seller.js";
 
 test("extrai nota do vendedor da OLX", () => {
   const text = "box jurassic park\nEntrega Fácil\n\nNico\n5.0\n\nR$ 100\nPoá, Jardim Nova Poá";
@@ -28,4 +28,10 @@ test("parseSellerScore aceita vírgula e não confunde com preço", () => {
   assert.equal(parseSellerScore("R$ 71,69"), null);
   assert.equal(parseSellerScore("R$ 5"), null);
   assert.equal(parseSellerScore(""), null);
+});
+
+test("parseStarRating entende a reputação da AbeBooks", () => {
+  assert.equal(parseStarRating("5-star seller"), 5);
+  assert.equal(parseStarRating("4-star seller"), 4);
+  assert.equal(parseStarRating(null), null);
 });

@@ -36,6 +36,21 @@ $digestTrigger = New-ScheduledTaskTrigger `
   -At $digestStart `
   -RepetitionInterval (New-TimeSpan -Days 1)
 
+$isbnAction = New-ScheduledTaskAction `
+  -Execute "cmd.exe" `
+  -Argument "/c `"$repo\scripts\isbn-scan.cmd`"" `
+  -WorkingDirectory $repo
+
+$daysUntilMonday = (8 - [int](Get-Date).DayOfWeek) % 7
+$isbnStart = (Get-Date).Date.AddDays($daysUntilMonday).AddHours(8)
+if ($isbnStart -le (Get-Date)) {
+  $isbnStart = $isbnStart.AddDays(7)
+}
+$isbnTrigger = New-ScheduledTaskTrigger `
+  -Once `
+  -At $isbnStart `
+  -RepetitionInterval (New-TimeSpan -Days 7)
+
 $principal = New-ScheduledTaskPrincipal `
   -UserId ([System.Security.Principal.WindowsIdentity]::GetCurrent().Name) `
   -LogonType Interactive `
@@ -50,6 +65,11 @@ $digestSettings = New-ScheduledTaskSettingsSet `
   -StartWhenAvailable `
   -DontStopOnIdleEnd `
   -ExecutionTimeLimit (New-TimeSpan -Minutes 30)
+
+$isbnSettings = New-ScheduledTaskSettingsSet `
+  -StartWhenAvailable `
+  -DontStopOnIdleEnd `
+  -ExecutionTimeLimit (New-TimeSpan -Hours 2)
 
 Register-ScheduledTask `
   -TaskName "Collection Radar" `
@@ -69,7 +89,18 @@ Register-ScheduledTask `
   -Description "Digest diário do Collection Radar" `
   -Force | Out-Null
 
+Register-ScheduledTask `
+  -TaskName "Collection Radar ISBN" `
+  -Action $isbnAction `
+  -Trigger $isbnTrigger `
+  -Principal $principal `
+  -Settings $isbnSettings `
+  -Description "Varredura semanal da AbeBooks por ISBN" `
+  -Force | Out-Null
+
 Write-Host "Tarefa 'Collection Radar': varredura a cada 6 horas, sem e-mail."
 Write-Host "Tarefa 'Collection Radar Digest': todos os dias às 09:00."
+Write-Host "Tarefa 'Collection Radar ISBN': toda segunda-feira às 08:00."
 Write-Host "Primeira varredura: $($scanStart.ToString('dd/MM/yyyy HH:mm'))."
 Write-Host "Primeiro digest: $($digestStart.ToString('dd/MM/yyyy HH:mm'))."
+Write-Host "Primeira varredura de ISBN: $($isbnStart.ToString('dd/MM/yyyy HH:mm'))."

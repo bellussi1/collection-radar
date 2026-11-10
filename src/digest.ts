@@ -39,7 +39,8 @@ function sourceLabel(source: string): string {
     estante: "Estante Virtual",
     olx: "OLX",
     mercadolivre: "Mercado Livre",
-    enjoei: "Enjoei"
+    enjoei: "Enjoei",
+    abebooks: "AbeBooks"
   };
   return labels[source] ?? source;
 }
@@ -106,6 +107,7 @@ function chips(item: DigestItem): string {
 function metaLine(item: DigestItem): string {
   const parts = [sourceLabel(item.listing.source)];
   if (item.listing.location) parts.push(item.listing.location);
+  if (item.listing.priceNote) parts.push(item.listing.priceNote);
   parts.push(
     `confiança ${Math.round(item.score * 100)}% (${confidence(item.score, item.reasons.includes("inglês"))})`
   );

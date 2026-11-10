@@ -28,3 +28,9 @@ export function parseSellerScore(text: string | null | undefined): number | null
   const rating = Number(match[1].replace(",", "."));
   return Number.isFinite(rating) && rating >= 0 && rating <= 5 ? rating : null;
 }
+
+/** "5-star seller" / "4-star seller" da AbeBooks. */
+export function parseStarRating(text: string | null | undefined): number | null {
+  const match = (text ?? "").match(/([0-5])\s*-\s*star/i);
+  return match?.[1] ? Number(match[1]) : null;
+}

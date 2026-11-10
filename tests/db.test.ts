@@ -159,3 +159,27 @@ test("alerta guarda o total para comparar quedas futuras", () => {
     rmSync(dir, { recursive: true, force: true });
   }
 });
+
+test("listing guarda nota do vendedor e nota de preço", () => {
+  const dir = mkdtempSync(join(tmpdir(), "radar-db-"));
+  const db = new RadarDb(join(dir, "radar.db"));
+  try {
+    db.upsertListing(
+      listing({
+        externalId: "AB1",
+        url: "https://example.com/ab1",
+        seller: "Rarewaves",
+        sellerRating: 5,
+        condition: "usado",
+        priceNote: "US$ 19.15 · câmbio 5,52"
+      })
+    );
+    const row = db.listAllListings()[0];
+    assert.equal(row?.sellerRating, 5);
+    assert.equal(row?.priceNote, "US$ 19.15 · câmbio 5,52");
+    assert.equal(row?.condition, "usado");
+  } finally {
+    db.close();
+    rmSync(dir, { recursive: true, force: true });
+  }
+});

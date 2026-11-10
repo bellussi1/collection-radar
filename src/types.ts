@@ -1,4 +1,4 @@
-export type SourceName = "estante" | "olx" | "mercadolivre" | "enjoei";
+export type SourceName = "estante" | "olx" | "mercadolivre" | "enjoei" | "abebooks";
 
 export interface RawListing {
   source: SourceName;
@@ -14,6 +14,7 @@ export interface RawListing {
   description: string | null;
   imageUrl: string | null;
   sellerRating: number | null;
+  priceNote?: string | null;
   raw?: unknown;
 }
 
@@ -59,6 +60,9 @@ export interface Settings {
   };
   dashboard: {
     url: string;
+  };
+  currency: {
+    usd_brl: number;
   };
 }
 

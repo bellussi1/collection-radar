@@ -79,6 +79,7 @@ npm run dashboard                  # dashboard local em http://127.0.0.1:4317
 npm run rematch                    # recalcula todos os matches com o matcher atual
 npm run covers -- --max-score 0.8  # verifica capa do anúncio contra a capa conhecida
 npm run sellers:backfill           # preenche notas de vendedor a partir do raw_json
+npm run isbn-scan -- --limit 5     # varre a AbeBooks por ISBN (semanal no agendador)
 npm run fixtures:capture           # atualiza os HTMLs de amostra dos coletores
 npm run email:test                 # testa o SMTP configurado
 npm run enrich -- --limit 50       # propõe ISBNs via Open Library/Google Books
@@ -174,6 +175,19 @@ voltar a monitorá-las.
 
 Os 5 volumes de ASOIAF já estão marcados como comprados.
 
+## AbeBooks por ISBN
+
+`npm run isbn-scan` percorre as obras com ISBN-13 válido, consulta a AbeBooks
+por ISBN (ordenado por menor total), pega até 3 ofertas por obra e grava no
+radar. Os preços vêm em dólar e são convertidos por `currency.usd_brl` (padrão
+5,52); o dashboard mostra o total em BRL e a nota `US$ ... · câmbio ...`.
+
+A AbeBooks calcula frete por país (Brasil); o CEP 06636-220 é confirmado no
+checkout. O radar usa o menor total livro + frete Brasil como estimativa. A
+varredura roda toda segunda às 08:00 e o digest das 09:00 consolida os novos
+matches. `settings.sources.abebooks` fica `false` porque essa fonte é ISBN-only
+e não entra no scan normal por título.
+
 ## Testes de coletor
 
 `tests/fixtures/*.html` guardam amostras dos cards de OLX, Mercado Livre,
@@ -201,6 +215,8 @@ O script cria:
 - **Collection Radar**: varredura a cada 6 horas, começando às 07:00, sem e-mail.
 - **Collection Radar Digest**: todos os dias às 09:00, só matches ainda não
   alertados.
+- **Collection Radar ISBN**: toda segunda-feira às 08:00, varredura da AbeBooks
+  por ISBN.
 
 As tarefas usam **"Run only when user is logged on"** (`LogonType Interactive`).
 Isso é necessário porque OLX e Mercado Livre bloqueiam headless; o Chromium

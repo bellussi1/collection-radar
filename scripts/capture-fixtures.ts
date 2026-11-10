@@ -33,12 +33,23 @@ const sources: FixtureSource[] = [
     selector: ".product-item",
     terms: ["robin hobb", "brandon sanderson"],
     url: (term) => `https://www.estantevirtual.com.br/busca/${term.replace(/\s+/g, "-")}`
+  },
+  {
+    name: "abebooks-search",
+    selector: '[data-srp-item-role="listing"]',
+    terms: ["9780007562251"],
+    url: (term) => `https://www.abebooks.com/servlet/SearchResults?isbn=${term}&sortby=17`
   }
 ];
 
 mkdirSync("tests/fixtures", { recursive: true });
 
-for (const source of sources) {
+const only = process.argv[2]?.toLowerCase();
+const selectedSources = only
+  ? sources.filter((source) => source.name.toLowerCase().includes(only))
+  : sources;
+
+for (const source of selectedSources) {
   let saved = false;
   for (const term of source.terms) {
     const url = source.url(term);

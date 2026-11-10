@@ -7,7 +7,8 @@ import {
   detectPublisher,
   extractIsbn,
   isValidIsbn13,
-  parsePrice
+  parsePrice,
+  parseUsd
 } from "../src/normalize.js";
 
 test("parsePrice entende formato brasileiro", () => {
@@ -15,6 +16,13 @@ test("parsePrice entende formato brasileiro", () => {
   assert.equal(parsePrice("R$ 85,40"), 85.4);
   assert.equal(parsePrice("R$ 90"), 90);
   assert.equal(parsePrice("sem preço"), null);
+});
+
+test("parseUsd entende formato americano e brasileiro", () => {
+  assert.equal(parseUsd("US$ 13.32"), 13.32);
+  assert.equal(parseUsd("US$ 1,234.56"), 1234.56);
+  assert.equal(parseUsd("US$ 13,32"), 13.32);
+  assert.equal(parseUsd("R$ 13,32"), null);
 });
 
 test("detectLanguage separa edição PT de edição inglesa", () => {

@@ -17,6 +17,12 @@ sources:
   olx: true
   mercadolivre: true
   enjoei: true
+  # A AbeBooks é usada pelo isbn-scan, não pelo scan normal por título.
+  abebooks: false
+
+currency:
+  # Câmbio usado para converter os preços em dólar da AbeBooks.
+  usd_brl: 5.52
 
 email:
   enabled: true
