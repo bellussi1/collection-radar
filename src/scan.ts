@@ -122,7 +122,7 @@ export async function runScan(options: ScanOptions = {}): Promise<ScanStats> {
           sourceHealth[source.name]!.listings += listings.length;
 
           for (const listing of listings) {
-            const stored = db.upsertListing(listing);
+            const stored = db.upsertListing(listing, query.term);
             if (stored.isNew) {
               newListings += 1;
               stats.newListings += 1;

@@ -277,3 +277,51 @@ test("saúde das fontes é preenchida a partir dos runs antigos", () => {
     rmSync(dir, { recursive: true, force: true });
   }
 });
+
+test("anúncios brutos guardam queries e matches", () => {
+  const dir = mkdtempSync(join(tmpdir(), "radar-db-"));
+  const db = new RadarDb(join(dir, "radar.db"));
+  try {
+    const first = db.upsertListing(
+      listing({ externalId: "MLB-RAW", url: "https://example.com/raw" }),
+      "tolkien"
+    );
+    db.upsertListing(listing({ externalId: "MLB-RAW", url: "https://example.com/raw" }), "hobbit");
+
+    const work: Work = {
+      key: "the-well-of-ascension--brandon-sanderson",
+      title: "The Well of Ascension",
+      author: "Brandon Sanderson",
+      series: "Mistborn",
+      volume: 2,
+      status: "",
+      language: "en",
+      priority: 1,
+      enabled: true,
+      aliases: [],
+      preferred_publishers: [],
+      preferred_formats: [],
+      isbn13: "",
+      max_price: 150,
+      notes: ""
+    };
+    db.recordMatch(first.id, {
+      work,
+      score: 0.91,
+      reasons: ["título"],
+      language: "en",
+      format: "paperback",
+      publisher: null
+    });
+
+    const raw = db.listRawListingViews();
+    assert.equal(raw.length, 1);
+    assert.equal(raw[0]?.listing.title, "The Well of Ascension");
+    assert.deepEqual([...(raw[0]?.queries ?? [])].sort(), ["hobbit", "tolkien"]);
+    assert.equal(raw[0]?.matches[0]?.workKey, work.key);
+    assert.equal(raw[0]?.matches[0]?.score, 0.91);
+  } finally {
+    db.close();
+    rmSync(dir, { recursive: true, force: true });
+  }
+});

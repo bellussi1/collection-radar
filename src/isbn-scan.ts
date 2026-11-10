@@ -78,7 +78,7 @@ async function main(): Promise<void> {
       found = listings.length;
       totalListings += found;
       for (const listing of listings) {
-        const stored = db.upsertListing(listing);
+        const stored = db.upsertListing(listing, work.isbn13);
         if (stored.isNew) {
           created += 1;
           newListings += 1;

@@ -357,6 +357,18 @@ npm run update -- --dry-run # mostra as etapas
 O scan é a parte lenta (~15–20 min). Shopee, sebos e AbeBooks rodam nas tarefas
 separadas; o `update` cobre o scan normal e o pós-processamento.
 
+## Anúncios brutos
+
+O dashboard em `/` mostra só os matches. `/raw` lista todos os anúncios do
+SQLite, com filtros por fonte, query, texto e presença de match. Cada linha
+mostra a query que encontrou o anúncio, preço, vendedor, condição, data e o
+melhor match ou `sem match`.
+
+A query é gravada em `listing_queries` pelas próximas varreduras (incluindo
+`isbn-scan` e `bookfinder-scan`); anúncios antigos aparecem sem query. O filtro
+`Sem match` ajuda a explicar por que um anúncio não entrou, como as edições PT
+da Estante na busca por Robin Hobb.
+
 ## Backup
 
 O banco inteiro fica em `data/radar.db`: anúncios, matches, coleção física,

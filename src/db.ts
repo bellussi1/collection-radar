@@ -43,6 +43,12 @@ export interface DashboardMatch {
   ocrConfidence: number | null;
 }
 
+export interface RawListingView {
+  listing: StoredListing;
+  queries: string[];
+  matches: Array<{ workKey: string; score: number; reasons: string }>;
+}
+
 export interface CoverCheck {
   distance: number;
   knownUrl: string | null;
@@ -150,6 +156,15 @@ export class RadarDb {
         new_listings INTEGER DEFAULT 0,
         errors INTEGER DEFAULT 0
       );
+      CREATE TABLE IF NOT EXISTS listing_queries (
+        listing_id INTEGER NOT NULL,
+        source TEXT NOT NULL,
+        query TEXT NOT NULL,
+        first_seen TEXT NOT NULL,
+        last_seen TEXT NOT NULL,
+        hits INTEGER DEFAULT 1,
+        PRIMARY KEY (listing_id, query)
+      );
       CREATE TABLE IF NOT EXISTS kv (
         key TEXT PRIMARY KEY,
         value TEXT NOT NULL
@@ -231,6 +246,7 @@ export class RadarDb {
       CREATE INDEX IF NOT EXISTS idx_matches_work_key ON matches(work_key);
       CREATE INDEX IF NOT EXISTS idx_feedback_status ON feedback(status);
       CREATE INDEX IF NOT EXISTS idx_price_history_listing ON price_history(listing_id, seen_at);
+      CREATE INDEX IF NOT EXISTS idx_listing_queries_query ON listing_queries(query);
     `);
 
     // Primeira abertura depois da tabela nova: resume a última rodada de cada
@@ -309,7 +325,7 @@ export class RadarDb {
     `);
   }
 
-  upsertListing(listing: RawListing): { id: number; isNew: boolean } {
+  upsertListing(listing: RawListing, query?: string): { id: number; isNew: boolean } {
     const now = new Date().toISOString();
     const total = listing.price === null ? null : listing.price + (listing.shipping ?? 0);
     const existing = this.db
@@ -351,6 +367,7 @@ export class RadarDb {
       if (listing.price !== existing.price || total !== existing.total) {
         this.recordPriceHistory(existing.id, listing.price, listing.shipping, total, now);
       }
+      if (query) this.recordListingQuery(existing.id, listing.source, query, now);
       return { id: existing.id, isNew: false };
     }
 
@@ -384,7 +401,60 @@ export class RadarDb {
       );
     const id = Number(result.lastInsertRowid);
     this.recordPriceHistory(id, listing.price, listing.shipping, total, now);
+    if (query) this.recordListingQuery(id, listing.source, query, now);
     return { id, isNew: true };
+  }
+
+  recordListingQuery(listingId: number, source: string, query: string, seenAt: string): void {
+    const term = query.trim();
+    if (!term) return;
+    this.db
+      .prepare(`
+        INSERT INTO listing_queries (listing_id, source, query, first_seen, last_seen, hits)
+        VALUES (?, ?, ?, ?, ?, 1)
+        ON CONFLICT(listing_id, query) DO UPDATE SET
+          source = excluded.source,
+          last_seen = excluded.last_seen,
+          hits = listing_queries.hits + 1
+      `)
+      .run(listingId, source, term, seenAt, seenAt);
+  }
+
+  listRawListingViews(): RawListingView[] {
+    const listings = this.db
+      .prepare("SELECT * FROM listings ORDER BY first_seen DESC, id DESC")
+      .all() as unknown as ListingRow[];
+    const queries = this.db
+      .prepare("SELECT listing_id, query FROM listing_queries ORDER BY first_seen ASC, query ASC")
+      .all() as unknown as Array<{ listing_id: number; query: string }>;
+    const matches = this.db
+      .prepare("SELECT listing_id, work_key, score, reasons FROM matches ORDER BY score DESC")
+      .all() as unknown as Array<{
+      listing_id: number;
+      work_key: string;
+      score: number;
+      reasons: string;
+    }>;
+
+    const queryMap = new Map<number, string[]>();
+    for (const row of queries) {
+      const list = queryMap.get(row.listing_id) ?? [];
+      if (!list.includes(row.query)) list.push(row.query);
+      queryMap.set(row.listing_id, list);
+    }
+
+    const matchMap = new Map<number, RawListingView["matches"]>();
+    for (const row of matches) {
+      const list = matchMap.get(row.listing_id) ?? [];
+      list.push({ workKey: row.work_key, score: row.score, reasons: row.reasons });
+      matchMap.set(row.listing_id, list);
+    }
+
+    return listings.map((row) => ({
+      listing: mapListing(row),
+      queries: queryMap.get(row.id) ?? [],
+      matches: matchMap.get(row.id) ?? []
+    }));
   }
 
   private recordPriceHistory(

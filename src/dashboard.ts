@@ -2,7 +2,13 @@ import "dotenv/config";
 import { createServer, type IncomingMessage, type ServerResponse } from "node:http";
 import { loadWorks } from "./config.js";
 import { classifyDistance } from "./coverhash.js";
-import { type DashboardMatch, type OwnedWork, RadarDb, type SourceHealth } from "./db.js";
+import {
+  type DashboardMatch,
+  type OwnedWork,
+  RadarDb,
+  type RawListingView,
+  type SourceHealth
+} from "./db.js";
 import { detectCondition, detectFormat, normalizeText, parsePrice } from "./normalize.js";
 import { priceChangeLabel } from "./price.js";
 import type { Work } from "./types.js";
@@ -10,6 +16,7 @@ import type { Work } from "./types.js";
 const PORT = Number(process.env.DASHBOARD_PORT ?? 4317);
 const DB_PATH = process.env.DASHBOARD_DB?.trim() || "data/radar.db";
 const PAGE_SIZE = 40;
+const RAW_PAGE_SIZE = 100;
 
 const C = {
   paper: "#f4f1ea",
@@ -36,6 +43,14 @@ interface Filters {
   seller: string;
   confidence: string;
   sort: string;
+  page: number;
+}
+
+interface RawFilters {
+  q: string;
+  source: string;
+  query: string;
+  match: string;
   page: number;
 }
 
@@ -230,6 +245,28 @@ function queryString(filters: Filters, overrides: Partial<Filters> = {}): string
   if (merged.seller !== "all") params.set("seller", merged.seller);
   if (merged.confidence !== "all") params.set("confidence", merged.confidence);
   if (merged.sort !== "discount") params.set("sort", merged.sort);
+  if (merged.page > 1) params.set("page", String(merged.page));
+  return params.toString();
+}
+
+function parseRawFilters(url: URL): RawFilters {
+  const number = Number(url.searchParams.get("page") ?? "1");
+  return {
+    q: url.searchParams.get("q")?.trim() ?? "",
+    source: url.searchParams.get("source") ?? "all",
+    query: url.searchParams.get("query") ?? "all",
+    match: url.searchParams.get("match") ?? "all",
+    page: Number.isFinite(number) && number > 0 ? Math.floor(number) : 1
+  };
+}
+
+function rawQueryString(filters: RawFilters, overrides: Partial<RawFilters> = {}): string {
+  const merged = { ...filters, ...overrides };
+  const params = new URLSearchParams();
+  if (merged.q) params.set("q", merged.q);
+  if (merged.source !== "all") params.set("source", merged.source);
+  if (merged.query !== "all") params.set("query", merged.query);
+  if (merged.match !== "all") params.set("match", merged.match);
   if (merged.page > 1) params.set("page", String(merged.page));
   return params.toString();
 }
@@ -609,6 +646,9 @@ function pageHtml(
     .stat { background: var(--surface); border: 1px solid var(--rule); padding: 12px 14px; }
     .stat strong { display: block; font-family: Georgia, serif; font-size: 24px; font-weight: 400; }
     .stat span { font-family: ui-monospace, monospace; font-size: 10px; text-transform: uppercase; letter-spacing: .12em; color: var(--muted); }
+    .view-links { margin: -10px 0 14px; font-size: 12px; }
+    .view-links a { color: var(--muted); text-decoration: underline; }
+    .view-links a:hover { color: var(--ink); }
     .confidence-bar { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; margin: 0 0 12px; }
     .confidence-label { font-family: ui-monospace, monospace; font-size: 9px; letter-spacing: .12em; text-transform: uppercase; color: var(--muted); margin-right: 4px; }
     .confidence-pill { font-size: 11px; text-decoration: none; border: 1px solid var(--rule); background: var(--surface); padding: 4px 8px; color: var(--muted); }
@@ -752,6 +792,8 @@ function pageHtml(
       <div class="stat"><strong>${bought}</strong><span>na coleção</span></div>
     </div>
 
+    <div class="view-links"><a href="/raw">Ver anúncios brutos (${rawListings}) →</a></div>
+
     <div class="confidence-bar">
       <span class="confidence-label">Confiança</span>
       ${confidencePill(filters, "all", "Todas", active)}
@@ -876,6 +918,166 @@ function filterRows(
   return filtered;
 }
 
+function filterRawListings(rows: RawListingView[], filters: RawFilters): RawListingView[] {
+  const needle = normalizeText(filters.q);
+  return rows.filter((row) => {
+    if (filters.source !== "all" && row.listing.source !== filters.source) return false;
+    if (filters.query !== "all" && !row.queries.includes(filters.query)) return false;
+    if (filters.match === "matched" && row.matches.length === 0) return false;
+    if (filters.match === "unmatched" && row.matches.length > 0) return false;
+    if (needle) {
+      const haystack = normalizeText(
+        [
+          row.listing.title,
+          row.listing.description,
+          row.listing.seller,
+          row.listing.location,
+          row.listing.source,
+          row.queries.join(" ")
+        ]
+          .filter(Boolean)
+          .join(" ")
+      );
+      if (!haystack.includes(needle)) return false;
+    }
+    return true;
+  });
+}
+
+function rawPageHtml(
+  allRows: RawListingView[],
+  filtered: RawListingView[],
+  works: Map<string, Work>,
+  filters: RawFilters
+): string {
+  const sources = [...new Set(allRows.map((row) => row.listing.source))].sort();
+  const queries = [...new Set(allRows.flatMap((row) => row.queries))].sort((a, b) =>
+    a.localeCompare(b, "pt-BR")
+  );
+  const matched = filtered.filter((row) => row.matches.length > 0).length;
+  const totalPages = Math.max(1, Math.ceil(filtered.length / RAW_PAGE_SIZE));
+  const page = Math.min(filters.page, totalPages);
+  const pageRows = filtered.slice((page - 1) * RAW_PAGE_SIZE, page * RAW_PAGE_SIZE);
+  const prev = page > 1 ? rawQueryString(filters, { page: page - 1 }) : "";
+  const next = page < totalPages ? rawQueryString(filters, { page: page + 1 }) : "";
+
+  const rowsHtml = pageRows
+    .map((row) => {
+      const listing = row.listing;
+      const best = row.matches[0];
+      const work = best ? works.get(best.workKey) : undefined;
+      const matchText = best
+        ? `${work?.title ?? best.workKey} · ${Math.round(best.score * 100)}%${
+            row.matches.length > 1 ? ` +${row.matches.length - 1}` : ""
+          }`
+        : "sem match";
+      const matchClass = best ? "raw-match-ok" : "raw-match-none";
+      const description = listing.description?.replace(/\s+/g, " ").trim() ?? "";
+      const seller = [listing.seller, listing.location, listing.condition]
+        .filter(Boolean)
+        .join(" · ");
+      const queryText = row.queries.length ? row.queries.join(" · ") : "—";
+      const price = listing.price === null ? null : listing.price + (listing.shipping ?? 0);
+      return `<tr>
+        <td><span class="raw-source">${esc(sourceLabel(listing.source))}</span></td>
+        <td><a class="raw-title" href="${esc(listing.url)}" target="_blank" rel="noreferrer">${esc(listing.title)}</a><div class="raw-desc">${esc(description.slice(0, 220))}${description.length > 220 ? "…" : ""}</div><div class="raw-meta">${esc(seller)}</div></td>
+        <td class="raw-query">${esc(queryText)}</td>
+        <td><strong>${brl(price)}</strong>${listing.priceNote ? `<div class="raw-meta">${esc(listing.priceNote)}</div>` : ""}</td>
+        <td>${formatWhen(listing.firstSeen)}<div class="raw-meta">${relativeAge(listing.firstSeen)}</div></td>
+        <td><span class="${matchClass}">${esc(matchText)}</span></td>
+      </tr>`;
+    })
+    .join("");
+
+  return `<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Anúncios brutos — Collection Radar</title>
+  <style>
+    :root {
+      --paper: ${C.paper}; --surface: ${C.surface}; --ink: ${C.ink}; --muted: ${C.muted};
+      --rule: ${C.rule}; --pine: ${C.pine}; --ochre: ${C.ochre};
+    }
+    * { box-sizing: border-box; }
+    body { margin: 0; background: var(--paper); color: var(--ink); font-family: ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif; }
+    a { color: inherit; }
+    .wrap { max-width: 1280px; margin: 0 auto; padding: 28px 20px 60px; }
+    .brand { font-family: ui-monospace, SFMono-Regular, Consolas, monospace; font-size: 10px; letter-spacing: .2em; text-transform: uppercase; color: var(--muted); }
+    .raw-nav { margin-top: 8px; font-size: 12px; }
+    .raw-nav a { color: var(--muted); text-decoration: underline; }
+    h1 { font-family: Georgia, "Times New Roman", serif; font-weight: 400; font-size: 34px; line-height: 1.05; margin: 8px 0; }
+    .lede { color: var(--muted); font-size: 13px; line-height: 1.6; margin: 0 0 18px; max-width: 860px; }
+    .raw-filters { display: grid; grid-template-columns: 1.4fr repeat(3, minmax(140px, 1fr)) auto; gap: 8px; align-items: end; background: var(--surface); border: 1px solid var(--rule); padding: 14px; margin-bottom: 18px; }
+    .field label { display: block; font-family: ui-monospace, monospace; font-size: 9px; text-transform: uppercase; letter-spacing: .12em; color: var(--muted); margin-bottom: 4px; }
+    .field input, .field select { width: 100%; border: 1px solid var(--rule); background: #fff; padding: 8px 9px; font: inherit; font-size: 13px; color: var(--ink); }
+    .field input:focus, .field select:focus { outline: 2px solid var(--pine); outline-offset: 1px; }
+    .button { border: 1px solid var(--rule); background: #fff; color: var(--ink); padding: 6px 9px; font: inherit; font-size: 11px; cursor: pointer; text-decoration: none; display: inline-block; }
+    .button:hover { border-color: var(--ink); }
+    .button-primary { background: var(--ink); color: #fff; border-color: var(--ink); }
+    .button-primary:hover { background: #000; }
+    .results-head { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; margin: 8px 0 6px; }
+    .results-head h2 { font-family: ui-monospace, monospace; font-size: 10px; letter-spacing: .16em; text-transform: uppercase; color: var(--muted); margin: 0; }
+    .results-head span { font-size: 12px; color: var(--muted); }
+    .raw-table-wrap { overflow-x: auto; border: 1px solid var(--rule); background: var(--surface); }
+    .raw-table { width: 100%; border-collapse: collapse; font-size: 12px; }
+    .raw-table th { text-align: left; font-family: ui-monospace, monospace; font-size: 9px; text-transform: uppercase; letter-spacing: .12em; color: var(--muted); padding: 8px 10px; border-bottom: 1px solid var(--rule); white-space: nowrap; }
+    .raw-table td { padding: 10px; border-bottom: 1px solid var(--rule); vertical-align: top; }
+    .raw-table tr:last-child td { border-bottom: 0; }
+    .raw-source { font-family: ui-monospace, monospace; font-size: 10px; text-transform: uppercase; letter-spacing: .08em; color: var(--muted); }
+    .raw-title { font-weight: 600; text-decoration: none; }
+    .raw-title:hover { text-decoration: underline; }
+    .raw-desc { color: var(--muted); font-size: 11px; line-height: 1.4; margin-top: 3px; max-width: 460px; }
+    .raw-meta { color: var(--muted); font-size: 10px; margin-top: 3px; }
+    .raw-query { color: var(--muted); font-size: 11px; max-width: 220px; overflow-wrap: anywhere; }
+    .raw-match-ok { color: var(--pine); font-weight: 600; }
+    .raw-match-none { color: var(--ochre); font-weight: 600; }
+    .pagination { display: flex; justify-content: space-between; margin-top: 14px; font-size: 12px; }
+    .pagination a { color: var(--muted); }
+    .muted { color: var(--muted); }
+    footer { margin-top: 32px; padding-top: 12px; border-top: 1px solid var(--rule); color: var(--muted); font-size: 11px; }
+    @media (max-width: 900px) { .raw-filters { grid-template-columns: 1fr 1fr; } }
+    @media (max-width: 600px) { .raw-filters { grid-template-columns: 1fr; } .raw-desc { max-width: none; } }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <div class="brand">Collection Radar</div>
+    <div class="raw-nav"><a href="/">← Matches</a></div>
+    <h1>Anúncios brutos</h1>
+    <p class="lede">${allRows.length} anúncios no SQLite · ${filtered.length} no filtro · ${matched} com match. A query é registrada a partir das próximas varreduras; anúncios antigos aparecem sem query.</p>
+
+    <form class="raw-filters" method="get" action="/raw">
+      <div class="field"><label for="q">Busca</label><input id="q" name="q" value="${esc(filters.q)}" placeholder="título, descrição, vendedor, query" /></div>
+      <div class="field"><label for="source">Fonte</label><select id="source" name="source">${option("all", "Todas", filters.source)}${sources.map((source) => option(source, sourceLabel(source), filters.source)).join("")}</select></div>
+      <div class="field"><label for="query">Query</label><select id="query" name="query">${option("all", "Todas", filters.query)}${queries.map((query) => option(query, query, filters.query)).join("")}</select></div>
+      <div class="field"><label for="match">Match</label><select id="match" name="match">${option("all", "Todos", filters.match)}${option("matched", "Com match", filters.match)}${option("unmatched", "Sem match", filters.match)}</select></div>
+      <button class="button button-primary" type="submit">Filtrar</button>
+    </form>
+
+    <div class="results-head">
+      <h2>Resultados</h2>
+      <span>${filtered.length} anúncio${filtered.length === 1 ? "" : "s"} · página ${page} de ${totalPages}</span>
+    </div>
+    ${
+      pageRows.length
+        ? `<div class="raw-table-wrap"><table class="raw-table">
+            <thead><tr><th scope="col">Fonte</th><th scope="col">Anúncio</th><th scope="col">Query</th><th scope="col">Preço</th><th scope="col">Visto</th><th scope="col">Match</th></tr></thead>
+            <tbody>${rowsHtml}</tbody>
+          </table></div>`
+        : `<p class="muted">Nenhum anúncio com esses filtros.</p>`
+    }
+    <nav class="pagination">
+      <div>${prev ? `<a href="/raw?${prev}">← anterior</a>` : ""}</div>
+      <div>${next ? `<a href="/raw?${next}">próxima →</a>` : ""}</div>
+    </nav>
+    <footer>127.0.0.1:${PORT} · dados em ${esc(DB_PATH)} · ${allRows.length} anúncios brutos · Ctrl+C para parar</footer>
+  </div>
+</body>
+</html>`;
+}
+
 function readBody(req: IncomingMessage): Promise<string> {
   return new Promise((resolve, reject) => {
     const chunks: Buffer[] = [];
@@ -906,6 +1108,17 @@ function main(): void {
   const server = createServer(async (req, res) => {
     try {
       const url = new URL(req.url ?? "/", `http://127.0.0.1:${PORT}`);
+
+      if (req.method === "GET" && url.pathname === "/raw") {
+        const works = new Map(loadWorks().map((work) => [work.key, work]));
+        const allRows = db.listRawListingViews();
+        const filters = parseRawFilters(url);
+        const filtered = filterRawListings(allRows, filters);
+        const html = rawPageHtml(allRows, filtered, works, filters);
+        res.writeHead(200, { "Content-Type": "text/html; charset=utf-8" });
+        res.end(html);
+        return;
+      }
 
       if (req.method === "GET" && url.pathname === "/") {
         const works = new Map(loadWorks().map((work) => [work.key, work]));
