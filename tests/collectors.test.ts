@@ -1,7 +1,7 @@
 import assert from "node:assert/strict";
 import { readFileSync } from "node:fs";
 import { after, before, test } from "node:test";
-import { chromium, type Browser, type Page } from "playwright";
+import { type Browser, chromium, type Page } from "playwright";
 import { mapAbeBooksCard, parseAbeBooksCards } from "../src/sources/abebooks.js";
 import { mapEnjoeiCard, parseEnjoeiCards } from "../src/sources/enjoei.js";
 import { mapEstanteCard, parseEstanteCards } from "../src/sources/estante.js";

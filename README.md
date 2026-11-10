@@ -87,6 +87,9 @@ npm run sebos-scan                 # sebos independentes via Google Programmable
 npm run fixtures:capture           # atualiza os HTMLs de amostra dos coletores
 npm run email:test                 # testa o SMTP configurado
 npm run enrich -- --limit 50       # propõe ISBNs via Open Library/Google Books
+npm run lint                       # Biome: lint, formato e imports
+npm run lint:fix                   # aplica as correções seguras do Biome
+npm run ci                         # typecheck + lint + testes + build
 npm test
 npm run typecheck
 ```
@@ -261,6 +264,21 @@ parser; o teste falha quando um seletor deixa de encontrar os campos.
 A amostra do Mercado Livre foi montada a partir da estrutura real porque a
 captura ao vivo estava bloqueada; atualize com `fixtures:capture` quando a
 página voltar a responder.
+
+## Lint e CI
+
+Biome cuida de lint, formatação e ordenação de imports:
+
+```powershell
+npm run lint       # verifica
+npm run lint:fix   # aplica correções seguras
+npm run format     # só formata
+npm run ci         # typecheck + lint + testes + build
+```
+
+O workflow `.github/workflows/ci.yml` roda a mesma sequência no GitHub Actions
+em push e pull request, com Node 24 e Chromium do Playwright. O repositório é
+local; o CI só roda quando ele for publicado.
 
 ## Agendamento
 

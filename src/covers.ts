@@ -1,13 +1,13 @@
 import "dotenv/config";
 import { loadWorks } from "./config.js";
 import {
+  type CoverVerdict,
   classifyDistance,
   fetchImage,
   fetchJson,
   hashImage,
-  minDistance,
-  type CoverVerdict,
-  type ImageHashes
+  type ImageHashes,
+  minDistance
 } from "./coverhash.js";
 import { RadarDb } from "./db.js";
 import { containmentScore } from "./normalize.js";
@@ -42,18 +42,16 @@ async function openLibraryIsbnCover(isbn: string): Promise<{ url: string; buffer
   return buffer ? { url, buffer } : null;
 }
 
-async function openLibrarySearchCover(
-  work: Work
-): Promise<{ url: string; buffer: Buffer } | null> {
+async function openLibrarySearchCover(work: Work): Promise<{ url: string; buffer: Buffer } | null> {
   const search = new URL("https://openlibrary.org/search.json");
   search.searchParams.set("title", work.title);
   search.searchParams.set("author", work.author);
   search.searchParams.set("limit", "5");
   search.searchParams.set("fields", "title,author_name,cover_i");
 
-  const data = (await fetchJson(search.toString())) as
-    | { docs?: Array<{ title?: string; author_name?: string[]; cover_i?: number }> }
-    | null;
+  const data = (await fetchJson(search.toString())) as {
+    docs?: Array<{ title?: string; author_name?: string[]; cover_i?: number }>;
+  } | null;
   await sleep(500);
 
   for (const doc of data?.docs ?? []) {
@@ -85,15 +83,13 @@ async function googleBooksIsbnCover(isbn: string): Promise<{ url: string; buffer
   const key = googleBooksKey();
   if (key) url.searchParams.set("key", key);
 
-  const data = (await fetchJson(url.toString())) as
-    | {
-        items?: Array<{
-          volumeInfo?: {
-            imageLinks?: { thumbnail?: string; smallThumbnail?: string };
-          };
-        }>;
-      }
-    | null;
+  const data = (await fetchJson(url.toString())) as {
+    items?: Array<{
+      volumeInfo?: {
+        imageLinks?: { thumbnail?: string; smallThumbnail?: string };
+      };
+    }>;
+  } | null;
   await sleep(500);
 
   for (const item of data?.items ?? []) {
@@ -108,9 +104,7 @@ async function googleBooksIsbnCover(isbn: string): Promise<{ url: string; buffer
   return null;
 }
 
-async function googleBooksSearchCover(
-  work: Work
-): Promise<{ url: string; buffer: Buffer } | null> {
+async function googleBooksSearchCover(work: Work): Promise<{ url: string; buffer: Buffer } | null> {
   const url = new URL("https://www.googleapis.com/books/v1/volumes");
   url.searchParams.set("q", `intitle:${work.title} inauthor:${work.author}`);
   url.searchParams.set("langRestrict", "en");
@@ -118,17 +112,15 @@ async function googleBooksSearchCover(
   const key = googleBooksKey();
   if (key) url.searchParams.set("key", key);
 
-  const data = (await fetchJson(url.toString())) as
-    | {
-        items?: Array<{
-          volumeInfo?: {
-            title?: string;
-            authors?: string[];
-            imageLinks?: { thumbnail?: string; smallThumbnail?: string };
-          };
-        }>;
-      }
-    | null;
+  const data = (await fetchJson(url.toString())) as {
+    items?: Array<{
+      volumeInfo?: {
+        title?: string;
+        authors?: string[];
+        imageLinks?: { thumbnail?: string; smallThumbnail?: string };
+      };
+    }>;
+  } | null;
   await sleep(500);
 
   for (const item of data?.items ?? []) {
@@ -155,14 +147,9 @@ async function googleBooksSearchCover(
   return null;
 }
 
-async function resolveKnownCover(
-  work: Work
-): Promise<{ url: string; buffer: Buffer } | null> {
+async function resolveKnownCover(work: Work): Promise<{ url: string; buffer: Buffer } | null> {
   if (work.isbn13) {
-    return (
-      (await openLibraryIsbnCover(work.isbn13)) ??
-      (await googleBooksIsbnCover(work.isbn13))
-    );
+    return (await openLibraryIsbnCover(work.isbn13)) ?? (await googleBooksIsbnCover(work.isbn13));
   }
   return (await openLibrarySearchCover(work)) ?? (await googleBooksSearchCover(work));
 }
@@ -271,11 +258,7 @@ async function main(): Promise<void> {
     if (!work || !row.listing.imageUrl) continue;
 
     const label = `${String(index + 1).padStart(3)}/${candidates.length}`;
-    const listingHashes = await cachedImageHashes(
-      db,
-      row.listing.imageUrl,
-      row.listing.url
-    );
+    const listingHashes = await cachedImageHashes(db, row.listing.imageUrl, row.listing.url);
     if (!listingHashes) {
       errors += 1;
       console.log(`${label} ${work.title} — foto do anúncio indisponível`);
@@ -309,6 +292,6 @@ async function main(): Promise<void> {
 }
 
 main().catch((error) => {
-  console.error(error instanceof Error ? error.stack ?? error.message : String(error));
+  console.error(error instanceof Error ? (error.stack ?? error.message) : String(error));
   process.exitCode = 1;
 });

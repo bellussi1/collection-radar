@@ -5,7 +5,7 @@ import { buildDigest, type DigestItem } from "./digest.js";
 import { matchListing } from "./match.js";
 import { sendDigest } from "./notify.js";
 import { createSources, SourceBlockedError } from "./sources/index.js";
-import type { QueryConfig, ScanStats, SourceName } from "./types.js";
+import type { ScanStats, SourceName } from "./types.js";
 
 export interface ScanOptions {
   source?: SourceName;
@@ -61,7 +61,11 @@ export async function runScan(options: ScanOptions = {}): Promise<ScanStats> {
   const ownedKeys = new Set(db.listOwnedKeys());
   const matchableWorks = enabledWorks.filter((work) => !ownedKeys.has(work.key));
   const explicitFilter = Boolean(options.query || options.queries?.length || options.maxQueries);
-  if (!explicitFilter && settings.scan.max_queries > 0 && queries.length > settings.scan.max_queries) {
+  if (
+    !explicitFilter &&
+    settings.scan.max_queries > 0 &&
+    queries.length > settings.scan.max_queries
+  ) {
     const totalQueries = queries.length;
     const cursor = Number(db.getKv("query_cursor") ?? 0) % totalQueries;
     const rotated = [...queries.slice(cursor), ...queries.slice(0, cursor)];
@@ -101,7 +105,10 @@ export async function runScan(options: ScanOptions = {}): Promise<ScanStats> {
         let errors = 0;
         try {
           sourceHealth[source.name]!.queries += 1;
-          const listings = await source.search(query.term, options.limit ?? settings.scan.limit_per_query);
+          const listings = await source.search(
+            query.term,
+            options.limit ?? settings.scan.limit_per_query
+          );
           found = listings.length;
           stats.pages += 1;
           stats.listings += listings.length;
@@ -163,10 +170,11 @@ export async function runScan(options: ScanOptions = {}): Promise<ScanStats> {
   const digestItems: DigestItem[] = [];
   for (const row of recent) {
     const work = workMap.get(row.workKey);
-    if (!work || !work.enabled) continue;
+    if (!work?.enabled) continue;
     if (db.isSuppressed(row.listing.id, row.workKey)) continue;
     if (db.wasAlerted(row.listing.id, row.workKey, "email")) continue;
-    const total = row.listing.price === null ? null : row.listing.price + (row.listing.shipping ?? 0);
+    const total =
+      row.listing.price === null ? null : row.listing.price + (row.listing.shipping ?? 0);
     digestItems.push({
       listing: row.listing,
       work,

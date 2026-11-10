@@ -1,4 +1,4 @@
-import { chromium, type Browser, type BrowserContext, type Page } from "playwright";
+import { type Browser, type BrowserContext, chromium, type Page } from "playwright";
 
 let browser: Browser | null = null;
 let context: BrowserContext | null = null;
@@ -42,10 +42,9 @@ export async function withPage<T>(fn: (page: Page) => Promise<T>): Promise<T> {
   }
 }
 
-export async function getShopeeContext(options: {
-  headless?: boolean;
-  offscreen?: boolean;
-} = {}): Promise<BrowserContext> {
+export async function getShopeeContext(
+  options: { headless?: boolean; offscreen?: boolean } = {}
+): Promise<BrowserContext> {
   if (shopeeContext) return shopeeContext;
 
   const headless = options.headless ?? process.env.HEADLESS === "true";

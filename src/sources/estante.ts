@@ -75,7 +75,9 @@ export class EstanteSource implements Source {
         throw new Error(`Estante Virtual respondeu ${response.status()}`);
       }
       await page
-        .waitForSelector(".product-item, .search__content__list, .empty-search", { timeout: 20_000 })
+        .waitForSelector(".product-item, .search__content__list, .empty-search", {
+          timeout: 20_000
+        })
         .catch(() => undefined);
 
       const cards = (await page.$$eval(".product-item", parseEstanteCards, limit)) as EstanteCard[];

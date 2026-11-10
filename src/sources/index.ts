@@ -19,12 +19,14 @@ export function createSources(settings: Settings): Source[] {
     sebos: () => new GoogleCseSource()
   };
 
-  return (Object.keys(registry) as SourceName[])
-    // AbeBooks é ISBN-only e roda no isbn-scan; Shopee e sebos ficam fora
-    // do scan normal e rodam em comandos próprios.
-    .filter((name) => name !== "abebooks" && settings.sources[name])
-    .map((name) => registry[name]());
+  return (
+    (Object.keys(registry) as SourceName[])
+      // AbeBooks é ISBN-only e roda no isbn-scan; Shopee e sebos ficam fora
+      // do scan normal e rodam em comandos próprios.
+      .filter((name) => name !== "abebooks" && settings.sources[name])
+      .map((name) => registry[name]())
+  );
 }
 
-export { SourceBlockedError } from "./types.js";
 export type { Source } from "./types.js";
+export { SourceBlockedError } from "./types.js";

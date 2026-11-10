@@ -21,11 +21,18 @@ export function parseEnjoeiCards(elements: Element[], max: number): EnjoeiCard[]
     const image =
       (element.querySelector("img.c-product-card__img") as HTMLImageElement | null)?.src ?? null;
     const seller =
-      (element.querySelector('a[href*="/@"]') as HTMLAnchorElement | null)?.innerText.trim() ?? null;
+      (element.querySelector('a[href*="/@"]') as HTMLAnchorElement | null)?.innerText.trim() ??
+      null;
     return {
-      title: (element.querySelector(".c-product-card__title") as HTMLElement | null)?.innerText.trim() ?? null,
-      priceText: (element.querySelector(".c-product-card__price") as HTMLElement | null)?.innerText.trim() ?? null,
-      brand: (element.querySelector(".c-product-card__brand") as HTMLElement | null)?.innerText.trim() ?? null,
+      title:
+        (element.querySelector(".c-product-card__title") as HTMLElement | null)?.innerText.trim() ??
+        null,
+      priceText:
+        (element.querySelector(".c-product-card__price") as HTMLElement | null)?.innerText.trim() ??
+        null,
+      brand:
+        (element.querySelector(".c-product-card__brand") as HTMLElement | null)?.innerText.trim() ??
+        null,
       link,
       seller,
       text,
@@ -66,7 +73,9 @@ export class EnjoeiSource implements Source {
       }
       await page.waitForSelector(".c-product-card", { timeout: 20_000 }).catch(() => undefined);
       await page
-        .waitForFunction(() => document.querySelectorAll(".c-product-card").length > 0, { timeout: 10_000 })
+        .waitForFunction(() => document.querySelectorAll(".c-product-card").length > 0, {
+          timeout: 10_000
+        })
         .catch(() => undefined);
 
       const cards = (await page.$$eval(".c-product-card", parseEnjoeiCards, limit)) as EnjoeiCard[];

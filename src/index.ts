@@ -1,4 +1,5 @@
 import "dotenv/config";
+import { closeBrowser } from "./browser.js";
 import { loadQueries, loadSettings, loadWorks } from "./config.js";
 import { RadarDb } from "./db.js";
 import { buildDigest, type DigestItem } from "./digest.js";
@@ -6,7 +7,6 @@ import { sendDigest } from "./notify.js";
 import { dropPercent } from "./price.js";
 import { runScan } from "./scan.js";
 import { createSources } from "./sources/index.js";
-import { closeBrowser } from "./browser.js";
 import type { SourceName } from "./types.js";
 
 interface CliOptions {
@@ -51,7 +51,11 @@ function parseArgs(argv: string[]): CliOptions {
         if (value) options.query = value;
         break;
       case "--queries":
-        if (value) options.queries = value.split(",").map((item) => item.trim()).filter(Boolean);
+        if (value)
+          options.queries = value
+            .split(",")
+            .map((item) => item.trim())
+            .filter(Boolean);
         break;
       case "--limit":
         if (value) options.limit = Number(value);
@@ -105,7 +109,9 @@ function printWatchlist(): void {
   for (const work of works) {
     byPriority.set(work.priority, (byPriority.get(work.priority) ?? 0) + 1);
   }
-  console.log(`Obras: ${works.length} (${works.filter((work) => work.enabled).length} habilitadas)`);
+  console.log(
+    `Obras: ${works.length} (${works.filter((work) => work.enabled).length} habilitadas)`
+  );
   for (const [priority, count] of [...byPriority.entries()].sort(([a], [b]) => a - b)) {
     console.log(`  prioridade ${priority}: ${count}`);
   }
@@ -116,7 +122,9 @@ function printWatchlist(): void {
       .map(([name]) => name)
       .join(", ")}`
   );
-  console.log(`E-mail: ${settings.email.enabled ? "ativado" : "desativado"} · ${settings.email.to}`);
+  console.log(
+    `E-mail: ${settings.email.enabled ? "ativado" : "desativado"} · ${settings.email.to}`
+  );
 }
 
 async function runDigest(options: CliOptions): Promise<void> {
@@ -130,13 +138,12 @@ async function runDigest(options: CliOptions): Promise<void> {
   const items: DigestItem[] = [];
   for (const row of rows) {
     const work = workMap.get(row.workKey);
-    if (!work || !work.enabled) continue;
+    if (!work?.enabled) continue;
     if (db.isSuppressed(row.listing.id, row.workKey)) continue;
-    const total = row.listing.price === null ? null : row.listing.price + (row.listing.shipping ?? 0);
+    const total =
+      row.listing.price === null ? null : row.listing.price + (row.listing.shipping ?? 0);
     const alerted = db.wasAlerted(row.listing.id, row.workKey, "email");
-    const lastTotal = alerted
-      ? db.getAlertTotal(row.listing.id, row.workKey, "email")
-      : null;
+    const lastTotal = alerted ? db.getAlertTotal(row.listing.id, row.workKey, "email") : null;
     const priceDropPct = alerted
       ? dropPercent(lastTotal, total, settings.scan.price_drop_pct)
       : null;
@@ -189,7 +196,9 @@ async function runDigest(options: CliOptions): Promise<void> {
     }
   }
   console.log(`Digest: ${result.path}.html`);
-  console.log(result.sent ? `E-mail enviado para ${settings.email.to}.` : `Não enviado: ${result.reason}`);
+  console.log(
+    result.sent ? `E-mail enviado para ${settings.email.to}.` : `Não enviado: ${result.reason}`
+  );
   if (options.newOnly && result.sent) {
     console.log(`${digest.displayed.length} match(es) marcados como alertados.`);
   }
@@ -205,7 +214,11 @@ async function testEmail(): Promise<void> {
     to: settings.email.to,
     enabled: true
   });
-  console.log(result.sent ? `E-mail de teste enviado para ${settings.email.to}.` : `Não enviado: ${result.reason}`);
+  console.log(
+    result.sent
+      ? `E-mail de teste enviado para ${settings.email.to}.`
+      : `Não enviado: ${result.reason}`
+  );
   console.log(`Arquivo local: ${result.path}.html`);
 }
 
@@ -221,7 +234,9 @@ async function testSources(options: CliOptions): Promise<void> {
         console.log(`  ${listing.price ?? "?"} · ${listing.title.slice(0, 80)} · ${listing.url}`);
       }
     } catch (error) {
-      console.log(`${source.name}: erro — ${error instanceof Error ? error.message : String(error)}`);
+      console.log(
+        `${source.name}: erro — ${error instanceof Error ? error.message : String(error)}`
+      );
     }
   }
   await closeBrowser();
@@ -258,6 +273,6 @@ async function main(): Promise<void> {
 }
 
 main().catch((error) => {
-  console.error(error instanceof Error ? error.stack ?? error.message : String(error));
+  console.error(error instanceof Error ? (error.stack ?? error.message) : String(error));
   process.exitCode = 1;
 });

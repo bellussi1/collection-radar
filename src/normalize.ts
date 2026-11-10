@@ -1,27 +1,138 @@
 const STOPWORDS = new Set([
-  "a", "o", "as", "os", "um", "uma", "de", "da", "do", "das", "dos", "em", "no", "na",
-  "nos", "nas", "para", "por", "com", "sem", "e", "ou", "que", "se", "ao", "aos",
-  "the", "an", "of", "and", "or", "to", "in", "on", "for", "with", "by", "from",
-  "livro", "livros", "book", "books", "edicao", "edition", "capa", "mole", "dura",
-  "comum", "brochura", "paperback", "hardcover", "hardback", "novo", "nova", "usado",
-  "usada", "seminovo", "ingles", "english", "importado", "importada", "volume", "vol",
-  "serie", "series", "colecao", "collection", "box", "kit", "lote"
+  "a",
+  "o",
+  "as",
+  "os",
+  "um",
+  "uma",
+  "de",
+  "da",
+  "do",
+  "das",
+  "dos",
+  "em",
+  "no",
+  "na",
+  "nos",
+  "nas",
+  "para",
+  "por",
+  "com",
+  "sem",
+  "e",
+  "ou",
+  "que",
+  "se",
+  "ao",
+  "aos",
+  "the",
+  "an",
+  "of",
+  "and",
+  "or",
+  "to",
+  "in",
+  "on",
+  "for",
+  "with",
+  "by",
+  "from",
+  "livro",
+  "livros",
+  "book",
+  "books",
+  "edicao",
+  "edition",
+  "capa",
+  "mole",
+  "dura",
+  "comum",
+  "brochura",
+  "paperback",
+  "hardcover",
+  "hardback",
+  "novo",
+  "nova",
+  "usado",
+  "usada",
+  "seminovo",
+  "ingles",
+  "english",
+  "importado",
+  "importada",
+  "volume",
+  "vol",
+  "serie",
+  "series",
+  "colecao",
+  "collection",
+  "box",
+  "kit",
+  "lote"
 ]);
 
 const PT_PUBLISHERS = [
-  "suma", "aleph", "intrinseca", "trama", "leya", "darkside", "globo alt", "plataforma21",
-  "morro branco", "boitempo", "companhia das letras", "record", "sextante", "arqueiro",
-  "alta books", "alta novel", "estrada dos livros", "editora planeta", "vestigio",
-  "ediouro", "novo seculo", "faro editorial", "tusquets", "planet", "sextante",
+  "suma",
+  "aleph",
+  "intrinseca",
+  "trama",
+  "leya",
+  "darkside",
+  "globo alt",
+  "plataforma21",
+  "morro branco",
+  "boitempo",
+  "companhia das letras",
+  "record",
+  "sextante",
+  "arqueiro",
+  "alta books",
+  "alta novel",
+  "estrada dos livros",
+  "editora planeta",
+  "vestigio",
+  "ediouro",
+  "novo seculo",
+  "faro editorial",
+  "tusquets",
+  "planet",
+  "sextante",
   "harpercollins brasil"
 ];
 
 const EN_PUBLISHERS = [
-  "harpervoyager", "harper voyager", "harpercollins", "del rey", "tor", "gollancz",
-  "orbit", "daw", "ace", "bantam", "baen", "saga press", "pan macmillan", "penguin",
-  "random house", "knopf", "picador", "bloomsbury", "head of zeus", "st. martin's",
-  "st martins", "fsg", "farrar", "fourth estate", "roc", "voyager", "berkley",
-  "crown", "broadway", "mariner", "subterranean", "centipede"
+  "harpervoyager",
+  "harper voyager",
+  "harpercollins",
+  "del rey",
+  "tor",
+  "gollancz",
+  "orbit",
+  "daw",
+  "ace",
+  "bantam",
+  "baen",
+  "saga press",
+  "pan macmillan",
+  "penguin",
+  "random house",
+  "knopf",
+  "picador",
+  "bloomsbury",
+  "head of zeus",
+  "st. martin's",
+  "st martins",
+  "fsg",
+  "farrar",
+  "fourth estate",
+  "roc",
+  "voyager",
+  "berkley",
+  "crown",
+  "broadway",
+  "mariner",
+  "subterranean",
+  "centipede"
 ];
 
 export function stripAccents(value: string): string {
@@ -96,13 +207,56 @@ export function parseUsd(value: string): number | null {
 }
 
 const PT_WORDS = new Set([
-  "imperio", "poco", "heroi", "furia", "assassino", "aprendiz",
-  "rei", "navio", "arcano", "bobo", "destino", "santuario", "ventos", "cronicas",
-  "espada", "feiticaria", "curva", "sonho", "silencio", "liga", "lei", "braceletes",
-  "perdicao", "ascensao", "primeira", "segunda", "mole", "dura", "comum", "usado",
-  "novo", "seminovo", "colecao", "trilogia", "edicao", "traducao", "nacional",
-  "brasileira", "portugues", "uma", "um", "o", "os", "literatura", "cenario",
-  "apocaliptico", "intergalactica", "historia", "secreta", "capa"
+  "imperio",
+  "poco",
+  "heroi",
+  "furia",
+  "assassino",
+  "aprendiz",
+  "rei",
+  "navio",
+  "arcano",
+  "bobo",
+  "destino",
+  "santuario",
+  "ventos",
+  "cronicas",
+  "espada",
+  "feiticaria",
+  "curva",
+  "sonho",
+  "silencio",
+  "liga",
+  "lei",
+  "braceletes",
+  "perdicao",
+  "ascensao",
+  "primeira",
+  "segunda",
+  "mole",
+  "dura",
+  "comum",
+  "usado",
+  "novo",
+  "seminovo",
+  "colecao",
+  "trilogia",
+  "edicao",
+  "traducao",
+  "nacional",
+  "brasileira",
+  "portugues",
+  "uma",
+  "um",
+  "o",
+  "os",
+  "literatura",
+  "cenario",
+  "apocaliptico",
+  "intergalactica",
+  "historia",
+  "secreta",
+  "capa"
 ]);
 
 function includesPublisher(text: string, publisher: string): boolean {
@@ -114,11 +268,22 @@ export function detectLanguage(text: string): "en" | "pt" | "unknown" {
   const normalized = normalizeText(text);
   const tokens = new Set(normalized.split(" "));
   const ptSignals = [
-    "portugues", "edicao em portugues", "traducao", "traduzido", "pt br", "nacional",
-    "brasileira", "livro em portugues"
+    "portugues",
+    "edicao em portugues",
+    "traducao",
+    "traduzido",
+    "pt br",
+    "nacional",
+    "brasileira",
+    "livro em portugues"
   ];
   const enSignals = [
-    "ingles", "edicao em ingles", "english", "importado", "importada", "livro em ingles"
+    "ingles",
+    "edicao em ingles",
+    "english",
+    "importado",
+    "importada",
+    "livro em ingles"
   ];
 
   if (enSignals.some((signal) => normalized.includes(signal))) return "en";
@@ -139,9 +304,7 @@ export function detectLanguage(text: string): "en" | "pt" | "unknown" {
   return "unknown";
 }
 
-export function detectCondition(
-  text: string | null | undefined
-): "novo" | "usado" | null {
+export function detectCondition(text: string | null | undefined): "novo" | "usado" | null {
   const normalized = normalizeText(text ?? "");
   if (/\bnovo\b/.test(normalized) || /\bnew\b/.test(normalized)) return "novo";
   if (/\busado\b/.test(normalized) || /\bused\b/.test(normalized)) return "usado";
@@ -150,10 +313,18 @@ export function detectCondition(
 
 export function detectFormat(text: string): "hardcover" | "paperback" | "mass_market" | "unknown" {
   const normalized = normalizeText(text);
-  if (normalized.includes("mass market") || normalized.includes("edicao de bolso") || normalized.includes("bolso")) {
+  if (
+    normalized.includes("mass market") ||
+    normalized.includes("edicao de bolso") ||
+    normalized.includes("bolso")
+  ) {
     return "mass_market";
   }
-  if (normalized.includes("capa dura") || normalized.includes("hardcover") || normalized.includes("hardback")) {
+  if (
+    normalized.includes("capa dura") ||
+    normalized.includes("hardcover") ||
+    normalized.includes("hardback")
+  ) {
     return "hardcover";
   }
   if (

@@ -38,12 +38,14 @@ export function matchListing(
   const isbn = extractIsbn(haystack);
   const set = isSet(haystack);
   const listingIsSet = /\b(set|boxed|box set|collection|trilogy|complete)\b/i.test(haystack);
-  const listingIsEdition = /\b(illustrated|deluxe|collector|collectors|anniversary|special|limited|signed)\b/i.test(
-    haystack
-  );
-  const nonBook = /\b(cd|vinil|lp|jogo|board game|jogo de tabuleiro|action figure|camiseta|poster|pôster|mangá)\b/i.test(
-    haystack
-  );
+  const listingIsEdition =
+    /\b(illustrated|deluxe|collector|collectors|anniversary|special|limited|signed)\b/i.test(
+      haystack
+    );
+  const nonBook =
+    /\b(cd|vinil|lp|jogo|board game|jogo de tabuleiro|action figure|camiseta|poster|pôster|mangá)\b/i.test(
+      haystack
+    );
   const bookish = /\b(livro|book|isbn|paperback|hardcover|capa|editora)\b/i.test(haystack);
   if (nonBook && !bookish) return null;
 
@@ -92,9 +94,7 @@ export function matchListing(
       if (series >= 0.6) reasons.push("série");
 
       score =
-        author > 0
-          ? 0.55 * title + 0.3 * author + 0.15 * series
-          : 0.85 * title + 0.15 * series;
+        author > 0 ? 0.55 * title + 0.3 * author + 0.15 * series : 0.85 * title + 0.15 * series;
 
       // Um autor/série sozinho não basta: evita alertar qualquer livro do autor.
       const weakTitle = title < 0.45;
@@ -133,7 +133,9 @@ export function matchListing(
       !best ||
       score > best.score ||
       (score === best.score && titleTokens > bestTitleTokens) ||
-      (score === best.score && titleTokens === bestTitleTokens && work.priority < best.work.priority)
+      (score === best.score &&
+        titleTokens === bestTitleTokens &&
+        work.priority < best.work.priority)
     ) {
       best = {
         work,

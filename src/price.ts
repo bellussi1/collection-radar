@@ -16,10 +16,7 @@ export function dropPercent(
 }
 
 /** Frase do dashboard comparando o total atual com o primeiro total visto. */
-export function priceChangeLabel(
-  first: number | null,
-  current: number | null
-): string | null {
+export function priceChangeLabel(first: number | null, current: number | null): string | null {
   if (first === null || current === null || first <= 0) return null;
   const percent = Math.round((1 - current / first) * 100);
   if (percent > 0) return `caiu ${percent}% desde a primeira vez`;

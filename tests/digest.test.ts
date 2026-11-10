@@ -20,20 +20,26 @@ function stats(partial: Partial<ScanStats> = {}): ScanStats {
 }
 
 test("digest avisa quando uma fonte retorna zero anúncios", () => {
-  const digest = buildDigest([], stats({
-    sourceHealth: {
-      olx: { queries: 5, listings: 0, errors: 0, blocked: false }
-    }
-  }));
+  const digest = buildDigest(
+    [],
+    stats({
+      sourceHealth: {
+        olx: { queries: 5, listings: 0, errors: 0, blocked: false }
+      }
+    })
+  );
   assert.match(digest.text, /OLX: 0 anúncios em 5 consultas \(atenção\)/);
 });
 
 test("digest avisa quando uma fonte foi bloqueada", () => {
-  const digest = buildDigest([], stats({
-    sourceHealth: {
-      mercadolivre: { queries: 3, listings: 0, errors: 1, blocked: true }
-    }
-  }));
+  const digest = buildDigest(
+    [],
+    stats({
+      sourceHealth: {
+        mercadolivre: { queries: 3, listings: 0, errors: 1, blocked: true }
+      }
+    })
+  );
   assert.match(digest.text, /Mercado Livre: bloqueado/);
 });
 

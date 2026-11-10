@@ -20,7 +20,5 @@ for (const row of rows) {
   rated += 1;
 }
 
-console.log(
-  `Notas de vendedor: ${rated} anúncios atualizados de ${rows.length} com raw_json.`
-);
+console.log(`Notas de vendedor: ${rated} anúncios atualizados de ${rows.length} com raw_json.`);
 db.close();

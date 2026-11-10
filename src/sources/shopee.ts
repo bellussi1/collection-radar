@@ -1,7 +1,7 @@
 import { withShopeePage } from "../browser.js";
 import { detectCondition, parsePrice } from "../normalize.js";
 import type { RawListing } from "../types.js";
-import { SourceBlockedError, type Source } from "./types.js";
+import { type Source, SourceBlockedError } from "./types.js";
 
 interface ShopeeItemBasic {
   itemid?: number | string;
@@ -196,7 +196,10 @@ export class ShopeeSource implements Source {
         .filter((listing): listing is RawListing => Boolean(listing));
       if (listings.length > 0) return listings;
 
-      const bodyText = await page.locator("body").innerText().catch(() => "");
+      const bodyText = await page
+        .locator("body")
+        .innerText()
+        .catch(() => "");
       if (bodyText.includes("ainda não está logado") || bodyText.includes("Faça login")) {
         throw new SourceBlockedError(
           "shopee",

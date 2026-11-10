@@ -1,9 +1,9 @@
 import "dotenv/config";
 import { createServer, type IncomingMessage, type ServerResponse } from "node:http";
 import { loadWorks } from "./config.js";
-import { RadarDb, type DashboardMatch, type OwnedWork } from "./db.js";
-import { detectCondition, detectFormat, normalizeText, parsePrice } from "./normalize.js";
 import { classifyDistance } from "./coverhash.js";
+import { type DashboardMatch, type OwnedWork, RadarDb } from "./db.js";
+import { detectCondition, detectFormat, normalizeText, parsePrice } from "./normalize.js";
 import { priceChangeLabel } from "./price.js";
 import type { Work } from "./types.js";
 
@@ -90,9 +90,7 @@ interface WorkGroup {
 function bestOffer(rows: DashboardMatch[], work: Work | undefined): DashboardMatch {
   const active = rows.filter((row) => !row.owned && !row.feedbackStatus);
   const candidates = active.length > 0 ? active : rows;
-  const withinBudget = work
-    ? candidates.filter((row) => !isOver(row, work))
-    : candidates;
+  const withinBudget = work ? candidates.filter((row) => !isOver(row, work)) : candidates;
   const pool = withinBudget.length > 0 ? withinBudget : candidates;
   return [...pool].sort((a, b) => {
     const totalA = totalOf(a) ?? Infinity;
@@ -102,12 +100,7 @@ function bestOffer(rows: DashboardMatch[], work: Work | undefined): DashboardMat
   })[0]!;
 }
 
-function compareGroups(
-  a: WorkGroup,
-  b: WorkGroup,
-  works: Map<string, Work>,
-  sort: string
-): number {
+function compareGroups(a: WorkGroup, b: WorkGroup, works: Map<string, Work>, sort: string): number {
   const workA = works.get(a.workKey);
   const workB = works.get(b.workKey);
   if (sort === "price") {
@@ -125,11 +118,7 @@ function compareGroups(
   return discountOf(b.best, workB) - discountOf(a.best, workA) || b.best.score - a.best.score;
 }
 
-function groupRows(
-  rows: DashboardMatch[],
-  works: Map<string, Work>,
-  sort: string
-): WorkGroup[] {
+function groupRows(rows: DashboardMatch[], works: Map<string, Work>, sort: string): WorkGroup[] {
   const byWork = new Map<string, DashboardMatch[]>();
   for (const row of rows) {
     const list = byWork.get(row.workKey) ?? [];
@@ -264,8 +253,7 @@ function rowHtml(row: DashboardMatch, work: Work | undefined, filters: Filters):
   const rating = row.listing.sellerRating;
   const ratingLabel =
     rating === null ? "sem nota" : `vendedor ${rating.toFixed(1).replace(".", ",")}`;
-  const ratingClass =
-    rating === null ? "rating-none" : rating < 4.5 ? "rating-low" : "rating-good";
+  const ratingClass = rating === null ? "rating-none" : rating < 4.5 ? "rating-low" : "rating-good";
   const ocrText = row.ocrText?.replace(/\s+/g, " ").trim() ?? "";
   const ocrPct = row.ocrScore === null ? null : Math.round(row.ocrScore * 100);
   const ocrConfidence = row.ocrConfidence === null ? null : Math.round(row.ocrConfidence);
@@ -289,7 +277,10 @@ function rowHtml(row: DashboardMatch, work: Work | undefined, filters: Filters):
           ${esc(sourceLabel(row.listing.source))}${row.listing.location ? ` · ${esc(row.listing.location)}` : ""}${row.listing.seller ? ` · ${esc(row.listing.seller)}` : ""}
           · confiança ${Math.round(row.score * 100)}% · ${language}
         </div>
-        <div class="chips"><span class="chip-condition">${esc(condition)}</span><span class="${ratingClass}">${esc(ratingLabel)}</span>${row.reasons.split(",").map((reason) => `<span>${esc(reason.trim())}</span>`).join("")}</div>
+        <div class="chips"><span class="chip-condition">${esc(condition)}</span><span class="${ratingClass}">${esc(ratingLabel)}</span>${row.reasons
+          .split(",")
+          .map((reason) => `<span>${esc(reason.trim())}</span>`)
+          .join("")}</div>
         ${ocrText ? `<div class="ocr ${ocrClass}" title="${esc(ocrText)}">OCR título ${ocrPct ?? 0}%${ocrConfidence !== null ? ` · confiança ${ocrConfidence}%` : ""}: “${esc(ocrText.slice(0, 140))}”</div>` : ""}
       </div>
       <div class="price">
@@ -310,21 +301,13 @@ function rowHtml(row: DashboardMatch, work: Work | undefined, filters: Filters):
     </article>`;
 }
 
-function groupHtml(
-  group: WorkGroup,
-  works: Map<string, Work>,
-  filters: Filters
-): string {
+function groupHtml(group: WorkGroup, works: Map<string, Work>, filters: Filters): string {
   const bestHtml = rowHtml(group.best, works.get(group.workKey), filters);
   if (group.rows.length === 1) return bestHtml;
 
   const sources = [...new Set(group.rows.map((row) => sourceLabel(row.listing.source)))].join(", ");
-  const totals = group.rows
-    .map(totalOf)
-    .filter((value): value is number => value !== null);
-  const range = totals.length
-    ? `${brl(Math.min(...totals))} – ${brl(Math.max(...totals))}`
-    : "";
+  const totals = group.rows.map(totalOf).filter((value): value is number => value !== null);
+  const range = totals.length ? `${brl(Math.min(...totals))} – ${brl(Math.max(...totals))}` : "";
   const alternatives = group.alternatives
     .map((row) => {
       const total = totalOf(row);
@@ -412,7 +395,9 @@ function pageHtml(
   allRows: DashboardMatch[]
 ): string {
   const sources = [...new Set(allRows.map((row) => row.listing.source))].sort();
-  const series = [...new Set(allRows.map((row) => works.get(row.workKey)?.series).filter(Boolean) as string[])].sort();
+  const series = [
+    ...new Set(allRows.map((row) => works.get(row.workKey)?.series).filter(Boolean) as string[])
+  ].sort();
   const active = allRows.filter(
     (row) => !row.owned && !row.feedbackStatus && works.get(row.workKey)?.enabled !== false
   ).length;
@@ -668,7 +653,8 @@ function filterRows(
     const work = works.get(row.workKey);
     if (filters.source !== "all" && row.listing.source !== filters.source) return false;
     if (filters.series !== "all" && work?.series !== filters.series) return false;
-    if (filters.priority !== "all" && String(work?.priority ?? "") !== filters.priority) return false;
+    if (filters.priority !== "all" && String(work?.priority ?? "") !== filters.priority)
+      return false;
     if (
       filters.status === "active" &&
       (row.owned || row.feedbackStatus || (work !== undefined && !work.enabled))
@@ -688,7 +674,8 @@ function filterRows(
     if (filters.over === "over" && !over) return false;
     if (filters.over === "under" && over) return false;
     if (filters.cover !== "all") {
-      const verdict = row.coverDistance === null ? "unchecked" : classifyDistance(row.coverDistance);
+      const verdict =
+        row.coverDistance === null ? "unchecked" : classifyDistance(row.coverDistance);
       if (filters.cover !== verdict) return false;
     }
     const rating = row.listing.sellerRating;
@@ -795,12 +782,7 @@ function main(): void {
                 : parsePrice(priceText);
             const title = form.get("title")?.trim() || work?.title || workKey;
             const format = form.get("format")?.trim() || work?.preferred_formats[0] || null;
-            db.addOwned(
-              workKey,
-              title,
-              format,
-              price
-            );
+            db.addOwned(workKey, title, format, price);
             if (listingId > 0) db.setFeedback(listingId, workKey, "bought");
           }
         }

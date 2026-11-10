@@ -22,8 +22,12 @@
     "watchlist": "tsx src/index.ts watchlist",
     "sources": "tsx src/index.ts sources",
     "test": "tsx --test tests/*.test.ts",
+    "lint": "biome check .",
+    "lint:fix": "biome check --write .",
+    "format": "biome format --write .",
     "typecheck": "tsc --noEmit",
-    "build": "tsc"
+    "build": "tsc",
+    "ci": "npm run typecheck && npm run lint && npm test && npm run build"
   },
   "dependencies": {
     "dotenv": "^17.2.3",
@@ -34,6 +38,7 @@
     "yaml": "^2.8.1"
   },
   "devDependencies": {
+    "@biomejs/biome": "^2.6.6",
     "@types/node": "^24.10.1",
     "@types/nodemailer": "^7.0.4",
     "tsx": "^4.20.6",

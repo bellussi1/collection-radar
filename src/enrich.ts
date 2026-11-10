@@ -2,12 +2,7 @@ import "dotenv/config";
 import { readFileSync, writeFileSync } from "node:fs";
 import { stringify } from "yaml";
 import { loadWorks } from "./config.js";
-import {
-  containmentScore,
-  detectFormat,
-  isValidIsbn13,
-  normalizeText
-} from "./normalize.js";
+import { containmentScore, detectFormat, isValidIsbn13, normalizeText } from "./normalize.js";
 import type { Work } from "./types.js";
 
 const USER_AGENT = "collection-radar/0.1 (personal book radar)";
@@ -67,16 +62,16 @@ async function openLibraryCandidates(work: Work): Promise<Candidate[]> {
   searchUrl.searchParams.set("limit", "5");
   searchUrl.searchParams.set("fields", "key,title,author_name,first_publish_year");
 
-  const search = (await fetchJson(searchUrl.toString())) as
-    | { docs?: Array<{ key?: string }> }
-    | null;
+  const search = (await fetchJson(searchUrl.toString())) as {
+    docs?: Array<{ key?: string }>;
+  } | null;
   const workKey = search?.docs?.[0]?.key;
   if (!workKey) return [];
 
   const editionsUrl = `https://openlibrary.org${workKey}/editions.json?limit=50`;
-  const editions = (await fetchJson(editionsUrl)) as
-    | { entries?: Array<Record<string, unknown>> }
-    | null;
+  const editions = (await fetchJson(editionsUrl)) as {
+    entries?: Array<Record<string, unknown>>;
+  } | null;
 
   const candidates: Candidate[] = [];
   for (const entry of editions?.entries ?? []) {
@@ -85,7 +80,9 @@ async function openLibraryCandidates(work: Work): Promise<Candidate[]> {
     const languages = Array.isArray(entry.languages) ? entry.languages : [];
     const publisher = publishers.map(String).join(" ");
     const language = languages
-      .map((item) => (typeof item === "object" && item ? String((item as { key?: string }).key ?? "") : ""))
+      .map((item) =>
+        typeof item === "object" && item ? String((item as { key?: string }).key ?? "") : ""
+      )
       .join(",")
       .replace(/\/languages\//g, "");
     const format = detectFormat(String(entry.physical_format ?? ""));
@@ -114,9 +111,9 @@ async function googleBooksCandidates(work: Work): Promise<Candidate[]> {
   const apiKey = process.env.GOOGLE_BOOKS_API_KEY?.trim();
   if (apiKey) url.searchParams.set("key", apiKey);
 
-  const data = (await fetchJson(url.toString())) as
-    | { items?: Array<{ volumeInfo?: Record<string, unknown> }> }
-    | null;
+  const data = (await fetchJson(url.toString())) as {
+    items?: Array<{ volumeInfo?: Record<string, unknown> }>;
+  } | null;
 
   const candidates: Candidate[] = [];
   for (const item of data?.items ?? []) {
@@ -151,7 +148,11 @@ function scoreCandidate(candidate: Candidate, work: Work): ScoredCandidate {
     return { ...candidate, score: 0, reasons: ["ISBN inválido"] };
   }
   // Prefixos comuns de print-on-demand e large print; não são a edição de coleção.
-  if (["9781299", "9781423", "9781432", "9781611", "9780786"].some((prefix) => candidate.isbn13.startsWith(prefix))) {
+  if (
+    ["9781299", "9781423", "9781432", "9781611", "9780786"].some((prefix) =>
+      candidate.isbn13.startsWith(prefix)
+    )
+  ) {
     return { ...candidate, score: 0, reasons: ["ISBN suspeito (POD/large print)"] };
   }
 
@@ -161,7 +162,9 @@ function scoreCandidate(candidate: Candidate, work: Work): ScoredCandidate {
     return { ...candidate, score: 0, reasons: ["título/autor não batem"] };
   }
 
-  const haystack = normalizeText([candidate.title, candidate.publisher, candidate.publishedDate].join(" "));
+  const haystack = normalizeText(
+    [candidate.title, candidate.publisher, candidate.publishedDate].join(" ")
+  );
   if (
     /(summary|study guide|annotated|large print|abridged|movie tie|box set|omnibus|collection|analysis)/.test(
       haystack
@@ -177,7 +180,9 @@ function scoreCandidate(candidate: Candidate, work: Work): ScoredCandidate {
   if (authorScore >= 0.8) reasons.push("autor");
 
   const publisher = normalizeText(candidate.publisher).replace(/\s+/g, "");
-  const preferred = work.preferred_publishers.map((item) => normalizeText(item).replace(/\s+/g, ""));
+  const preferred = work.preferred_publishers.map((item) =>
+    normalizeText(item).replace(/\s+/g, "")
+  );
   if (preferred.some((item) => item.length > 2 && publisher.includes(item))) {
     score += 40;
     reasons.push(`editora ${candidate.publisher}`);
@@ -239,7 +244,9 @@ async function main(): Promise<void> {
     .filter((work) => work.enabled && work.priority <= 2 && !work.isbn13)
     .slice(0, limit);
 
-  console.log(`Enriquecendo ${works.length} obras (limite ${limit}, confiança mínima ${minConfidence})`);
+  console.log(
+    `Enriquecendo ${works.length} obras (limite ${limit}, confiança mínima ${minConfidence})`
+  );
 
   const proposals: Proposal[] = [];
   const overrides = loadExistingOverrides();
@@ -290,7 +297,7 @@ async function main(): Promise<void> {
       .sort(([a], [b]) => a.localeCompare(b))
       .map(([key, isbn]) => `${JSON.stringify(key)}: ${JSON.stringify(isbn)}`)
   ];
-  writeFileSync("config/isbn-overrides.yaml", lines.join("\n") + "\n", "utf8");
+  writeFileSync("config/isbn-overrides.yaml", `${lines.join("\n")}\n`, "utf8");
 
   console.log("");
   console.log(`Propostas: config/isbn-proposals.yaml`);
@@ -298,6 +305,6 @@ async function main(): Promise<void> {
 }
 
 main().catch((error) => {
-  console.error(error instanceof Error ? error.stack ?? error.message : String(error));
+  console.error(error instanceof Error ? (error.stack ?? error.message) : String(error));
   process.exitCode = 1;
 });

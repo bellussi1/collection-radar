@@ -6,7 +6,9 @@ import test from "node:test";
 import { RadarDb } from "../src/db.js";
 import type { RawListing, Work } from "../src/types.js";
 
-function listing(partial: Partial<RawListing> & Pick<RawListing, "url" | "externalId">): RawListing {
+function listing(
+  partial: Partial<RawListing> & Pick<RawListing, "url" | "externalId">
+): RawListing {
   return {
     source: "mercadolivre",
     title: "The Well of Ascension",
@@ -28,10 +30,16 @@ test("upsert não duplica o mesmo anúncio quando a URL muda", () => {
   const db = new RadarDb(join(dir, "radar.db"));
   try {
     const first = db.upsertListing(
-      listing({ externalId: "MLB123", url: "https://produto.mercadolivre.com.br/MLB-123?tracking=1" })
+      listing({
+        externalId: "MLB123",
+        url: "https://produto.mercadolivre.com.br/MLB-123?tracking=1"
+      })
     );
     const second = db.upsertListing(
-      listing({ externalId: "MLB123", url: "https://produto.mercadolivre.com.br/MLB-123?tracking=2" })
+      listing({
+        externalId: "MLB123",
+        url: "https://produto.mercadolivre.com.br/MLB-123?tracking=2"
+      })
     );
     assert.equal(first.isNew, true);
     assert.equal(second.isNew, false);
@@ -99,12 +107,8 @@ test("histórico guarda primeira, menor e mudanças de preço", () => {
     const first = db.upsertListing(
       listing({ externalId: "MLB123", url: "https://example.com/1", price: 100 })
     );
-    db.upsertListing(
-      listing({ externalId: "MLB123", url: "https://example.com/1", price: 80 })
-    );
-    db.upsertListing(
-      listing({ externalId: "MLB123", url: "https://example.com/1", price: 80 })
-    );
+    db.upsertListing(listing({ externalId: "MLB123", url: "https://example.com/1", price: 80 }));
+    db.upsertListing(listing({ externalId: "MLB123", url: "https://example.com/1", price: 80 }));
 
     const work: Work = {
       key: "the-well-of-ascension--brandon-sanderson",

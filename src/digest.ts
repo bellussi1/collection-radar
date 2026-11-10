@@ -66,9 +66,7 @@ function discountOf(item: DigestItem): number {
 
 function priceLine(item: DigestItem): string {
   const total = totalOf(item);
-  const drop = item.priceDropPct
-    ? ` · caiu ${item.priceDropPct}% desde o último alerta`
-    : "";
+  const drop = item.priceDropPct ? ` · caiu ${item.priceDropPct}% desde o último alerta` : "";
   if (total === null) return `preço não informado${drop}`;
   const shipping =
     item.listing.shipping && item.listing.shipping > 0
@@ -323,7 +321,7 @@ export function buildDigest(
     `${items.length} anúncio(s) novo(s) com match. ${displayed.length} melhores no e-mail${hidden > 0 ? `; +${hidden} no banco` : ""}.`,
     stats.queries > 0
       ? `${stats.queries} consultas · ${stats.pages} páginas · ${stats.errors} erro(s).`
-      : note ?? "Reenvio manual do banco local.",
+      : (note ?? "Reenvio manual do banco local."),
     `Dashboard: ${dashboardUrl}`,
     ...(health ? [health] : []),
     ""

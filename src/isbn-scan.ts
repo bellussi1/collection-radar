@@ -21,9 +21,7 @@ async function main(): Promise<void> {
   const priority = argValue("--priority", "all");
   const isbnFilter = argValue("--isbn", "").replace(/\D/g, "");
 
-  const allWorks = loadWorks().filter(
-    (work) => work.enabled && isValidIsbn13(work.isbn13)
-  );
+  const allWorks = loadWorks().filter((work) => work.enabled && isValidIsbn13(work.isbn13));
   const filtered = allWorks
     .filter((work) => priority === "all" || String(work.priority) === priority)
     .filter((work) => !isbnFilter || work.isbn13.includes(isbnFilter));
@@ -99,6 +97,6 @@ async function main(): Promise<void> {
 }
 
 main().catch((error) => {
-  console.error(error instanceof Error ? error.stack ?? error.message : String(error));
+  console.error(error instanceof Error ? (error.stack ?? error.message) : String(error));
   process.exitCode = 1;
 });

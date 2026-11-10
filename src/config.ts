@@ -170,8 +170,7 @@ export function loadWorks(): Work[] {
   const blocked = loadBlocklist();
   return merged.map((work) => {
     const withIsbn = { ...work, isbn13: isbn[work.key] ?? work.isbn13 };
-    const isBlocked =
-      blocked.keys.has(work.key) || blocked.titles.has(normalizeText(work.title));
+    const isBlocked = blocked.keys.has(work.key) || blocked.titles.has(normalizeText(work.title));
     if (!isBlocked) return withIsbn;
     return {
       ...withIsbn,

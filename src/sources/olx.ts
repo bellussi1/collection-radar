@@ -2,7 +2,7 @@ import { withPage } from "../browser.js";
 import { cleanText, parsePrice } from "../normalize.js";
 import { extractSellerRating, parseSellerScore } from "../seller.js";
 import type { RawListing } from "../types.js";
-import { SourceBlockedError, type Source } from "./types.js";
+import { type Source, SourceBlockedError } from "./types.js";
 
 export interface OlxCard {
   title: string | null;
@@ -27,17 +27,24 @@ export function parseOlxCards(elements: Element[], max: number): OlxCard[] {
     );
     const location = dateIndex > 0 ? (lines[dateIndex - 1] ?? null) : null;
     const link =
-      (element.querySelector('a[data-testid="adcard-link"]') as HTMLAnchorElement | null)?.href ?? null;
+      (element.querySelector('a[data-testid="adcard-link"]') as HTMLAnchorElement | null)?.href ??
+      null;
     const image = (element.querySelector("img") as HTMLImageElement | null)?.src ?? null;
     const seller =
-      (element.querySelector('[class*="transactionalSellerName"]') as HTMLElement | null)?.innerText.trim() ??
-      null;
+      (
+        element.querySelector('[class*="transactionalSellerName"]') as HTMLElement | null
+      )?.innerText.trim() ?? null;
     const sellerScoreText =
-      (element.querySelector('[class*="transactionalSellerScore"]') as HTMLElement | null)?.innerText.trim() ??
-      null;
+      (
+        element.querySelector('[class*="transactionalSellerScore"]') as HTMLElement | null
+      )?.innerText.trim() ?? null;
     return {
-      title: (element.querySelector("h2.olx-adcard__title") as HTMLElement | null)?.innerText.trim() ?? null,
-      priceText: (element.querySelector("h3.olx-adcard__price") as HTMLElement | null)?.innerText.trim() ?? null,
+      title:
+        (element.querySelector("h2.olx-adcard__title") as HTMLElement | null)?.innerText.trim() ??
+        null,
+      priceText:
+        (element.querySelector("h3.olx-adcard__price") as HTMLElement | null)?.innerText.trim() ??
+        null,
       link,
       seller,
       sellerScoreText,
@@ -69,8 +76,7 @@ export function mapOlxCard(card: OlxCard): RawListing {
     condition,
     description: cleanText(card.text),
     imageUrl: card.image,
-    sellerRating:
-      parseSellerScore(card.sellerScoreText) ?? extractSellerRating(card.text, seller),
+    sellerRating: parseSellerScore(card.sellerScoreText) ?? extractSellerRating(card.text, seller),
     raw: card
   } satisfies RawListing;
 }
@@ -90,8 +96,16 @@ export class OlxSource implements Source {
         .waitForSelector("section.olx-adcard, [data-testid='adcard-link']", { timeout: 20_000 })
         .catch(() => undefined);
 
-      const bodyText = (await page.locator("body").innerText().catch(() => "")).replace(/\s+/g, " ");
-      if (bodyText.includes("Sorry, you have been blocked") || bodyText.includes("Attention Required")) {
+      const bodyText = (
+        await page
+          .locator("body")
+          .innerText()
+          .catch(() => "")
+      ).replace(/\s+/g, " ");
+      if (
+        bodyText.includes("Sorry, you have been blocked") ||
+        bodyText.includes("Attention Required")
+      ) {
         throw new SourceBlockedError("olx", "OLX bloqueou a requisição (Cloudflare)");
       }
 

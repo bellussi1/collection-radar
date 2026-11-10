@@ -40,7 +40,7 @@ export function parseCsePrice(item: CseItem): number | null {
   const candidates = [
     meta["product:price:amount"],
     meta["og:price:amount"],
-    meta["price"],
+    meta.price,
     item.pagemap?.offer?.[0]?.price,
     item.pagemap?.product?.[0]?.price,
     item.snippet?.match(/R\$\s*[\d.,]+/)?.[0]
@@ -79,8 +79,7 @@ export function mapCseItem(item: CseItem, price: number | null): RawListing {
     location: null,
     condition: detectCondition(`${title} ${snippet}`),
     description: [snippet, domain].filter(Boolean).join(" | "),
-    imageUrl:
-      item.pagemap?.cse_image?.[0]?.src ?? item.pagemap?.cse_thumbnail?.[0]?.src ?? null,
+    imageUrl: item.pagemap?.cse_image?.[0]?.src ?? item.pagemap?.cse_thumbnail?.[0]?.src ?? null,
     sellerRating: null,
     raw: item
   } satisfies RawListing;
@@ -144,9 +143,7 @@ async function fetchPagePrice(url: string): Promise<number | null> {
     if (html.length > 2_000_000) return null;
 
     const scripts = [
-      ...html.matchAll(
-        /<script[^>]+type=["']application\/ld\+json["'][^>]*>([\s\S]*?)<\/script>/gi
-      )
+      ...html.matchAll(/<script[^>]+type=["']application\/ld\+json["'][^>]*>([\s\S]*?)<\/script>/gi)
     ];
     for (const script of scripts) {
       const price = priceFromJsonLd(script[1] ?? "");
@@ -165,9 +162,7 @@ async function fetchPagePrice(url: string): Promise<number | null> {
 export class GoogleCseSource implements Source {
   readonly name = "sebos" as const;
 
-  constructor(
-    private readonly options: { fetchPages?: boolean; maxPageFetches?: number } = {}
-  ) {}
+  constructor(private readonly options: { fetchPages?: boolean; maxPageFetches?: number } = {}) {}
 
   async search(term: string, limit: number): Promise<RawListing[]> {
     const key = process.env.GOOGLE_CSE_API_KEY?.trim();

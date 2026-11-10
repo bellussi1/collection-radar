@@ -1,6 +1,6 @@
 import "dotenv/config";
-import { createInterface } from "node:readline/promises";
 import { stdin as input, stdout as output } from "node:process";
+import { createInterface } from "node:readline/promises";
 import { closeBrowser, getShopeeContext } from "../src/browser.js";
 
 const context = await getShopeeContext({ headless: false, offscreen: false });

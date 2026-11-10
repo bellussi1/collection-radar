@@ -2,7 +2,7 @@ import { withPage } from "../browser.js";
 import { extractIsbn, isValidIsbn13, parseUsd } from "../normalize.js";
 import { parseStarRating } from "../seller.js";
 import type { RawListing } from "../types.js";
-import { SourceBlockedError, type Source } from "./types.js";
+import { type Source, SourceBlockedError } from "./types.js";
 
 export interface AbeBooksCard {
   title: string | null;
@@ -26,36 +26,46 @@ export interface AbeBooksCard {
 export function parseAbeBooksCards(elements: Element[], max: number): AbeBooksCard[] {
   return elements.slice(0, max).map((element) => {
     const isbnText =
-      (element.querySelector('[data-test-id^="isbn-"]') as HTMLElement | null)?.innerText.trim() ?? null;
+      (element.querySelector('[data-test-id^="isbn-"]') as HTMLElement | null)?.innerText.trim() ??
+      null;
     return {
       title:
-        (element.querySelector('[data-test-id="listing-title"]') as HTMLElement | null)?.innerText.trim() ??
-        null,
+        (
+          element.querySelector('[data-test-id="listing-title"]') as HTMLElement | null
+        )?.innerText.trim() ?? null,
       author:
-        (element.querySelector('[data-test-id="listing-author"]') as HTMLElement | null)?.innerText.trim() ??
-        null,
+        (
+          element.querySelector('[data-test-id="listing-author"]') as HTMLElement | null
+        )?.innerText.trim() ?? null,
       isbn13: isbnText?.match(/\b(97[89]\d{10})\b/)?.[1] ?? null,
       publisher:
-        (element.querySelector('[data-test-id^="publisher-"]') as HTMLElement | null)?.innerText.trim() ??
-        null,
+        (
+          element.querySelector('[data-test-id^="publisher-"]') as HTMLElement | null
+        )?.innerText.trim() ?? null,
       series:
-        (element.querySelector('[data-test-id="listing-series-link"]') as HTMLElement | null)?.innerText.trim() ??
-        null,
+        (
+          element.querySelector('[data-test-id="listing-series-link"]') as HTMLElement | null
+        )?.innerText.trim() ?? null,
       seller:
-        (element.querySelector('[data-test-id="listing-seller-link"]') as HTMLElement | null)?.innerText.trim() ??
-        null,
+        (
+          element.querySelector('[data-test-id="listing-seller-link"]') as HTMLElement | null
+        )?.innerText.trim() ?? null,
       sellerInfo:
-        (element.querySelector('[data-test-id="seller-info"]') as HTMLElement | null)?.innerText.trim() ??
-        null,
+        (
+          element.querySelector('[data-test-id="seller-info"]') as HTMLElement | null
+        )?.innerText.trim() ?? null,
       sellerRatingText:
-        (element.querySelector('[data-test-id="star-rating"]') as HTMLElement | null)?.innerText.trim() ??
-        null,
+        (
+          element.querySelector('[data-test-id="star-rating"]') as HTMLElement | null
+        )?.innerText.trim() ?? null,
       condition:
-        (element.querySelector('[data-test-id="listing-condition"]') as HTMLElement | null)?.innerText.trim() ??
-        null,
+        (
+          element.querySelector('[data-test-id="listing-condition"]') as HTMLElement | null
+        )?.innerText.trim() ?? null,
       priceText:
-        (element.querySelector('[data-test-id="listing-price"]') as HTMLElement | null)?.innerText.trim() ??
-        null,
+        (
+          element.querySelector('[data-test-id="listing-price"]') as HTMLElement | null
+        )?.innerText.trim() ?? null,
       shippingText:
         (
           element.querySelector('[data-test-id^="item-shipping-price-"]') as HTMLElement | null
@@ -67,11 +77,12 @@ export function parseAbeBooksCards(elements: Element[], max: number): AbeBooksCa
           ) as HTMLElement | null
         )?.innerText.trim() ?? null,
       description:
-        (element.querySelector('[data-test-id^="description-"]') as HTMLElement | null)?.innerText.trim() ??
-        null,
+        (
+          element.querySelector('[data-test-id^="description-"]') as HTMLElement | null
+        )?.innerText.trim() ?? null,
       url:
-        (element.querySelector('[data-test-id="listing-title-link"]') as HTMLAnchorElement | null)?.href ??
-        null,
+        (element.querySelector('[data-test-id="listing-title-link"]') as HTMLAnchorElement | null)
+          ?.href ?? null,
       image: (element.querySelector("img") as HTMLImageElement | null)?.src ?? null,
       itemId: element.getAttribute("data-csa-c-item-id")
     } satisfies AbeBooksCard;
@@ -164,11 +175,21 @@ export class AbeBooksSource implements Source {
         throw new SourceBlockedError("abebooks", `AbeBooks respondeu ${response.status()}`);
       }
       await page
-        .waitForSelector('[data-srp-item-role="listing"], #srp-search-results-list', { timeout: 30_000 })
+        .waitForSelector('[data-srp-item-role="listing"], #srp-search-results-list', {
+          timeout: 30_000
+        })
         .catch(() => undefined);
 
-      const bodyText = (await page.locator("body").innerText().catch(() => "")).replace(/\s+/g, " ");
-      if (bodyText.includes("Sorry, you have been blocked") || bodyText.includes("Attention Required")) {
+      const bodyText = (
+        await page
+          .locator("body")
+          .innerText()
+          .catch(() => "")
+      ).replace(/\s+/g, " ");
+      if (
+        bodyText.includes("Sorry, you have been blocked") ||
+        bodyText.includes("Attention Required")
+      ) {
         throw new SourceBlockedError("abebooks", "AbeBooks bloqueou a requisição");
       }
       if (!bodyText.includes("Shipping destination: Brazil") && !bodyText.includes("to Brazil")) {

@@ -207,9 +207,9 @@ export class RadarDb {
       CREATE INDEX IF NOT EXISTS idx_price_history_listing ON price_history(listing_id, seen_at);
     `);
 
-    const alertColumns = this.db
-      .prepare("PRAGMA table_info(alerts)")
-      .all() as unknown as Array<{ name: string }>;
+    const alertColumns = this.db.prepare("PRAGMA table_info(alerts)").all() as unknown as Array<{
+      name: string;
+    }>;
     if (!alertColumns.some((column) => column.name === "total")) {
       this.db.exec("ALTER TABLE alerts ADD COLUMN total REAL");
     }
@@ -239,8 +239,7 @@ export class RadarDb {
 
   upsertListing(listing: RawListing): { id: number; isNew: boolean } {
     const now = new Date().toISOString();
-    const total =
-      listing.price === null ? null : listing.price + (listing.shipping ?? 0);
+    const total = listing.price === null ? null : listing.price + (listing.shipping ?? 0);
     const existing = this.db
       .prepare(
         "SELECT id, price, shipping, total FROM listings WHERE (source = ? AND external_id = ?) OR url = ? LIMIT 1"
@@ -390,7 +389,10 @@ export class RadarDb {
       .run(new Date().toISOString(), found, newListings, errors, runId);
   }
 
-  listRecentMatches(sinceIso: string, minScore: number): Array<{ listing: StoredListing; workKey: string; score: number; reasons: string }> {
+  listRecentMatches(
+    sinceIso: string,
+    minScore: number
+  ): Array<{ listing: StoredListing; workKey: string; score: number; reasons: string }> {
     const rows = this.db
       .prepare(`
         SELECT l.*, m.work_key AS match_work_key, m.score AS match_score, m.reasons AS match_reasons
@@ -401,8 +403,8 @@ export class RadarDb {
         LIMIT 500
       `)
       .all(sinceIso, minScore) as unknown as Array<
-        ListingRow & { match_work_key: string; match_score: number; match_reasons: string }
-      >;
+      ListingRow & { match_work_key: string; match_score: number; match_reasons: string }
+    >;
 
     return rows.map((row) => ({
       listing: mapListing(row),
@@ -427,9 +429,7 @@ export class RadarDb {
   }
 
   setSellerRating(listingId: number, rating: number | null): void {
-    this.db
-      .prepare("UPDATE listings SET seller_rating = ? WHERE id = ?")
-      .run(rating, listingId);
+    this.db.prepare("UPDATE listings SET seller_rating = ? WHERE id = ?").run(rating, listingId);
   }
 
   clearMatches(): void {
@@ -458,22 +458,22 @@ export class RadarDb {
         LIMIT ?
       `)
       .all(limit) as unknown as Array<
-        ListingRow & {
-          match_work_key: string;
-          match_score: number;
-          match_reasons: string;
-          feedback_status: string | null;
-          owned: number;
-          cover_distance: number | null;
-          cover_known_url: string | null;
-          ocr_score: number | null;
-          ocr_text: string | null;
-          ocr_confidence: number | null;
-          first_total: number | null;
-          min_total: number | null;
-          price_changes: number;
-        }
-      >;
+      ListingRow & {
+        match_work_key: string;
+        match_score: number;
+        match_reasons: string;
+        feedback_status: string | null;
+        owned: number;
+        cover_distance: number | null;
+        cover_known_url: string | null;
+        ocr_score: number | null;
+        ocr_text: string | null;
+        ocr_confidence: number | null;
+        first_total: number | null;
+        min_total: number | null;
+        price_changes: number;
+      }
+    >;
 
     return rows.map((row) => ({
       listing: mapListing(row),
@@ -496,9 +496,7 @@ export class RadarDb {
   getImageHashes(url: string): ImageHashes | null {
     const row = this.db
       .prepare("SELECT hash_full, hash_center, hash_trim FROM image_hashes WHERE url = ?")
-      .get(url) as
-      | { hash_full: string; hash_center: string; hash_trim: string }
-      | undefined;
+      .get(url) as { hash_full: string; hash_center: string; hash_trim: string } | undefined;
     if (!row) return null;
     return { full: row.hash_full, center: row.hash_center, trim: row.hash_trim };
   }
@@ -562,9 +560,9 @@ export class RadarDb {
   }
 
   getImageOcr(url: string): { text: string; confidence: number | null } | null {
-    const row = this.db
-      .prepare("SELECT text, confidence FROM image_ocr WHERE url = ?")
-      .get(url) as { text: string; confidence: number | null } | undefined;
+    const row = this.db.prepare("SELECT text, confidence FROM image_ocr WHERE url = ?").get(url) as
+      | { text: string; confidence: number | null }
+      | undefined;
     return row ? { text: row.text, confidence: row.confidence } : null;
   }
 
@@ -586,7 +584,9 @@ export class RadarDb {
     workKey: string
   ): { text: string; score: number; confidence: number | null } | null {
     const row = this.db
-      .prepare("SELECT text, score, confidence FROM ocr_checks WHERE listing_id = ? AND work_key = ?")
+      .prepare(
+        "SELECT text, score, confidence FROM ocr_checks WHERE listing_id = ? AND work_key = ?"
+      )
       .get(listingId, workKey) as
       | { text: string; score: number; confidence: number | null }
       | undefined;
@@ -613,7 +613,12 @@ export class RadarDb {
       .run(listingId, workKey, text, score, confidence, new Date().toISOString());
   }
 
-  setFeedback(listingId: number, workKey: string, status: string, note: string | null = null): void {
+  setFeedback(
+    listingId: number,
+    workKey: string,
+    status: string,
+    note: string | null = null
+  ): void {
     this.db
       .prepare(`
         INSERT INTO feedback (listing_id, work_key, status, note, created_at)
@@ -641,9 +646,9 @@ export class RadarDb {
       `)
       .get(listingId, workKey) as { ok: number } | undefined;
     if (feedback) return true;
-    const owned = this.db
-      .prepare("SELECT 1 AS ok FROM owned WHERE work_key = ?")
-      .get(workKey) as { ok: number } | undefined;
+    const owned = this.db.prepare("SELECT 1 AS ok FROM owned WHERE work_key = ?").get(workKey) as
+      | { ok: number }
+      | undefined;
     return Boolean(owned);
   }
 
@@ -694,13 +699,17 @@ export class RadarDb {
   }
 
   listOwnedKeys(): string[] {
-    return (this.db.prepare("SELECT work_key FROM owned").all() as unknown as Array<{
-      work_key: string;
-    }>).map((row) => row.work_key);
+    return (
+      this.db.prepare("SELECT work_key FROM owned").all() as unknown as Array<{
+        work_key: string;
+      }>
+    ).map((row) => row.work_key);
   }
 
   countListings(): number {
-    const row = this.db.prepare("SELECT COUNT(*) AS count FROM listings").get() as { count: number };
+    const row = this.db.prepare("SELECT COUNT(*) AS count FROM listings").get() as {
+      count: number;
+    };
     return row.count;
   }
 

@@ -1,12 +1,7 @@
 import assert from "node:assert/strict";
 import test from "node:test";
 import sharp from "sharp";
-import {
-  classifyDistance,
-  hamming,
-  hashImage,
-  minDistance
-} from "../src/coverhash.js";
+import { classifyDistance, hamming, hashImage, minDistance } from "../src/coverhash.js";
 
 test("hamming conta bits diferentes", () => {
   assert.equal(hamming("0000000000000000", "0000000000000000"), 0);
