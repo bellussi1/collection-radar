@@ -72,6 +72,9 @@ npm run sources -- --query "robin hobb" --limit 5
 npm run scan -- --max-queries 10 --no-email
 npm run scan                       # varredura completa + e-mail
 npm run digest                     # reenvia os matches dos últimos 7 dias
+npm run dashboard                  # dashboard local em http://127.0.0.1:4317
+npm run rematch                    # recalcula todos os matches com o matcher atual
+npm run covers -- --max-score 0.8  # verifica capa do anúncio contra a capa conhecida
 npm run email:test                 # testa o SMTP configurado
 npm run enrich -- --limit 50       # propõe ISBNs via Open Library/Google Books
 npm test
@@ -91,6 +94,27 @@ Opções do scan:
 Com `scan.max_queries: 40` no `settings.yaml`, cada rodada pega 40 consultas e
 retoma da próxima; assim as 111 consultas são cobertas em três rodadas sem
 sobrecarregar os sites.
+
+## Verificação de capa (pHash)
+
+`npm run covers` baixa a foto do anúncio e a capa conhecida da obra (Open
+Library pelo ISBN ou busca por título/autor, com fallback no Google Books),
+calcula um dHash de 64 bits e compara as duas com distância de Hamming:
+
+- `d <= 8`: capa praticamente igual
+- `d <= 12`: capa provável
+- `d > 20`: capa diferente
+- entre 13 e 20: inconclusiva
+
+O hash fica em cache nas tabelas `image_hashes` e `work_covers`, então a mesma
+imagem não é baixada de novo. Por padrão o comando roda só em anúncios com
+confiança até 80%; use `--max-score 1` para varrer todos, `--limit 50` para
+limitar e `--force` para refazer. O dashboard mostra as duas capas lado a lado
+e a distância; o score do matcher não é alterado automaticamente.
+
+O pHash é um sinal, não um veredito: fotos em ângulo, capas de outra edição e
+mockups 3D podem dar distância alta mesmo quando o livro é o certo. Confira as
+capas antes de ignorar.
 
 ## Agendamento
 

@@ -3,6 +3,7 @@ import { createServer, type IncomingMessage, type ServerResponse } from "node:ht
 import { loadWorks } from "./config.js";
 import { RadarDb, type DashboardMatch, type OwnedWork } from "./db.js";
 import { detectFormat, normalizeText } from "./normalize.js";
+import { classifyDistance } from "./coverhash.js";
 import type { Work } from "./types.js";
 
 const PORT = Number(process.env.DASHBOARD_PORT ?? 4317);
@@ -29,6 +30,7 @@ interface Filters {
   priority: string;
   status: string;
   over: string;
+  cover: string;
   sort: string;
   page: number;
 }
@@ -81,6 +83,7 @@ function parseFilters(url: URL): Filters {
     priority: url.searchParams.get("priority") ?? "all",
     status: url.searchParams.get("status") ?? "active",
     over: url.searchParams.get("over") ?? "all",
+    cover: url.searchParams.get("cover") ?? "all",
     sort: url.searchParams.get("sort") ?? "discount",
     page: Number.isFinite(number) && number > 0 ? Math.floor(number) : 1
   };
@@ -95,6 +98,7 @@ function queryString(filters: Filters, overrides: Partial<Filters> = {}): string
   if (merged.priority !== "all") params.set("priority", merged.priority);
   if (merged.status !== "active") params.set("status", merged.status);
   if (merged.over !== "all") params.set("over", merged.over);
+  if (merged.cover !== "all") params.set("cover", merged.cover);
   if (merged.sort !== "discount") params.set("sort", merged.sort);
   if (merged.page > 1) params.set("page", String(merged.page));
   return params.toString();
@@ -125,12 +129,29 @@ function cover(url: string | null, width: number, height: number, initial: strin
   </div>`;
 }
 
-function knownCover(work: Work | undefined): string {
-  if (!work?.isbn13) return "";
+function knownCover(row: DashboardMatch, work: Work | undefined): string {
+  const url =
+    row.knownCoverUrl ??
+    (work?.isbn13
+      ? `https://covers.openlibrary.org/b/isbn/${encodeURIComponent(work.isbn13)}-M.jpg`
+      : null);
+  if (!url) return "";
   return `<div class="cover-wrap cover-known" style="width:56px;height:84px" title="Capa conhecida da edição">
     <span>capa</span>
-    <img src="https://covers.openlibrary.org/b/isbn/${encodeURIComponent(work.isbn13)}-M.jpg" alt="Capa conhecida" loading="lazy" referrerpolicy="no-referrer" onerror="this.remove()" />
+    <img src="${esc(url)}" alt="Capa conhecida" loading="lazy" referrerpolicy="no-referrer" onerror="this.remove()" />
   </div>`;
+}
+
+function coverVerdict(distance: number | null): string {
+  if (distance === null) return "";
+  const verdict = classifyDistance(distance);
+  const labels: Record<string, string> = {
+    same: "capa igual",
+    likely: "capa provável",
+    inconclusive: "capa incerta",
+    different: "capa diferente"
+  };
+  return `<div class="cover-verdict cover-${verdict}" title="Distância de Hamming ${distance} de 64 bits">${labels[verdict]} · d=${distance}</div>`;
 }
 
 function rowHtml(row: DashboardMatch, work: Work | undefined, filters: Filters): string {
@@ -152,8 +173,11 @@ function rowHtml(row: DashboardMatch, work: Work | undefined, filters: Filters):
   return `
     <article class="row ${over ? "row-over" : ""}">
       <div class="covers">
-        <a href="${esc(row.listing.url)}" target="_blank" rel="noreferrer">${cover(row.listing.imageUrl, 56, 84, title.slice(0, 1).toUpperCase())}</a>
-        ${knownCover(work)}
+        <div class="cover-pair">
+          <a href="${esc(row.listing.url)}" target="_blank" rel="noreferrer">${cover(row.listing.imageUrl, 56, 84, title.slice(0, 1).toUpperCase())}</a>
+          ${knownCover(row, work)}
+        </div>
+        ${coverVerdict(row.coverDistance)}
       </div>
       <div class="main">
         <div class="kicker">${priority}${series ? ` · ${esc(series)}` : ""} · <span class="status ${statusClass(row, work)}">${status}</span></div>
@@ -289,7 +313,7 @@ function pageHtml(
     .stat { background: var(--surface); border: 1px solid var(--rule); padding: 12px 14px; }
     .stat strong { display: block; font-family: Georgia, serif; font-size: 24px; font-weight: 400; }
     .stat span { font-family: ui-monospace, monospace; font-size: 10px; text-transform: uppercase; letter-spacing: .12em; color: var(--muted); }
-    .filters { display: grid; grid-template-columns: 1.4fr repeat(6, minmax(110px, 1fr)) auto; gap: 8px; align-items: end; background: var(--surface); border: 1px solid var(--rule); padding: 14px; margin-bottom: 18px; }
+    .filters { display: grid; grid-template-columns: 1.4fr repeat(7, minmax(110px, 1fr)) auto; gap: 8px; align-items: end; background: var(--surface); border: 1px solid var(--rule); padding: 14px; margin-bottom: 18px; }
     .field label { display: block; font-family: ui-monospace, monospace; font-size: 9px; text-transform: uppercase; letter-spacing: .12em; color: var(--muted); margin-bottom: 4px; }
     .field input, .field select { width: 100%; border: 1px solid var(--rule); background: #fff; padding: 8px 9px; font: inherit; font-size: 13px; color: var(--ink); }
     .field input:focus, .field select:focus { outline: 2px solid var(--pine); outline-offset: 1px; }
@@ -302,11 +326,17 @@ function pageHtml(
     .results-head span { font-size: 12px; color: var(--muted); }
     .row { display: grid; grid-template-columns: 124px minmax(0, 1fr) 150px 120px; gap: 16px; padding: 16px 0; border-top: 1px solid var(--rule); }
     .row-over { background: linear-gradient(90deg, transparent, var(--ochre-soft)); }
-    .covers { display: flex; gap: 6px; align-items: flex-start; }
+    .covers { display: flex; flex-direction: column; gap: 5px; align-items: flex-start; }
+    .cover-pair { display: flex; gap: 6px; align-items: flex-start; }
     .cover-wrap { position: relative; overflow: hidden; border: 1px solid var(--rule); background: #e9e3d6; flex: 0 0 auto; }
     .cover-wrap span { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; font-family: Georgia, serif; font-size: 18px; color: var(--muted); }
     .cover-wrap img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
     .cover-known { border-color: var(--pine); }
+    .cover-verdict { font-family: ui-monospace, monospace; font-size: 9px; text-transform: uppercase; letter-spacing: .04em; padding: 1px 4px; border-radius: 2px; line-height: 1.3; max-width: 118px; }
+    .cover-same { background: var(--pine-soft); color: var(--pine); }
+    .cover-likely { background: var(--ochre-soft); color: var(--ochre); }
+    .cover-inconclusive { background: #f0ece2; color: var(--muted); }
+    .cover-different { background: var(--red-soft); color: var(--red); }
     .kicker { font-family: ui-monospace, monospace; font-size: 9px; text-transform: uppercase; letter-spacing: .12em; color: var(--muted); margin-bottom: 4px; }
     .status { display: inline-block; padding: 1px 5px; border-radius: 2px; font-size: 9px; letter-spacing: .04em; }
     .status-new { background: var(--pine-soft); color: var(--pine); }
@@ -361,7 +391,7 @@ function pageHtml(
   <div class="wrap">
     <div class="brand">Collection Radar</div>
     <h1>Acervo de achados</h1>
-    <p class="lede">Todos os matches do banco local, com filtros, capa do anúncio ao lado da capa conhecida e ações de coleção. O e-mail mostra só os 20 melhores; aqui está o resto.</p>
+    <p class="lede">Todos os matches do banco local, com filtros, capa do anúncio ao lado da capa conhecida, distância perceptual e ações de coleção. O e-mail mostra só os 20 melhores; aqui está o resto.</p>
     <div class="stats">
       <div class="stat"><strong>${allRows.length}</strong><span>matches no banco</span></div>
       <div class="stat"><strong>${active}</strong><span>ativos</span></div>
@@ -376,6 +406,7 @@ function pageHtml(
       <div class="field"><label for="priority">Prioridade</label><select id="priority" name="priority">${option("all", "Todas", filters.priority)}${option("1", "P1", filters.priority)}${option("2", "P2", filters.priority)}${option("3", "P3", filters.priority)}</select></div>
       <div class="field"><label for="status">Status</label><select id="status" name="status">${option("active", "Ativos", filters.status)}${option("ignored", "Ignorados", filters.status)}${option("wrong_edition", "Edição errada", filters.status)}${option("bought", "Comprados", filters.status)}${option("all", "Todos", filters.status)}</select></div>
       <div class="field"><label for="over">Teto</label><select id="over" name="over">${option("all", "Todos", filters.over)}${option("under", "Dentro do teto", filters.over)}${option("over", "Acima do teto", filters.over)}</select></div>
+      <div class="field"><label for="cover">Capa</label><select id="cover" name="cover">${option("all", "Todas", filters.cover)}${option("same", "Igual", filters.cover)}${option("likely", "Provável", filters.cover)}${option("inconclusive", "Inconclusiva", filters.cover)}${option("different", "Diferente", filters.cover)}${option("unchecked", "Não verificada", filters.cover)}</select></div>
       <div class="field"><label for="sort">Ordem</label><select id="sort" name="sort">${option("discount", "Desconto", filters.sort)}${option("price", "Preço", filters.sort)}${option("date", "Data", filters.sort)}${option("confidence", "Confiança", filters.sort)}</select></div>
       <button class="button button-primary" type="submit">Filtrar</button>
     </form>
@@ -425,6 +456,10 @@ function filterRows(
     const over = isOver(row, work);
     if (filters.over === "over" && !over) return false;
     if (filters.over === "under" && over) return false;
+    if (filters.cover !== "all") {
+      const verdict = row.coverDistance === null ? "unchecked" : classifyDistance(row.coverDistance);
+      if (filters.cover !== verdict) return false;
+    }
     if (needle) {
       const haystack = normalizeText(
         [

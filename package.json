@@ -11,6 +11,7 @@
     "enrich": "tsx src/enrich.ts",
     "dashboard": "tsx src/dashboard.ts",
     "rematch": "tsx src/rematch.ts",
+    "covers": "tsx src/covers.ts",
     "watchlist": "tsx src/index.ts watchlist",
     "sources": "tsx src/index.ts sources",
     "test": "tsx --test tests/*.test.ts",
@@ -21,6 +22,7 @@
     "dotenv": "^17.2.3",
     "nodemailer": "^7.0.11",
     "playwright": "^1.65.0",
+    "sharp": "^0.35.5",
     "yaml": "^2.8.1"
   },
   "devDependencies": {

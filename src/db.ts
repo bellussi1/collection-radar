@@ -1,6 +1,7 @@
 import { mkdirSync } from "node:fs";
 import { dirname } from "node:path";
 import { DatabaseSync } from "node:sqlite";
+import type { ImageHashes } from "./coverhash.js";
 import type { MatchResult, RawListing, StoredListing } from "./types.js";
 
 interface ListingRow {
@@ -29,6 +30,13 @@ export interface DashboardMatch {
   reasons: string;
   feedbackStatus: string | null;
   owned: boolean;
+  coverDistance: number | null;
+  knownCoverUrl: string | null;
+}
+
+export interface CoverCheck {
+  distance: number;
+  knownUrl: string | null;
 }
 
 export interface OwnedWork {
@@ -135,6 +143,27 @@ export class RadarDb {
         price REAL,
         acquired_at TEXT NOT NULL,
         notes TEXT
+      );
+      CREATE TABLE IF NOT EXISTS image_hashes (
+        url TEXT PRIMARY KEY,
+        hash_full TEXT NOT NULL,
+        hash_center TEXT NOT NULL,
+        hash_trim TEXT NOT NULL,
+        fetched_at TEXT NOT NULL
+      );
+      CREATE TABLE IF NOT EXISTS work_covers (
+        work_key TEXT PRIMARY KEY,
+        url TEXT,
+        checked_at TEXT NOT NULL
+      );
+      CREATE TABLE IF NOT EXISTS cover_checks (
+        listing_id INTEGER NOT NULL,
+        work_key TEXT NOT NULL,
+        distance INTEGER NOT NULL,
+        known_url TEXT,
+        listing_url TEXT,
+        checked_at TEXT NOT NULL,
+        PRIMARY KEY (listing_id, work_key)
       );
       CREATE INDEX IF NOT EXISTS idx_listings_first_seen ON listings(first_seen);
       CREATE INDEX IF NOT EXISTS idx_matches_work_key ON matches(work_key);
@@ -291,11 +320,13 @@ export class RadarDb {
       .prepare(`
         SELECT l.*, m.work_key AS match_work_key, m.score AS match_score,
                m.reasons AS match_reasons, f.status AS feedback_status,
-               CASE WHEN o.work_key IS NULL THEN 0 ELSE 1 END AS owned
+               CASE WHEN o.work_key IS NULL THEN 0 ELSE 1 END AS owned,
+               cc.distance AS cover_distance, cc.known_url AS cover_known_url
         FROM matches m
         JOIN listings l ON l.id = m.listing_id
         LEFT JOIN feedback f ON f.listing_id = m.listing_id AND f.work_key = m.work_key
         LEFT JOIN owned o ON o.work_key = m.work_key
+        LEFT JOIN cover_checks cc ON cc.listing_id = m.listing_id AND cc.work_key = m.work_key
         ORDER BY l.first_seen DESC, m.score DESC
         LIMIT ?
       `)
@@ -306,6 +337,8 @@ export class RadarDb {
           match_reasons: string;
           feedback_status: string | null;
           owned: number;
+          cover_distance: number | null;
+          cover_known_url: string | null;
         }
       >;
 
@@ -315,8 +348,78 @@ export class RadarDb {
       score: row.match_score,
       reasons: row.match_reasons,
       feedbackStatus: row.feedback_status,
-      owned: Boolean(row.owned)
+      owned: Boolean(row.owned),
+      coverDistance: row.cover_distance,
+      knownCoverUrl: row.cover_known_url
     }));
+  }
+
+  getImageHashes(url: string): ImageHashes | null {
+    const row = this.db
+      .prepare("SELECT hash_full, hash_center, hash_trim FROM image_hashes WHERE url = ?")
+      .get(url) as
+      | { hash_full: string; hash_center: string; hash_trim: string }
+      | undefined;
+    if (!row) return null;
+    return { full: row.hash_full, center: row.hash_center, trim: row.hash_trim };
+  }
+
+  saveImageHashes(url: string, hashes: ImageHashes): void {
+    this.db
+      .prepare(`
+        INSERT INTO image_hashes (url, hash_full, hash_center, hash_trim, fetched_at)
+        VALUES (?, ?, ?, ?, ?)
+        ON CONFLICT(url) DO UPDATE SET
+          hash_full = excluded.hash_full,
+          hash_center = excluded.hash_center,
+          hash_trim = excluded.hash_trim,
+          fetched_at = excluded.fetched_at
+      `)
+      .run(url, hashes.full, hashes.center, hashes.trim, new Date().toISOString());
+  }
+
+  getWorkCover(workKey: string): { url: string | null; checkedAt: string } | null {
+    const row = this.db
+      .prepare("SELECT url, checked_at FROM work_covers WHERE work_key = ?")
+      .get(workKey) as { url: string | null; checked_at: string } | undefined;
+    return row ? { url: row.url, checkedAt: row.checked_at } : null;
+  }
+
+  saveWorkCover(workKey: string, url: string | null): void {
+    this.db
+      .prepare(`
+        INSERT INTO work_covers (work_key, url, checked_at) VALUES (?, ?, ?)
+        ON CONFLICT(work_key) DO UPDATE SET url = excluded.url, checked_at = excluded.checked_at
+      `)
+      .run(workKey, url, new Date().toISOString());
+  }
+
+  getCoverCheck(listingId: number, workKey: string): CoverCheck | null {
+    const row = this.db
+      .prepare("SELECT distance, known_url FROM cover_checks WHERE listing_id = ? AND work_key = ?")
+      .get(listingId, workKey) as { distance: number; known_url: string | null } | undefined;
+    return row ? { distance: row.distance, knownUrl: row.known_url } : null;
+  }
+
+  saveCoverCheck(
+    listingId: number,
+    workKey: string,
+    distance: number,
+    knownUrl: string | null,
+    listingUrl: string
+  ): void {
+    this.db
+      .prepare(`
+        INSERT INTO cover_checks
+          (listing_id, work_key, distance, known_url, listing_url, checked_at)
+        VALUES (?, ?, ?, ?, ?, ?)
+        ON CONFLICT(listing_id, work_key) DO UPDATE SET
+          distance = excluded.distance,
+          known_url = excluded.known_url,
+          listing_url = excluded.listing_url,
+          checked_at = excluded.checked_at
+      `)
+      .run(listingId, workKey, distance, knownUrl, listingUrl, new Date().toISOString());
   }
 
   setFeedback(listingId: number, workKey: string, status: string, note: string | null = null): void {

@@ -40,3 +40,33 @@ test("upsert não duplica o mesmo anúncio quando a URL muda", () => {
     rmSync(dir, { recursive: true, force: true });
   }
 });
+
+test("cache de capas e resultado da comparação persistem", () => {
+  const dir = mkdtempSync(join(tmpdir(), "radar-db-"));
+  const db = new RadarDb(join(dir, "radar.db"));
+  try {
+    const url = "https://example.com/cover.jpg";
+    db.saveImageHashes(url, {
+      full: "0123456789abcdef",
+      center: "fedcba9876543210",
+      trim: "00000000000000ff"
+    });
+    assert.deepEqual(db.getImageHashes(url), {
+      full: "0123456789abcdef",
+      center: "fedcba9876543210",
+      trim: "00000000000000ff"
+    });
+
+    db.saveWorkCover("the-hobbit--j-r-r-tolkien", url);
+    assert.equal(db.getWorkCover("the-hobbit--j-r-r-tolkien")?.url, url);
+
+    db.saveCoverCheck(42, "the-hobbit--j-r-r-tolkien", 7, url, "https://example.com/listing.jpg");
+    assert.deepEqual(db.getCoverCheck(42, "the-hobbit--j-r-r-tolkien"), {
+      distance: 7,
+      knownUrl: url
+    });
+  } finally {
+    db.close();
+    rmSync(dir, { recursive: true, force: true });
+  }
+});
