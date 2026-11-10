@@ -80,6 +80,7 @@ npm run rematch                    # recalcula todos os matches com o matcher at
 npm run covers -- --max-score 0.8  # verifica capa do anúncio contra a capa conhecida
 npm run sellers:backfill           # preenche notas de vendedor a partir do raw_json
 npm run isbn-scan -- --limit 5     # varre a AbeBooks por ISBN (semanal no agendador)
+npm run ocr -- --limit 20          # lê o título nas fotos dos anúncios (Tesseract)
 npm run shopee:login               # login único da Shopee no perfil persistente
 npm run shopee-scan                # 8 autores prioritários na Shopee, sem e-mail
 npm run sebos-scan                 # sebos independentes via Google Programmable Search
@@ -236,6 +237,18 @@ Quando o site não expõe preço, o anúncio aparece com “—”. O vendedor �
 do sebo, sem nota numérica; a condição vem do título/trecho (“usado”/“novo”).
 A tarefa **Collection Radar Sebos** roda todos os dias às 08:30 e o digest das
 09:00 consolida os novos matches.
+
+## OCR de foto
+
+`npm run ocr` usa Tesseract.js local (`eng+por`) para ler o título nas fotos dos
+anúncios. Por padrão roda em matches de baixa confiança ou com capa
+diferente/inconclusiva; use `--all` para todos, `--limit 50` para limitar e
+`--force` para refazer.
+
+O texto e o score ficam em `image_ocr`/`ocr_checks`; o dashboard mostra
+`OCR título X% · confiança Y%: “texto lido”`. O OCR é um sinal complementar ao
+pHash e não altera o score do matcher. A primeira execução baixa os dados de
+idioma para `data/tesseract`.
 
 ## Testes de coletor
 

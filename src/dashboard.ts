@@ -266,6 +266,10 @@ function rowHtml(row: DashboardMatch, work: Work | undefined, filters: Filters):
     rating === null ? "sem nota" : `vendedor ${rating.toFixed(1).replace(".", ",")}`;
   const ratingClass =
     rating === null ? "rating-none" : rating < 4.5 ? "rating-low" : "rating-good";
+  const ocrText = row.ocrText?.replace(/\s+/g, " ").trim() ?? "";
+  const ocrPct = row.ocrScore === null ? null : Math.round(row.ocrScore * 100);
+  const ocrConfidence = row.ocrConfidence === null ? null : Math.round(row.ocrConfidence);
+  const ocrClass = ocrPct !== null && ocrPct >= 70 ? "ocr-good" : "ocr-weak";
 
   return `
     <article class="row ${over ? "row-over" : ""}">
@@ -286,6 +290,7 @@ function rowHtml(row: DashboardMatch, work: Work | undefined, filters: Filters):
           · confiança ${Math.round(row.score * 100)}% · ${language}
         </div>
         <div class="chips"><span class="chip-condition">${esc(condition)}</span><span class="${ratingClass}">${esc(ratingLabel)}</span>${row.reasons.split(",").map((reason) => `<span>${esc(reason.trim())}</span>`).join("")}</div>
+        ${ocrText ? `<div class="ocr ${ocrClass}" title="${esc(ocrText)}">OCR título ${ocrPct ?? 0}%${ocrConfidence !== null ? ` · confiança ${ocrConfidence}%` : ""}: “${esc(ocrText.slice(0, 140))}”</div>` : ""}
       </div>
       <div class="price">
         <div class="total">${brl(total)}</div>
@@ -563,6 +568,9 @@ function pageHtml(
     .chips .rating-good { background: var(--pine-soft); color: var(--pine); }
     .chips .rating-low { background: var(--red-soft); color: var(--red); }
     .chips .rating-none { background: #f0ece2; color: var(--muted); }
+    .ocr { font-size: 10px; line-height: 1.4; margin-top: 4px; }
+    .ocr-good { color: var(--pine); }
+    .ocr-weak { color: var(--muted); }
     .price { text-align: right; }
     .total { font-family: Georgia, serif; font-size: 20px; }
     .target { font-size: 10px; color: var(--muted); margin-top: 2px; }

@@ -183,3 +183,27 @@ test("listing guarda nota do vendedor e nota de preço", () => {
     rmSync(dir, { recursive: true, force: true });
   }
 });
+
+test("cache de OCR e resultado por obra persistem", () => {
+  const dir = mkdtempSync(join(tmpdir(), "radar-db-"));
+  const db = new RadarDb(join(dir, "radar.db"));
+  try {
+    const url = "https://example.com/cover.jpg";
+    const key = "the-hobbit--j-r-r-tolkien";
+    db.saveImageOcr(url, "THE HOBBIT J.R.R. TOLKIEN", 88);
+    assert.deepEqual(db.getImageOcr(url), {
+      text: "THE HOBBIT J.R.R. TOLKIEN",
+      confidence: 88
+    });
+
+    db.saveOcrCheck(42, key, "THE HOBBIT J.R.R. TOLKIEN", 0.95, 88);
+    assert.deepEqual(db.getOcrCheck(42, key), {
+      text: "THE HOBBIT J.R.R. TOLKIEN",
+      score: 0.95,
+      confidence: 88
+    });
+  } finally {
+    db.close();
+    rmSync(dir, { recursive: true, force: true });
+  }
+});

@@ -13,6 +13,7 @@
     "rematch": "tsx src/rematch.ts",
     "covers": "tsx src/covers.ts",
     "isbn-scan": "tsx src/isbn-scan.ts",
+    "ocr": "tsx src/ocr.ts",
     "shopee:login": "tsx scripts/shopee-login.ts",
     "shopee-scan": "tsx src/shopee-scan.ts",
     "sebos-scan": "tsx src/sebos-scan.ts",
@@ -29,6 +30,7 @@
     "nodemailer": "^7.0.11",
     "playwright": "^1.65.0",
     "sharp": "^0.35.5",
+    "tesseract.js": "^7.0.0",
     "yaml": "^2.8.1"
   },
   "devDependencies": {

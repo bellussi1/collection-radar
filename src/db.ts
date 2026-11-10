@@ -37,6 +37,9 @@ export interface DashboardMatch {
   firstTotal: number | null;
   minTotal: number | null;
   priceChanges: number;
+  ocrScore: number | null;
+  ocrText: string | null;
+  ocrConfidence: number | null;
 }
 
 export interface CoverCheck {
@@ -182,6 +185,21 @@ export class RadarDb {
         shipping REAL,
         total REAL,
         seen_at TEXT NOT NULL
+      );
+      CREATE TABLE IF NOT EXISTS image_ocr (
+        url TEXT PRIMARY KEY,
+        text TEXT NOT NULL,
+        confidence REAL,
+        fetched_at TEXT NOT NULL
+      );
+      CREATE TABLE IF NOT EXISTS ocr_checks (
+        listing_id INTEGER NOT NULL,
+        work_key TEXT NOT NULL,
+        text TEXT NOT NULL,
+        score REAL NOT NULL,
+        confidence REAL,
+        checked_at TEXT NOT NULL,
+        PRIMARY KEY (listing_id, work_key)
       );
       CREATE INDEX IF NOT EXISTS idx_listings_first_seen ON listings(first_seen);
       CREATE INDEX IF NOT EXISTS idx_matches_work_key ON matches(work_key);
@@ -425,6 +443,7 @@ export class RadarDb {
                m.reasons AS match_reasons, f.status AS feedback_status,
                CASE WHEN o.work_key IS NULL THEN 0 ELSE 1 END AS owned,
                cc.distance AS cover_distance, cc.known_url AS cover_known_url,
+               oc.score AS ocr_score, oc.text AS ocr_text, oc.confidence AS ocr_confidence,
                (SELECT ph.total FROM price_history ph WHERE ph.listing_id = l.id
                  ORDER BY ph.seen_at ASC, ph.id ASC LIMIT 1) AS first_total,
                (SELECT MIN(ph.total) FROM price_history ph WHERE ph.listing_id = l.id) AS min_total,
@@ -434,6 +453,7 @@ export class RadarDb {
         LEFT JOIN feedback f ON f.listing_id = m.listing_id AND f.work_key = m.work_key
         LEFT JOIN owned o ON o.work_key = m.work_key
         LEFT JOIN cover_checks cc ON cc.listing_id = m.listing_id AND cc.work_key = m.work_key
+        LEFT JOIN ocr_checks oc ON oc.listing_id = m.listing_id AND oc.work_key = m.work_key
         ORDER BY l.first_seen DESC, m.score DESC
         LIMIT ?
       `)
@@ -446,6 +466,9 @@ export class RadarDb {
           owned: number;
           cover_distance: number | null;
           cover_known_url: string | null;
+          ocr_score: number | null;
+          ocr_text: string | null;
+          ocr_confidence: number | null;
           first_total: number | null;
           min_total: number | null;
           price_changes: number;
@@ -463,7 +486,10 @@ export class RadarDb {
       knownCoverUrl: row.cover_known_url,
       firstTotal: row.first_total,
       minTotal: row.min_total,
-      priceChanges: row.price_changes
+      priceChanges: row.price_changes,
+      ocrScore: row.ocr_score,
+      ocrText: row.ocr_text,
+      ocrConfidence: row.ocr_confidence
     }));
   }
 
@@ -533,6 +559,58 @@ export class RadarDb {
           checked_at = excluded.checked_at
       `)
       .run(listingId, workKey, distance, knownUrl, listingUrl, new Date().toISOString());
+  }
+
+  getImageOcr(url: string): { text: string; confidence: number | null } | null {
+    const row = this.db
+      .prepare("SELECT text, confidence FROM image_ocr WHERE url = ?")
+      .get(url) as { text: string; confidence: number | null } | undefined;
+    return row ? { text: row.text, confidence: row.confidence } : null;
+  }
+
+  saveImageOcr(url: string, text: string, confidence: number | null): void {
+    this.db
+      .prepare(`
+        INSERT INTO image_ocr (url, text, confidence, fetched_at)
+        VALUES (?, ?, ?, ?)
+        ON CONFLICT(url) DO UPDATE SET
+          text = excluded.text,
+          confidence = excluded.confidence,
+          fetched_at = excluded.fetched_at
+      `)
+      .run(url, text, confidence, new Date().toISOString());
+  }
+
+  getOcrCheck(
+    listingId: number,
+    workKey: string
+  ): { text: string; score: number; confidence: number | null } | null {
+    const row = this.db
+      .prepare("SELECT text, score, confidence FROM ocr_checks WHERE listing_id = ? AND work_key = ?")
+      .get(listingId, workKey) as
+      | { text: string; score: number; confidence: number | null }
+      | undefined;
+    return row ? { text: row.text, score: row.score, confidence: row.confidence } : null;
+  }
+
+  saveOcrCheck(
+    listingId: number,
+    workKey: string,
+    text: string,
+    score: number,
+    confidence: number | null
+  ): void {
+    this.db
+      .prepare(`
+        INSERT INTO ocr_checks (listing_id, work_key, text, score, confidence, checked_at)
+        VALUES (?, ?, ?, ?, ?, ?)
+        ON CONFLICT(listing_id, work_key) DO UPDATE SET
+          text = excluded.text,
+          score = excluded.score,
+          confidence = excluded.confidence,
+          checked_at = excluded.checked_at
+      `)
+      .run(listingId, workKey, text, score, confidence, new Date().toISOString());
   }
 
   setFeedback(listingId: number, workKey: string, status: string, note: string | null = null): void {
