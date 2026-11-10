@@ -4,7 +4,7 @@ import { tmpdir } from "node:os";
 import { join } from "node:path";
 import test from "node:test";
 import { RadarDb } from "../src/db.js";
-import type { RawListing } from "../src/types.js";
+import type { RawListing, Work } from "../src/types.js";
 
 function listing(partial: Partial<RawListing> & Pick<RawListing, "url" | "externalId">): RawListing {
   return {
@@ -85,6 +85,74 @@ test("obra comprada fica suprimida até ser removida da coleção", () => {
     db.removeOwned(key);
     assert.equal(db.isSuppressed(123, key), false);
     assert.deepEqual(db.listOwnedKeys(), []);
+  } finally {
+    db.close();
+    rmSync(dir, { recursive: true, force: true });
+  }
+});
+
+test("histórico guarda primeira, menor e mudanças de preço", () => {
+  const dir = mkdtempSync(join(tmpdir(), "radar-db-"));
+  const db = new RadarDb(join(dir, "radar.db"));
+  try {
+    const first = db.upsertListing(
+      listing({ externalId: "MLB123", url: "https://example.com/1", price: 100 })
+    );
+    db.upsertListing(
+      listing({ externalId: "MLB123", url: "https://example.com/1", price: 80 })
+    );
+    db.upsertListing(
+      listing({ externalId: "MLB123", url: "https://example.com/1", price: 80 })
+    );
+
+    const work: Work = {
+      key: "the-well-of-ascension--brandon-sanderson",
+      title: "The Well of Ascension",
+      author: "Brandon Sanderson",
+      series: "Mistborn",
+      volume: 2,
+      status: "",
+      language: "en",
+      priority: 1,
+      enabled: true,
+      aliases: [],
+      preferred_publishers: [],
+      preferred_formats: [],
+      isbn13: "",
+      max_price: 150,
+      notes: ""
+    };
+    db.recordMatch(first.id, {
+      work,
+      score: 0.9,
+      reasons: ["título"],
+      language: "en",
+      format: "paperback",
+      publisher: null
+    });
+
+    const row = db.listDashboardMatches()[0];
+    assert.equal(row?.firstTotal, 100);
+    assert.equal(row?.minTotal, 80);
+    assert.equal(row?.priceChanges, 2);
+    assert.equal(row?.listing.price, 80);
+  } finally {
+    db.close();
+    rmSync(dir, { recursive: true, force: true });
+  }
+});
+
+test("alerta guarda o total para comparar quedas futuras", () => {
+  const dir = mkdtempSync(join(tmpdir(), "radar-db-"));
+  const db = new RadarDb(join(dir, "radar.db"));
+  try {
+    const key = "the-hobbit--j-r-r-tolkien";
+    db.markAlerted(1, key, "email", 100);
+    assert.equal(db.wasAlerted(1, key, "email"), true);
+    assert.equal(db.getAlertTotal(1, key, "email"), 100);
+
+    db.markAlerted(1, key, "email", 80);
+    assert.equal(db.getAlertTotal(1, key, "email"), 80);
   } finally {
     db.close();
     rmSync(dir, { recursive: true, force: true });

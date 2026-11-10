@@ -3,6 +3,7 @@ import { loadQueries, loadSettings, loadWorks } from "./config.js";
 import { RadarDb } from "./db.js";
 import { buildDigest, type DigestItem } from "./digest.js";
 import { sendDigest } from "./notify.js";
+import { dropPercent } from "./price.js";
 import { runScan } from "./scan.js";
 import { createSources } from "./sources/index.js";
 import { closeBrowser } from "./browser.js";
@@ -131,14 +132,22 @@ async function runDigest(options: CliOptions): Promise<void> {
     const work = workMap.get(row.workKey);
     if (!work || !work.enabled) continue;
     if (db.isSuppressed(row.listing.id, row.workKey)) continue;
-    if (options.newOnly && db.wasAlerted(row.listing.id, row.workKey, "email")) continue;
     const total = row.listing.price === null ? null : row.listing.price + (row.listing.shipping ?? 0);
+    const alerted = db.wasAlerted(row.listing.id, row.workKey, "email");
+    const lastTotal = alerted
+      ? db.getAlertTotal(row.listing.id, row.workKey, "email")
+      : null;
+    const priceDropPct = alerted
+      ? dropPercent(lastTotal, total, settings.scan.price_drop_pct)
+      : null;
+    if (options.newOnly && alerted && priceDropPct === null) continue;
     items.push({
       listing: row.listing,
       work,
       score: row.score,
       reasons: row.reasons,
-      overBudget: total !== null && total > work.max_price
+      overBudget: total !== null && total > work.max_price,
+      priceDropPct
     });
   }
 
@@ -163,7 +172,7 @@ async function runDigest(options: CliOptions): Promise<void> {
       sourceHealth: {}
     },
     settings.dashboard.url,
-    options.newOnly ? "Digest diário: novos matches desde o último e-mail." : undefined
+    options.newOnly ? "Digest diário: novos matches e quedas de preço." : undefined
   );
   const result = await sendDigest({
     subject: digest.subject,
@@ -174,7 +183,9 @@ async function runDigest(options: CliOptions): Promise<void> {
   });
   if (result.sent && options.newOnly) {
     for (const item of digest.displayed) {
-      db.markAlerted(item.listing.id, item.work.key, "email");
+      const total =
+        item.listing.price === null ? null : item.listing.price + (item.listing.shipping ?? 0);
+      db.markAlerted(item.listing.id, item.work.key, "email", total);
     }
   }
   console.log(`Digest: ${result.path}.html`);

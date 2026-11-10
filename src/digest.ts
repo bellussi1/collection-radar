@@ -6,6 +6,7 @@ export interface DigestItem {
   score: number;
   reasons: string;
   overBudget: boolean;
+  priceDropPct?: number | null;
 }
 
 const COLORS = {
@@ -62,19 +63,22 @@ function discountOf(item: DigestItem): number {
 
 function priceLine(item: DigestItem): string {
   const total = totalOf(item);
-  if (total === null) return "preço não informado";
+  const drop = item.priceDropPct
+    ? ` · caiu ${item.priceDropPct}% desde o último alerta`
+    : "";
+  if (total === null) return `preço não informado${drop}`;
   const shipping =
     item.listing.shipping && item.listing.shipping > 0
       ? ` + ${brl(item.listing.shipping)} frete`
       : "";
   const target = item.work.max_price;
   if (item.overBudget) {
-    return `${brl(item.listing.price)}${shipping} · acima do teto de ${brl(target)}`;
+    return `${brl(item.listing.price)}${shipping} · acima do teto de ${brl(target)}${drop}`;
   }
   const pct = Math.round(discountOf(item) * 100);
   return pct > 0
-    ? `${brl(item.listing.price)}${shipping} · ${pct}% abaixo do teto de ${brl(target)}`
-    : `${brl(item.listing.price)}${shipping} · teto ${brl(target)}`;
+    ? `${brl(item.listing.price)}${shipping} · ${pct}% abaixo do teto de ${brl(target)}${drop}`
+    : `${brl(item.listing.price)}${shipping} · teto ${brl(target)}${drop}`;
 }
 
 function cover(item: DigestItem, width: number, height: number): string {

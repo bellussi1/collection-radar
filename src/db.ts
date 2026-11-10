@@ -32,6 +32,9 @@ export interface DashboardMatch {
   owned: boolean;
   coverDistance: number | null;
   knownCoverUrl: string | null;
+  firstTotal: number | null;
+  minTotal: number | null;
+  priceChanges: number;
 }
 
 export interface CoverCheck {
@@ -112,6 +115,7 @@ export class RadarDb {
         work_key TEXT NOT NULL,
         sent_at TEXT NOT NULL,
         channel TEXT NOT NULL,
+        total REAL,
         UNIQUE(listing_id, work_key, channel)
       );
       CREATE TABLE IF NOT EXISTS runs (
@@ -165,9 +169,37 @@ export class RadarDb {
         checked_at TEXT NOT NULL,
         PRIMARY KEY (listing_id, work_key)
       );
+      CREATE TABLE IF NOT EXISTS price_history (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        listing_id INTEGER NOT NULL,
+        price REAL,
+        shipping REAL,
+        total REAL,
+        seen_at TEXT NOT NULL
+      );
       CREATE INDEX IF NOT EXISTS idx_listings_first_seen ON listings(first_seen);
       CREATE INDEX IF NOT EXISTS idx_matches_work_key ON matches(work_key);
       CREATE INDEX IF NOT EXISTS idx_feedback_status ON feedback(status);
+      CREATE INDEX IF NOT EXISTS idx_price_history_listing ON price_history(listing_id, seen_at);
+    `);
+
+    const alertColumns = this.db
+      .prepare("PRAGMA table_info(alerts)")
+      .all() as unknown as Array<{ name: string }>;
+    if (!alertColumns.some((column) => column.name === "total")) {
+      this.db.exec("ALTER TABLE alerts ADD COLUMN total REAL");
+    }
+    this.db.exec(`
+      UPDATE alerts
+      SET total = (SELECT l.total FROM listings l WHERE l.id = alerts.listing_id)
+      WHERE total IS NULL
+    `);
+
+    // Baseline para anúncios que já existiam antes do histórico de preço.
+    this.db.exec(`
+      INSERT INTO price_history (listing_id, price, shipping, total, seen_at)
+      SELECT id, price, shipping, total, first_seen FROM listings
+      WHERE NOT EXISTS (SELECT 1 FROM price_history ph WHERE ph.listing_id = listings.id)
     `);
   }
 
@@ -177,9 +209,11 @@ export class RadarDb {
       listing.price === null ? null : listing.price + (listing.shipping ?? 0);
     const existing = this.db
       .prepare(
-        "SELECT id FROM listings WHERE (source = ? AND external_id = ?) OR url = ? LIMIT 1"
+        "SELECT id, price, shipping, total FROM listings WHERE (source = ? AND external_id = ?) OR url = ? LIMIT 1"
       )
-      .get(listing.source, listing.externalId, listing.url) as { id: number } | undefined;
+      .get(listing.source, listing.externalId, listing.url) as
+      | { id: number; price: number | null; shipping: number | null; total: number | null }
+      | undefined;
 
     if (existing) {
       this.db
@@ -207,6 +241,9 @@ export class RadarDb {
           listing.raw ? JSON.stringify(listing.raw) : null,
           existing.id
         );
+      if (listing.price !== existing.price || total !== existing.total) {
+        this.recordPriceHistory(existing.id, listing.price, listing.shipping, total, now);
+      }
       return { id: existing.id, isNew: false };
     }
 
@@ -235,7 +272,24 @@ export class RadarDb {
         now,
         listing.raw ? JSON.stringify(listing.raw) : null
       );
-    return { id: Number(result.lastInsertRowid), isNew: true };
+    const id = Number(result.lastInsertRowid);
+    this.recordPriceHistory(id, listing.price, listing.shipping, total, now);
+    return { id, isNew: true };
+  }
+
+  private recordPriceHistory(
+    listingId: number,
+    price: number | null,
+    shipping: number | null,
+    total: number | null,
+    seenAt: string
+  ): void {
+    this.db
+      .prepare(`
+        INSERT INTO price_history (listing_id, price, shipping, total, seen_at)
+        VALUES (?, ?, ?, ?, ?)
+      `)
+      .run(listingId, price, shipping, total, seenAt);
   }
 
   recordMatch(listingId: number, match: MatchResult): void {
@@ -258,13 +312,28 @@ export class RadarDb {
     return Boolean(row);
   }
 
-  markAlerted(listingId: number, workKey: string, channel: string): void {
+  markAlerted(
+    listingId: number,
+    workKey: string,
+    channel: string,
+    total: number | null = null
+  ): void {
     this.db
       .prepare(`
-        INSERT OR IGNORE INTO alerts (listing_id, work_key, sent_at, channel)
-        VALUES (?, ?, ?, ?)
+        INSERT INTO alerts (listing_id, work_key, sent_at, channel, total)
+        VALUES (?, ?, ?, ?, ?)
+        ON CONFLICT(listing_id, work_key, channel) DO UPDATE SET
+          sent_at = excluded.sent_at,
+          total = excluded.total
       `)
-      .run(listingId, workKey, new Date().toISOString(), channel);
+      .run(listingId, workKey, new Date().toISOString(), channel, total);
+  }
+
+  getAlertTotal(listingId: number, workKey: string, channel: string): number | null {
+    const row = this.db
+      .prepare("SELECT total FROM alerts WHERE listing_id = ? AND work_key = ? AND channel = ?")
+      .get(listingId, workKey, channel) as { total: number | null } | undefined;
+    return row?.total ?? null;
   }
 
   startRun(source: string, query: string): number {
@@ -321,7 +390,11 @@ export class RadarDb {
         SELECT l.*, m.work_key AS match_work_key, m.score AS match_score,
                m.reasons AS match_reasons, f.status AS feedback_status,
                CASE WHEN o.work_key IS NULL THEN 0 ELSE 1 END AS owned,
-               cc.distance AS cover_distance, cc.known_url AS cover_known_url
+               cc.distance AS cover_distance, cc.known_url AS cover_known_url,
+               (SELECT ph.total FROM price_history ph WHERE ph.listing_id = l.id
+                 ORDER BY ph.seen_at ASC, ph.id ASC LIMIT 1) AS first_total,
+               (SELECT MIN(ph.total) FROM price_history ph WHERE ph.listing_id = l.id) AS min_total,
+               (SELECT COUNT(*) FROM price_history ph WHERE ph.listing_id = l.id) AS price_changes
         FROM matches m
         JOIN listings l ON l.id = m.listing_id
         LEFT JOIN feedback f ON f.listing_id = m.listing_id AND f.work_key = m.work_key
@@ -339,6 +412,9 @@ export class RadarDb {
           owned: number;
           cover_distance: number | null;
           cover_known_url: string | null;
+          first_total: number | null;
+          min_total: number | null;
+          price_changes: number;
         }
       >;
 
@@ -350,7 +426,10 @@ export class RadarDb {
       feedbackStatus: row.feedback_status,
       owned: Boolean(row.owned),
       coverDistance: row.cover_distance,
-      knownCoverUrl: row.cover_known_url
+      knownCoverUrl: row.cover_known_url,
+      firstTotal: row.first_total,
+      minTotal: row.min_total,
+      priceChanges: row.price_changes
     }));
   }
 

@@ -9,6 +9,8 @@ scan:
   # Reservado para alerta imediato (o MVP manda um digest por rodada).
   immediate_score: 0.82
   max_age_days: 30
+  # Queda mínima para alertar de novo uma obra já alertada.
+  price_drop_pct: 5
 
 sources:
   estante: true

@@ -11,7 +11,8 @@ const DEFAULT_SETTINGS: Settings = {
     delay_ms: 2500,
     min_score: 0.62,
     immediate_score: 0.82,
-    max_age_days: 30
+    max_age_days: 30,
+    price_drop_pct: 5
   },
   sources: {
     estante: true,

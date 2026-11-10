@@ -128,6 +128,15 @@ O pHash é um sinal, não um veredito: fotos em ângulo, capas de outra edição
 mockups 3D podem dar distância alta mesmo quando o livro é o certo. Confira as
 capas antes de ignorar.
 
+## Histórico de preço
+
+Cada mudança de preço ou frete é gravada na tabela `price_history`. O dashboard
+mostra “caiu X% desde a primeira vez” e o menor total já visto para aquele
+anúncio. O e-mail só volta a alertar uma obra já alertada quando o total cai
+pelo menos `scan.price_drop_pct` (padrão 5%) em relação ao total do último
+alerta; aumento de preço não gera alerta. O total do último alerta fica em
+`alerts.total`.
+
 ## Coleção física
 
 No dashboard, a seção **Coleção física** lista o que você já comprou e permite

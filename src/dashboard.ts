@@ -4,9 +4,11 @@ import { loadWorks } from "./config.js";
 import { RadarDb, type DashboardMatch, type OwnedWork } from "./db.js";
 import { detectFormat, normalizeText, parsePrice } from "./normalize.js";
 import { classifyDistance } from "./coverhash.js";
+import { priceChangeLabel } from "./price.js";
 import type { Work } from "./types.js";
 
 const PORT = Number(process.env.DASHBOARD_PORT ?? 4317);
+const DB_PATH = process.env.DASHBOARD_DB?.trim() || "data/radar.db";
 const PAGE_SIZE = 40;
 
 const C = {
@@ -169,6 +171,19 @@ function rowHtml(row: DashboardMatch, work: Work | undefined, filters: Filters):
   const workKey = row.workKey;
   const format = work?.preferred_formats[0] ?? detectFormat(row.listing.title) ?? "unknown";
   const price = row.listing.price ?? "";
+  const history = row.priceChanges > 1 ? priceChangeLabel(row.firstTotal, total) : null;
+  const historyClass =
+    total !== null && row.firstTotal !== null
+      ? total < row.firstTotal
+        ? "history-down"
+        : total > row.firstTotal
+          ? "history-up"
+          : "history-flat"
+      : "history-flat";
+  const minNote =
+    row.minTotal !== null && total !== null && row.minTotal < total
+      ? `mínimo ${brl(row.minTotal)}`
+      : "";
 
   return `
     <article class="row ${over ? "row-over" : ""}">
@@ -195,6 +210,7 @@ function rowHtml(row: DashboardMatch, work: Work | undefined, filters: Filters):
         <div class="target">${work ? `teto ${brl(work.max_price)}` : "sem teto"}</div>
         <div class="discount ${over ? "discount-over" : ""}">${over ? "acima do teto" : discount > 0 ? `${discount}% abaixo` : "no teto"}</div>
         ${row.listing.shipping && row.listing.shipping > 0 ? `<div class="shipping">inclui ${brl(row.listing.shipping)} frete</div>` : ""}
+        ${history ? `<div class="history ${historyClass}">${esc(history)}${minNote ? ` · ${esc(minNote)}` : ""}</div>` : ""}
       </div>
       <div class="actions">
         <a class="button button-primary" href="${esc(row.listing.url)}" target="_blank" rel="noreferrer">Abrir</a>
@@ -403,6 +419,10 @@ function pageHtml(
     .discount { font-size: 11px; color: var(--pine); margin-top: 3px; }
     .discount-over { color: var(--ochre); }
     .shipping { font-size: 10px; color: var(--muted); margin-top: 2px; }
+    .history { font-size: 10px; line-height: 1.4; margin-top: 3px; }
+    .history-down { color: var(--pine); }
+    .history-up { color: var(--ochre); }
+    .history-flat { color: var(--muted); }
     .actions { display: flex; flex-direction: column; gap: 4px; align-items: stretch; }
     .actions form { margin: 0; }
     .actions .button { width: 100%; text-align: center; }
@@ -470,7 +490,7 @@ function pageHtml(
       <div>${next ? `<a href="${next}">próxima →</a>` : ""}</div>
     </nav>
     ${ownedHtml}
-    <footer>127.0.0.1:${PORT} · dados em data/radar.db · Ctrl+C para parar o servidor</footer>
+    <footer>127.0.0.1:${PORT} · dados em ${esc(DB_PATH)} · Ctrl+C para parar o servidor</footer>
   </div>
 </body>
 </html>`;
@@ -573,7 +593,7 @@ function redirect(res: ServerResponse, location: string): void {
 }
 
 function main(): void {
-  const db = new RadarDb("data/radar.db");
+  const db = new RadarDb(DB_PATH);
 
   const server = createServer(async (req, res) => {
     try {

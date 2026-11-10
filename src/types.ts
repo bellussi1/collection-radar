@@ -49,6 +49,7 @@ export interface Settings {
     min_score: number;
     immediate_score: number;
     max_age_days: number;
+    price_drop_pct: number;
   };
   sources: Record<SourceName, boolean>;
   email: {

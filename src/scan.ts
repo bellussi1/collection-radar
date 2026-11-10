@@ -186,7 +186,9 @@ export async function runScan(options: ScanOptions = {}): Promise<ScanStats> {
 
   if (result.sent) {
     for (const item of digest.displayed) {
-      db.markAlerted(item.listing.id, item.work.key, "email");
+      const total =
+        item.listing.price === null ? null : item.listing.price + (item.listing.shipping ?? 0);
+      db.markAlerted(item.listing.id, item.work.key, "email", total);
     }
   }
 
