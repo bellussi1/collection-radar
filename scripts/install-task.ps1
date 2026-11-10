@@ -1,8 +1,9 @@
-# Registra a varredura e o digest diário no Task Scheduler do Windows.
+# Registra a varredura, o digest diário e a varredura semanal de ISBN no Task Scheduler do Windows.
 # Rode no PowerShell do seu usuário. Se falhar por permissão, abra como administrador.
 # A varredura usa LogonType Interactive: o Chromium precisa de uma sessão de desktop
 # para passar pelo Cloudflare da OLX e do Mercado Livre. O digest usa o mesmo
-# contexto para ler o banco local e enviar o e-mail.
+# contexto para ler o banco local e enviar o e-mail. A AbeBooks também usa o
+# Chromium para consultar os ISBNs.
 
 $ErrorActionPreference = "Stop"
 
