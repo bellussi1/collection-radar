@@ -464,7 +464,7 @@ function pageHtml(
       <h2>Resultados</h2>
       <span>${rows.length} match${rows.length === 1 ? "" : "es"} · página ${page} de ${totalPages}</span>
     </div>
-    ${pageRows.length === 0 ? `<p class="muted">Nenhum match com esses filtros.</p>` : pageRows.map((row) => rowHtml(row, works.get(row.workKey), filters)).join("")}
+    ${pageRows.length === 0 ? `<p class="muted">Nenhum match com esses filtros.${filters.status === "bought" && owned.length ? ` A coleção física tem ${owned.length} obra${owned.length === 1 ? "" : "s"} logo abaixo.` : ""}</p>` : pageRows.map((row) => rowHtml(row, works.get(row.workKey), filters)).join("")}
     <nav class="pagination">
       <div>${prev ? `<a href="${prev}">← anterior</a>` : ""}</div>
       <div>${next ? `<a href="${next}">próxima →</a>` : ""}</div>
