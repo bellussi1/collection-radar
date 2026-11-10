@@ -31,7 +31,8 @@ const DEFAULT_SETTINGS: Settings = {
     url: "http://127.0.0.1:4317"
   },
   currency: {
-    usd_brl: 5.52
+    usd_brl: 5.52,
+    cache_hours: 12
   }
 };
 

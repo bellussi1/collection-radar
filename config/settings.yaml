@@ -25,8 +25,10 @@ sources:
   sebos: true
 
 currency:
-  # Câmbio usado para converter os preços em dólar da AbeBooks.
+  # Câmbio de fallback quando a PTAX e o cache não estão disponíveis.
   usd_brl: 5.52
+  # Horas de validade do cache da PTAX em data/currency-cache.json.
+  cache_hours: 12
 
 email:
   enabled: true

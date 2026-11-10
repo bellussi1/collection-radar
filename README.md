@@ -190,8 +190,14 @@ Os 5 volumes de ASOIAF já estão marcados como comprados.
 
 `npm run isbn-scan` percorre as obras com ISBN-13 válido, consulta a AbeBooks
 por ISBN (ordenado por menor total), pega até 3 ofertas por obra e grava no
-radar. Os preços vêm em dólar e são convertidos por `currency.usd_brl` (padrão
-5,52); o dashboard mostra o total em BRL e a nota `US$ ... · câmbio ...`.
+radar. Os preços vêm em dólar e são convertidos pela PTAX do Banco Central
+(cotação de venda do último dia útil), com cache de 12h em
+`data/currency-cache.json`; o dashboard mostra o total em BRL e a nota
+`US$ ... · câmbio ...`.
+
+Se a PTAX falhar e não houver cache, o comando usa `currency.usd_brl` (padrão
+5,52). O `currency.cache_hours` controla a validade do cache; um cache antigo
+só é usado quando a consulta ao BCB falha.
 
 A AbeBooks calcula frete por país (Brasil); o CEP 06636-220 é confirmado no
 checkout. O radar usa o menor total livro + frete Brasil como estimativa. A

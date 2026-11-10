@@ -1,6 +1,7 @@
 import "dotenv/config";
 import { closeBrowser } from "./browser.js";
 import { loadSettings, loadWorks } from "./config.js";
+import { resolveUsdBrl } from "./currency.js";
 import { RadarDb } from "./db.js";
 import { matchListing } from "./match.js";
 import { isValidIsbn13 } from "./normalize.js";
@@ -30,10 +31,14 @@ async function main(): Promise<void> {
   const db = new RadarDb("data/radar.db");
   const owned = new Set(db.listOwnedKeys());
   const matchable = selected.filter((work) => !owned.has(work.key));
-  const source = new AbeBooksSource(settings.currency.usd_brl);
+  const currency = await resolveUsdBrl({
+    fallback: settings.currency.usd_brl,
+    cacheHours: settings.currency.cache_hours
+  });
+  const source = new AbeBooksSource(currency.rate);
 
   console.log(
-    `AbeBooks ISBN: ${selected.length} obras · câmbio ${settings.currency.usd_brl.toFixed(2)} · até ${perIsbn} ofertas por ISBN`
+    `AbeBooks ISBN: ${selected.length} obras · câmbio ${currency.rate.toFixed(2).replace(".", ",")} (${currency.detail}) · até ${perIsbn} ofertas por ISBN`
   );
 
   let totalListings = 0;

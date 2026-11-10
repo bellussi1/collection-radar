@@ -70,6 +70,7 @@ export interface Settings {
   };
   currency: {
     usd_brl: number;
+    cache_hours: number;
   };
 }
 
