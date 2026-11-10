@@ -76,6 +76,8 @@ npm run digest                     # reenvia os matches dos últimos 7 dias
 npm run digest -- --new            # digest diário: só o que ainda não foi alertado
 npm run digest -- --new --no-email # dry-run do digest diário
 npm run dashboard                  # dashboard local em http://127.0.0.1:4317
+npm run update                     # scan + rematch + pHash + OCR + digest HTML
+npm run update -- --quick          # pula o scan e atualiza o resto
 npm run rematch                    # recalcula todos os matches com o matcher atual
 npm run covers -- --max-score 0.8  # verifica capa do anúncio contra a capa conhecida
 npm run sellers:backfill           # preenche notas de vendedor a partir do raw_json
@@ -280,6 +282,24 @@ npm run ci         # typecheck + lint + testes + build
 O workflow `.github/workflows/ci.yml` roda a mesma sequência no GitHub Actions
 em push e pull request, com Node 24 e Chromium do Playwright. O repositório é
 local; o CI só roda quando ele for publicado.
+
+## Atualizar o dashboard
+
+`npm run dashboard` sobe o servidor local. `npm run update` atualiza os dados:
+uma rodada de scan (40 consultas, sem e-mail), `rematch`, pHash, OCR e digest
+HTML. Depois é só recarregar `http://127.0.0.1:4317`.
+
+O servidor lê o SQLite a cada request; não precisa reiniciar quando entram dados
+novos, só se você mudar código em `src/`.
+
+```powershell
+npm run update              # scan + rematch + pHash + OCR + digest
+npm run update -- --quick   # pula o scan; só rematch/pHash/OCR/digest
+npm run update -- --dry-run # mostra as etapas
+```
+
+O scan é a parte lenta (~15–20 min). Shopee, sebos e AbeBooks rodam nas tarefas
+separadas; o `update` cobre o scan normal e o pós-processamento.
 
 ## Agendamento
 
